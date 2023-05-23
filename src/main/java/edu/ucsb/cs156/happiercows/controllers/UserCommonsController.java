@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.*;
+
 @Api(description = "User Commons")
 @RequestMapping("/api/usercommons")
 @RestController
@@ -90,6 +92,8 @@ public class UserCommonsController extends ApiController {
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
+          System.out.println("HERE");
+          System.out.println(Arrays.toString(userCommons.getCows().toArray()));
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
