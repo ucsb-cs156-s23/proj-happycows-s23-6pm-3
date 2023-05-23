@@ -7,7 +7,7 @@ import lombok.NonNull;
 import lombok.Builder;
 import lombok.AccessLevel;
 
-
+import java.util.List;
 import javax.persistence.*;
 
 @Data
@@ -33,5 +33,8 @@ public class UserCommons {
   private int numOfCows;
 
   private double cowHealth;
+
+  @ElementCollection
+  public List<Integer> cows;
 }
 

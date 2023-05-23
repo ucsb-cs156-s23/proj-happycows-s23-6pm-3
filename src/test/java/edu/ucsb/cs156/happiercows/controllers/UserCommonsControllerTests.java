@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Arrays;
+import java.util.Collections;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,7 +60,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   private ObjectMapper objectMapper;
 
   public static UserCommons dummyUserCommons(long id) {
-    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100);
+    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100, Collections.nCopies(60, 0));
     return userCommons;
   }
   @WithMockUser(roles = { "ADMIN" })
