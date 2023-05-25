@@ -2,8 +2,18 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import Health from "./../../../assets/Health.png";
 import Cash from "./../../../assets/Cash.png";
+import BalanceTable from "main/components/Commons/BalanceTable";
+import { timestampToDate } from "main/utils/dateUtils";
 
-const FarmStats = ({userCommons}) => {
+const FarmStats = ({userCommons, balance}) => {
+    const balanceForTable =
+        balance ?
+        balance.map(balance => ({
+            date: timestampToDate(balance.timestamp),
+            ...balance
+        })) : 
+        // Stryker disable next-line ArrayDeclaration : no need to test what happens if [] is replaced with ["Stryker was here"]
+        [];
     return (
         <Card>
         <Card.Header as="h5">Your Farm Stats</Card.Header>
@@ -21,6 +31,7 @@ const FarmStats = ({userCommons}) => {
             <Card.Text>
                 Cow Health: {Math.round(userCommons.cowHealth*100)/100}%
             </Card.Text>
+            <BalanceTable balance={balanceForTable} />
         </Card.Body>
         </Card>
     ); 
