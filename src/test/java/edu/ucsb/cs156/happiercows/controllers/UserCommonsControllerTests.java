@@ -60,7 +60,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   private ObjectMapper objectMapper;
 
   public static UserCommons dummyUserCommons(long id) {
-    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100, Collections.nCopies(60, 0));
+    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100, Collections.nCopies(101, 0));
     return userCommons;
   }
   @WithMockUser(roles = { "ADMIN" })
@@ -144,14 +144,15 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   
       UserCommons origUserCommons = UserCommons
             .builder()
-      .id(1L)
-      .userId(1L)
-      .commonsId(1L)
-      .totalWealth(300)
-      .numOfCows(1)
-      .cowHealth(100)
-      .build();
-  
+        .id(1L)
+        .userId(1L)
+        .commonsId(1L)
+        .totalWealth(300)
+        .numOfCows(1)
+        .cowHealth(100)
+        // .cows(Collections.nCopies(101, 0))
+        .build();
+    
       Commons testCommons = Commons
       .builder()
       .name("test commons")
