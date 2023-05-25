@@ -190,6 +190,7 @@ public class CommonsController extends ApiController {
         .totalWealth(joinedCommons.getStartingBalance())
         .numOfCows(0)
         .cowHealth(100)
+        .cows(Collections.nCopies(101, 0))
         .build();
 
     userCommonsRepository.save(uc);

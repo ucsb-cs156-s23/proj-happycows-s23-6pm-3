@@ -93,7 +93,10 @@ public class UserCommonsController extends ApiController {
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
           System.out.println("HERE");
-          System.out.println(Arrays.toString(userCommons.getCows().toArray()));
+          List<Integer> cows = userCommons.getCows();
+          cows.set(48,cows.get(48)+1);
+          userCommons.setCows(cows);
+          System.out.println(Arrays.toString(cows.toArray()));
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
@@ -120,8 +123,18 @@ public class UserCommonsController extends ApiController {
 
 
         if(userCommons.getNumOfCows() >= 1 ){
-          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
+          List<Integer> cows = userCommons.getCows();
+          // TODO: choose better which cow to sell
+          for(int i = 100;i>0;i--){
+            if(cows.get(i)>0){
+              cows.set(i, cows.get(i)-1);
+              userCommons.setTotalWealth(userCommons.getTotalWealth() + (commons.getCowPrice()*i)/100);
+              break;
+            }
+          }
+          userCommons.setCows(cows);
+
         }
         else{
           throw new NoCowsException("You have no cows to sell!");
