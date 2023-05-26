@@ -3,7 +3,7 @@ import { hasRole } from "main/utils/currentUser";
 
 // should take in a players list from a commons
 export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
-
+    console.log(leaderboardUsers);
     const columns = [
         {
             Header: 'User Id',

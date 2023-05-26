@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button, Col } from "react-bootstrap";
 import cowHead from "./../../../assets/CowHead.png"; 
 
 // add parameters 
@@ -12,7 +12,7 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
             {/* change $10 to info from fixture */}
             <Card.Title>Market Cow Price: ${commons?.cowPrice}</Card.Title>
             <Card.Title>Number of Cows: {userCommons.numOfCows}</Card.Title>
-                <Row>
+                <Col>
                     <Col>
                         <Card.Text>
                             <img alt="Cow Icon" className="icon" src={cowHead}></img>
@@ -26,7 +26,7 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
                         <br/>
                         <br/>
                     </Col>
-                </Row>
+                </Col>
                     Note: Buying cows buys at current cow price, but selling cows sells at current cow price
                     times the average health of cows as a percentage! 
         </Card.Body>
