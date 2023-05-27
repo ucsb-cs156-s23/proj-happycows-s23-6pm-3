@@ -12,7 +12,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
 
     const testid = "CommonsForm";
 
-    const today = new Date();
+    const today = new Date().toISOString().substr(0, 10);
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
@@ -55,7 +55,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     data-testid={`${testid}-startingBalance`}
                     type="number"
                     step="0.01"
-                    value={10000}
+                    defaultValue={10000}
                     isInvalid={!!errors.startingBalance}
                     {...register("startingBalance", {
                         valueAsNumber: true,
@@ -78,7 +78,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     id="cowPrice"
                     type="number"
                     step="0.01"
-                    value={100}
+                    defaultValue={100}
                     isInvalid={!!errors.cowPrice}
                     {...register("cowPrice", {
                         valueAsNumber: true,
@@ -101,7 +101,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     id="milkPrice"
                     type="number"
                     step="0.01"
-                    value={20}
+                    defaultValue={20}
                     isInvalid={!!errors.milkPrice}
                     {...register("milkPrice", {
                         valueAsNumber: true,
@@ -123,7 +123,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     data-testid={`${testid}-startingDate`}
                     id="startingDate"
                     type="date"
-                    value={today}
+                    defaultValue={today}
                     isInvalid={!!errors.startingDate}
                     {...register("startingDate", {
                         valueAsDate: true,
@@ -146,6 +146,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     data-testid={`${testid}-degradationRate`}
                     id="degradationRate"
                     type="number"
+                    defaultValue={1}
                     step="0.01"
                     isInvalid={!!errors.degradationRate}
                     {...register("degradationRate", {
@@ -171,6 +172,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     id="carryingCapacity"
                     type="number"
                     step="1"
+                    defaultValue={100}
                     isInvalid={!!errors.carryingCapacity}
                     {...register("carryingCapacity", {
                         valueAsNumber: true,
