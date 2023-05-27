@@ -42,6 +42,29 @@ describe("CommonsForm tests", () => {
             </Router>
         );
 
+        // Input empty values to the form to test error message
+        const startingBalanceInput = screen.getByTestId(
+            "CommonsForm-startingBalance"
+        );
+        fireEvent.change(startingBalanceInput, { target: { value: "" } });
+        const cowPriceInput = screen.getByTestId("CommonsForm-cowPrice");
+        fireEvent.change(cowPriceInput, { target: { value: "" } });
+        const milkPriceInput = screen.getByTestId("CommonsForm-milkPrice");
+        fireEvent.change(milkPriceInput, { target: { value: "" } });
+        const startingDateInput = screen.getByTestId(
+            "CommonsForm-startingDate"
+        );
+        fireEvent.change(startingDateInput, { target: { value: "" } });
+        const degradationRateInput = screen.getByTestId(
+            "CommonsForm-degradationRate"
+        );
+        fireEvent.change(degradationRateInput, { target: { value: "" } });
+        const carryingCapacityInput = screen.getByTestId(
+            "CommonsForm-carryingCapacity"
+        );
+        fireEvent.change(carryingCapacityInput, { target: { value: "" } });
+
+        //Check error message
         expect(
             await screen.findByTestId("CommonsForm-name")
         ).toBeInTheDocument();
@@ -53,12 +76,20 @@ describe("CommonsForm tests", () => {
             await screen.findByText(/commons name is required/i)
         ).toBeInTheDocument();
 
-        // expect(screen.getByText(/starting balance is required/i)).toBeInTheDocument();
-        // expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
-        // expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
-        // expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
-        // expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
-        // expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
+        expect(
+            screen.getByText(/starting balance is required/i)
+        ).toBeInTheDocument();
+        expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
+        expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
+        expect(
+            screen.getByText(/starting date is required/i)
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(/degradation rate is required/i)
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(/Carrying capacity is required/i)
+        ).toBeInTheDocument();
 
         expect(submitAction).not.toBeCalled();
     });
