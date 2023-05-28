@@ -15,7 +15,7 @@ const commonsPlusFixtures = {
             },
             totalCows: 10,
             totalUsers: 2,
-            // FIXME
+            priceChange: 1,
         },
         {
             commons: {
@@ -32,6 +32,7 @@ const commonsPlusFixtures = {
             },
             totalCows: 0,
             totalUsers: 1,
+            priceChange: 0.1,
         },
         {
             commons: {
@@ -48,6 +49,7 @@ const commonsPlusFixtures = {
             },
             totalCows: 0,
             totalUsers: 1,
+            priceChange: 0.5,
         },
     ],
     oneCommonsPlus: [
@@ -66,6 +68,7 @@ const commonsPlusFixtures = {
             },
             totalCows: 0,
             totalUsers: 0,
+            priceChange: 0.5,
         },
     ],
 };

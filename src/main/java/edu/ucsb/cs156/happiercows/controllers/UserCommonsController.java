@@ -20,6 +20,11 @@ import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.errors.NoCowsException;
 import edu.ucsb.cs156.happiercows.errors.NotEnoughMoneyException;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -90,7 +95,6 @@ public class UserCommonsController extends ApiController {
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
-          // FIXME
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
@@ -117,9 +121,9 @@ public class UserCommonsController extends ApiController {
 
 
         if(userCommons.getNumOfCows() >= 1 ){
+          commons.setCowPrice(commons.getCowPrice() - 1);
           userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
-          // FIXME
         }
         else{
           throw new NoCowsException("You have no cows to sell!");
