@@ -91,16 +91,14 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label htmlFor="cowPriceChange">
-                    Cow Price Change
-                </Form.Label>
+                <Form.Label htmlFor="priceChange">Cow Price Change</Form.Label>
                 <Form.Control
-                    data-testid={`${testid}-cowPriceChange`}
-                    id="cowPriceChange"
+                    data-testid={`${testid}-priceChange`}
+                    id="priceChange"
                     type="number"
                     step="0.01"
-                    isInvalid={!!errors.cowPriceChange}
-                    {...register("cowPriceChange", {
+                    isInvalid={!!errors.priceChange}
+                    {...register("priceChange", {
                         valueAsNumber: true,
                         required: "Cow price change is required",
                         min: {

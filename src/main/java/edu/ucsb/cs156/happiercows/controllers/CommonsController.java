@@ -113,6 +113,7 @@ public class CommonsController extends ApiController {
     updated.setShowLeaderboard(params.getShowLeaderboard());
     updated.setDegradationRate(params.getDegradationRate());
     updated.setCarryingCapacity(params.getCarryingCapacity());
+    updated.setPriceChange(params.getPriceChange());
 
     if (params.getDegradationRate() < 0) {
       throw new IllegalArgumentException("Degradation Rate cannot be negative");
@@ -123,7 +124,7 @@ public class CommonsController extends ApiController {
     return ResponseEntity.status(status).build();
   }
 
-  @ApiOperation(value = "Reduce cow price by 1")
+  @ApiOperation(value = "Reduce cow price")
   @PreAuthorize("hasRole('ROLE_USER')")
   @PutMapping("/{id}/reduceCowPrice")
   public ResponseEntity<String> reduceCowPrice(
@@ -132,10 +133,10 @@ public class CommonsController extends ApiController {
 
     if (existing.isPresent()) {
       Commons commons = existing.get();
-      commons.setCowPrice(commons.getCowPrice() - .1);
+      commons.setCowPrice(commons.getCowPrice() - commons.getPriceChange());
       commonsRepository.save(commons);
       
-      return ResponseEntity.ok("Cow price reduced by 1");
+      return ResponseEntity.ok("Cow price reduced");
     } else {
       throw new EntityNotFoundException(Commons.class, id);
     }
@@ -168,6 +169,7 @@ public class CommonsController extends ApiController {
         .degradationRate(params.getDegradationRate())
         .showLeaderboard(params.getShowLeaderboard())
         .carryingCapacity(params.getCarryingCapacity())
+        .priceChange(params.getPriceChange())
         .build();
 
     // throw exception for degradation rate
