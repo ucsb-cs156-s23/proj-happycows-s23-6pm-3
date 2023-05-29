@@ -14,128 +14,156 @@ import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
 
 export default function PlayPage() {
+    const { commonsId } = useParams();
+    const { data: currentUser } = useCurrentUser();
 
-  const { commonsId } = useParams();
-  const { data: currentUser } = useCurrentUser();
-
-  // Stryker disable all 
-  const { data: userCommons } =
-    useBackend(
-      [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
-      {
-        method: "GET",
-        url: "/api/usercommons/forcurrentuser",
-        params: {
-          commonsId: commonsId
+    // Stryker disable all
+    const { data: userCommons } = useBackend(
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
+        {
+            method: "GET",
+            url: "/api/usercommons/forcurrentuser",
+            params: {
+                commonsId: commonsId,
+            },
         }
-      }
     );
-  // Stryker enable all 
+    // Stryker enable all
 
-
-  // Stryker disable all 
-  const { data: commons } =
-    useBackend(
-      [`/api/commons?id=${commonsId}`],
-      {
+    // Stryker disable all
+    const { data: commons } = useBackend([`/api/commons?id=${commonsId}`], {
         method: "GET",
         url: "/api/commons",
         params: {
-          id: commonsId
-        }
-      }
-    );
-  // Stryker enable all 
+            id: commonsId,
+        },
+    });
+    // Stryker enable all
 
-  // Stryker disable all 
-  const { data: userCommonsProfits } =
-    useBackend(
-      [`/api/profits/all/commonsid?commonsId=${commonsId}`],
-      {
-        method: "GET",
-        url: "/api/profits/all/commonsid",
+    // Stryker disable all
+    const { data: userCommonsProfits } = useBackend(
+        [`/api/profits/all/commonsid?commonsId=${commonsId}`],
+        {
+            method: "GET",
+            url: "/api/profits/all/commonsid",
+            params: {
+                commonsId: commonsId,
+            },
+        }
+    );
+    // Stryker enable all
+
+    const onSuccessBuy = () => {
+        toast(`Cow bought!`);
+    };
+
+    const objectToAxiosParamsBuy = (newUserCommons) => ({
+        url: "/api/usercommons/buy",
+        method: "PUT",
+        data: newUserCommons,
         params: {
-          commonsId: commonsId
-        }
-      }
+            commonsId: commonsId,
+        },
+    });
+
+    // Stryker disable all
+    const mutationbuy = useBackendMutation(
+        objectToAxiosParamsBuy,
+        { onSuccess: onSuccessBuy },
+        // Stryker disable next-line all : hard to set up test for caching
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
     );
-  // Stryker enable all 
+    // Stryker enable all
 
+    const onBuy = (userCommons) => {
+        mutationbuy.mutate(userCommons);
+    };
 
-  const onSuccessBuy = () => {
-    toast(`Cow bought!`);
-  }
+    const onSuccessSell = () => {
+        toast(`Cow sold!`);
+    };
 
-  const objectToAxiosParamsBuy = (newUserCommons) => ({
-    url: "/api/usercommons/buy",
-    method: "PUT",
-    data: newUserCommons,
-    params: {
-      commonsId: commonsId
-    }
-  });
+    const onSuccessReduce = () => {
+        toast(`Cow price reduced!`);
+    };
 
+    // Stryker disable all
+    const objectToAxiosParamsSell = (newUserCommons) => ({
+        url: "/api/usercommons/sell",
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: commonsId,
+        },
+    });
+    // Stryker enable all
 
-  // Stryker disable all 
-  const mutationbuy = useBackendMutation(
-    objectToAxiosParamsBuy,
-    { onSuccess: onSuccessBuy },
-    // Stryker disable next-line all : hard to set up test for caching
-    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
-  );
-  // Stryker enable all 
+    // Stryker disable all
+    const objectToAxiosParamsReduce = (newUserCommons) => ({
+        url: `/api/commons/${newUserCommons.commonsId}/reduceCowPrice`,
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: newUserCommons.commonsId,
+        },
+    });
+    // Stryker enable all
 
+    // Stryker disable all
+    const mutationsell = useBackendMutation(
+        objectToAxiosParamsSell,
+        { onSuccess: onSuccessSell },
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker enable all
 
-  const onBuy = (userCommons) => {
-    mutationbuy.mutate(userCommons)
-  };
+    // Stryker disable all
+    const mutationreduce = useBackendMutation(
+        objectToAxiosParamsReduce,
+        { onSuccess: onSuccessReduce },
+        [`/api/commons?id=${commonsId}`]
+    );
+    // Stryker enable all
 
+    const onSell = (userCommons) => {
+        mutationsell.mutate(userCommons);
+        mutationreduce.mutate(userCommons);
+    };
 
-  const onSuccessSell = () => {
-    toast(`Cow sold!`);
-  }
-
-  // Stryker disable all 
-  const objectToAxiosParamsSell = (newUserCommons) => ({
-    url: "/api/usercommons/sell",
-    method: "PUT",
-    data: newUserCommons,
-    params: {
-      commonsId: commonsId
-    }
-  });
-  // Stryker enable all 
-
-
-  // Stryker disable all 
-  const mutationsell = useBackendMutation(
-    objectToAxiosParamsSell,
-    { onSuccess: onSuccessSell },
-    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
-  );
-  // Stryker enable all 
-
-
-  const onSell = (userCommons) => {
-    mutationsell.mutate(userCommons)
-  };
-
-  return (
-    <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
-      <BasicLayout >
-        <Container >
-          {!!currentUser && <CommonsPlay currentUser={currentUser} />}
-          {!!commons && <CommonsOverview commons={commons} currentUser={currentUser} />}
-          <br />
-          {!!userCommons &&
-            <CardGroup >
-              <ManageCows userCommons={userCommons} commons={commons} onBuy={onBuy} onSell={onSell} />
-              <FarmStats userCommons={userCommons} />
-              <Profits userCommons={userCommons} profits={userCommonsProfits} />
-            </CardGroup>
-          }
-        </Container>
-      </BasicLayout>
-    </div>
-  )
+    return (
+        <div
+            style={{
+                backgroundSize: "cover",
+                backgroundImage: `url(${Background})`,
+            }}
+        >
+            <BasicLayout>
+                <Container>
+                    {!!currentUser && <CommonsPlay currentUser={currentUser} />}
+                    {!!commons && (
+                        <CommonsOverview
+                            commons={commons}
+                            currentUser={currentUser}
+                        />
+                    )}
+                    <br />
+                    {!!userCommons && (
+                        <CardGroup>
+                            <ManageCows
+                                userCommons={userCommons}
+                                commons={commons}
+                                onBuy={onBuy}
+                                onSell={onSell}
+                            />
+                            <FarmStats userCommons={userCommons} />
+                            <Profits
+                                userCommons={userCommons}
+                                profits={userCommonsProfits}
+                            />
+                        </CardGroup>
+                    )}
+                </Container>
+            </BasicLayout>
+        </div>
+    );
 }

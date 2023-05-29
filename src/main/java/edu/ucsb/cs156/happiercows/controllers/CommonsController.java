@@ -123,6 +123,24 @@ public class CommonsController extends ApiController {
     return ResponseEntity.status(status).build();
   }
 
+  @ApiOperation(value = "Reduce cow price by 1")
+  @PreAuthorize("hasRole('ROLE_USER')")
+  @PutMapping("/{id}/reduceCowPrice")
+  public ResponseEntity<String> reduceCowPrice(
+      @ApiParam("id") @PathVariable Long id) {
+    Optional<Commons> existing = commonsRepository.findById(id);
+
+    if (existing.isPresent()) {
+      Commons commons = existing.get();
+      commons.setCowPrice(commons.getCowPrice() - .1);
+      commonsRepository.save(commons);
+      
+      return ResponseEntity.ok("Cow price reduced by 1");
+    } else {
+      throw new EntityNotFoundException(Commons.class, id);
+    }
+  }
+
   @ApiOperation(value = "Get a specific commons")
   @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("")
