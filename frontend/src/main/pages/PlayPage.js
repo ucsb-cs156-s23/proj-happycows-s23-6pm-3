@@ -57,9 +57,7 @@ export default function PlayPage() {
         toast(`Cow bought!`);
     };
 
-    const onSuccessIncrease = () => {
-        toast(`Cow price  Increased!`);
-    };
+    const onSuccessIncrease = () => {};
 
     const objectToAxiosParamsBuy = (newUserCommons) => ({
         url: "/api/usercommons/buy",
@@ -107,9 +105,7 @@ export default function PlayPage() {
         toast(`Cow sold!`);
     };
 
-    const onSuccessReduce = () => {
-        toast(`Cow price reduced!`);
-    };
+    const onSuccessReduce = () => {};
 
     // Stryker disable all
     const objectToAxiosParamsSell = (newUserCommons) => ({
