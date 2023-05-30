@@ -128,7 +128,7 @@ public class UserCommonsController extends ApiController {
           throw new NoCowsException("You have no cows to sell!");
         }
         userCommonsRepository.save(userCommons);
-
+        //FIXME - update cow price based on selected strategy
         String body = mapper.writeValueAsString(userCommons);
         return ResponseEntity.ok().body(body);
     }
