@@ -57,6 +57,10 @@ export default function PlayPage() {
         toast(`Cow bought!`);
     };
 
+    const onSuccessIncrease = () => {
+        toast(`Cow price  Increased!`);
+    };
+
     const objectToAxiosParamsBuy = (newUserCommons) => ({
         url: "/api/usercommons/buy",
         method: "PUT",
@@ -67,6 +71,17 @@ export default function PlayPage() {
     });
 
     // Stryker disable all
+    const objectToAxiosParamsIncrease = (newUserCommons) => ({
+        url: `/api/commons/${newUserCommons.commonsId}/increaseCowPrice`,
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: newUserCommons.commonsId,
+        },
+    });
+    // Stryker enable all
+
+    // Stryker disable all
     const mutationbuy = useBackendMutation(
         objectToAxiosParamsBuy,
         { onSuccess: onSuccessBuy },
@@ -75,8 +90,17 @@ export default function PlayPage() {
     );
     // Stryker enable all
 
+    // Stryker disable all
+    const mutationincrease = useBackendMutation(
+        objectToAxiosParamsIncrease,
+        { onSuccess: onSuccessIncrease },
+        [`/api/commons?id=${commonsId}`]
+    );
+    // Stryker enable all
+
     const onBuy = (userCommons) => {
         mutationbuy.mutate(userCommons);
+        mutationincrease.mutate(userCommons);
     };
 
     const onSuccessSell = () => {
@@ -127,7 +151,10 @@ export default function PlayPage() {
 
     const onSell = (userCommons) => {
         mutationsell.mutate(userCommons);
-        mutationreduce.mutate(userCommons);
+        if (userCommons.numOfCows > 0) {
+            console.log(userCommons.numOfCows);
+            mutationreduce.mutate(userCommons);
+        }
     };
 
     return (

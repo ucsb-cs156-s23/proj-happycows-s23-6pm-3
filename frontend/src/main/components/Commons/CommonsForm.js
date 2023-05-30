@@ -9,13 +9,6 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
         handleSubmit,
     } = useForm({ defaultValues: initialCommons || {} });
     // Stryker enable all
-    // Stryker disable all
-    const {
-        register,
-        formState: { errors },
-        handleSubmit,
-    } = useForm({ defaultValues: initialCommons || {} });
-    // Stryker enable all
 
     const testid = "CommonsForm";
 
@@ -103,12 +96,13 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-                <Form.Label htmlFor="priceChange">Cow Price Change</Form.Label>
+                <Form.Label htmlFor="priceChange">Price Change</Form.Label>
                 <Form.Control
                     data-testid={`${testid}-priceChange`}
                     id="priceChange"
                     type="number"
                     step="0.01"
+                    defaultValue={0.1}
                     isInvalid={!!errors.priceChange}
                     {...register("priceChange", {
                         valueAsNumber: true,
@@ -120,7 +114,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.cowPrice?.message}
+                    {errors.priceChange?.message}
                 </Form.Control.Feedback>
             </Form.Group>
 
