@@ -71,7 +71,8 @@ export default function PlayPage() {
     method: "PUT",
     data: newUserCommons,
     params: {
-      commonsId: commonsId
+      commonsId: commonsId,
+      amount: 1
     }
   });
 

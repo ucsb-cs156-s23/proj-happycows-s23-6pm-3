@@ -186,7 +186,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
-      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1&amount=1")
           .contentType(MediaType.APPLICATION_JSON)
                       .characterEncoding("utf-8")
                       .content(requestBody)
@@ -252,7 +252,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
-      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1&amount=1")
           .contentType(MediaType.APPLICATION_JSON)
                       .characterEncoding("utf-8")
                       .content(requestBody)
@@ -384,7 +384,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       when(commonsRepository.findById(eq(234L))).thenReturn(Optional.of(testCommons));
   
       // act
-      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=234") 
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=234&amount=1") 
           .contentType(MediaType.APPLICATION_JSON)
                       .characterEncoding("utf-8")
                       .content(requestBody)
@@ -589,7 +589,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
-      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=222")
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=222&amount=1")
           .contentType(MediaType.APPLICATION_JSON)
                       .characterEncoding("utf-8")
                       .content(requestBody)
@@ -661,7 +661,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
-      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1&amount=1")
           .contentType(MediaType.APPLICATION_JSON)
                       .characterEncoding("utf-8")
                       .content(requestBody)

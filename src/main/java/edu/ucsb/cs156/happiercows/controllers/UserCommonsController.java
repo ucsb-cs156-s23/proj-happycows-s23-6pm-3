@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.entities.Commons;
+import edu.ucsb.cs156.happiercows.entities.CowLot;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.errors.NoCowsException;
 import edu.ucsb.cs156.happiercows.errors.NotEnoughMoneyException;
@@ -38,6 +40,9 @@ public class UserCommonsController extends ApiController {
 
   @Autowired
   private UserCommonsRepository userCommonsRepository;
+
+  @Autowired
+  private CowLotRepository cowLotRepository;
 
   @Autowired
   private CommonsRepository commonsRepository;
@@ -76,8 +81,9 @@ public class UserCommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_USER')")
   @PutMapping("/buy")
   public ResponseEntity<String> putUserCommonsByIdBuy(
-          @ApiParam("commonsId") @RequestParam Long commonsId) throws NotEnoughMoneyException, JsonProcessingException{
-
+          @ApiParam("commonsId") @RequestParam Long commonsId,
+          @ApiParam("amount") @RequestParam int amount) throws NotEnoughMoneyException, JsonProcessingException{
+ 
         User u = getCurrentUser().getUser();
         Long userId = u.getId();
 
@@ -87,9 +93,16 @@ public class UserCommonsController extends ApiController {
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
 
-        if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
-          userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
-          userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
+        if(userCommons.getTotalWealth() >= commons.getCowPrice() * amount){
+          userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice()*amount);
+          userCommons.setNumOfCows(userCommons.getNumOfCows() + amount);
+          CowLot newLot = CowLot.builder()
+            .commonsId(commonsId)
+            .userId(userId)
+            .numCows(amount)
+            .health(100)
+            .build();
+          cowLotRepository.save(newLot);
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
