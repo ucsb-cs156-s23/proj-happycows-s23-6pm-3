@@ -96,8 +96,8 @@ export default function PlayPage() {
     );
     // Stryker enable all
 
-    const onBuy = (userCommons) => {
-        mutationbuy.mutate(userCommons);
+    const onBuy = async (userCommons) => {
+        await mutationbuy.mutateAsync(userCommons);
         mutationincrease.mutate(userCommons);
     };
 
@@ -145,12 +145,11 @@ export default function PlayPage() {
     );
     // Stryker enable all
 
-    const onSell = (userCommons) => {
-        mutationsell.mutate(userCommons);
+    const onSell = async (userCommons) => {
         if (userCommons.numOfCows > 0) {
-            console.log(userCommons.numOfCows);
-            mutationreduce.mutate(userCommons);
+            await mutationreduce.mutateAsync(userCommons);
         }
+        mutationsell.mutate(userCommons);
     };
 
     return (
