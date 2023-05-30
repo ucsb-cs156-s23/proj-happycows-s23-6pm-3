@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Collections;
+
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -472,6 +474,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .totalWealth(0)
         .numOfCows(0)
         .cowHealth(100)
+        .cows(Collections.nCopies(101,0))
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -481,6 +484,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(0)
+        .cows(Collections.nCopies(101,0))
         .cowHealth(100)
         .build();
 

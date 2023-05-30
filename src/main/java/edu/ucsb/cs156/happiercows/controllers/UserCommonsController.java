@@ -94,7 +94,7 @@ public class UserCommonsController extends ApiController {
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
           System.out.println("HERE");
           List<Integer> cows = userCommons.getCows();
-          cows.set(48,cows.get(48)+1);
+          cows.set(100,cows.get(100)+1);
           userCommons.setCows(cows);
           System.out.println(Arrays.toString(cows.toArray()));
         }

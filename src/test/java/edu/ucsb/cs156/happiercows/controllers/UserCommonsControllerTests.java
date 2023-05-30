@@ -141,7 +141,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_BuyCow_commons_exists() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);
       UserCommons origUserCommons = UserCommons
             .builder()
         .id(1L)
@@ -150,7 +153,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
         .totalWealth(300)
         .numOfCows(1)
         .cowHealth(100)
-        // .cows(Collections.nCopies(101, 0))
+        .cows(oneCow)
         .build();
     
       Commons testCommons = Commons
@@ -170,6 +173,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -180,8 +184,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300-testCommons.getCowPrice())
       .numOfCows(2)
       .cowHealth(100)
+      .cows(twoCow)
       .build();
-  
+
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
@@ -208,7 +213,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_BuyCow_commons_exists_user_has_exact_amount_needed() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);  
       UserCommons origUserCommons = UserCommons
       .builder()
       .id(1L)
@@ -217,6 +225,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       Commons testCommons = Commons
@@ -236,6 +245,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -246,6 +256,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(0)
       .numOfCows(2)
       .cowHealth(100)
+      .cows(twoCow)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -274,7 +285,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_SellCow_commons_exists() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);
       UserCommons origUserCommons = UserCommons
       .builder()
       .id(1L)
@@ -283,6 +297,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       Commons testCommons = Commons
@@ -302,6 +317,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -312,6 +328,226 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(0)
       .cowHealth(100)
+      .cows(Collections.nCopies(101, 0))
+      .build();
+  
+      String requestBody = mapper.writeValueAsString(userCommonsToSend);
+      String expectedReturn = mapper.writeValueAsString(correctuserCommons);
+  
+      when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+  
+      // act
+      MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=1")
+          .contentType(MediaType.APPLICATION_JSON)
+                      .characterEncoding("utf-8")
+                      .content(requestBody)
+                      .with(csrf()))
+              .andExpect(status().isOk()).andReturn();
+  
+      // assert
+      verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
+      verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      String responseString = response.getResponse().getContentAsString();
+      assertEquals(expectedReturn, responseString);
+  }
+
+  
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_SellCow_commons_exists_unhealthy() throws Exception {
+  
+      // arrange
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(10,1);
+      List<Integer> twoCow = new ArrayList<>(oneCow);
+      twoCow.set(50,1);
+      UserCommons origUserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .cows(twoCow)
+      .build();
+  
+      Commons testCommons = Commons
+      .builder()
+      .name("test commons")
+      .cowPrice(100)
+      .milkPrice(2)
+      .startingBalance(300)
+      .startingDate(LocalDateTime.now())
+      .build();
+  
+      UserCommons userCommonsToSend = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .cows(twoCow)
+      .build();
+  
+      UserCommons correctuserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300+(testCommons.getCowPrice()/2))
+      .numOfCows(1)
+      .cowHealth(100)
+      .cows(oneCow)
+      .build();
+  
+      String requestBody = mapper.writeValueAsString(userCommonsToSend);
+      String expectedReturn = mapper.writeValueAsString(correctuserCommons);
+  
+      when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+  
+      // act
+      MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=1")
+          .contentType(MediaType.APPLICATION_JSON)
+                      .characterEncoding("utf-8")
+                      .content(requestBody)
+                      .with(csrf()))
+              .andExpect(status().isOk()).andReturn();
+  
+      // assert
+      verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
+      verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      String responseString = response.getResponse().getContentAsString();
+      assertEquals(expectedReturn, responseString);
+  }
+  
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_SellCow_commons_exists_HACK() throws Exception {
+  
+      // arrange
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(0,1);
+      List<Integer> twoCow = new ArrayList<>(oneCow);
+      twoCow.set(0,2);
+      UserCommons origUserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .cows(twoCow)
+      .build();
+  
+      Commons testCommons = Commons
+      .builder()
+      .name("test commons")
+      .cowPrice(100)
+      .milkPrice(2)
+      .startingBalance(300)
+      .startingDate(LocalDateTime.now())
+      .build();
+  
+      UserCommons userCommonsToSend = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .cows(twoCow)
+      .build();
+  
+      UserCommons correctuserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(1)
+      .cowHealth(100)
+      .cows(twoCow)
+      .build();
+  
+      String requestBody = mapper.writeValueAsString(userCommonsToSend);
+      String expectedReturn = mapper.writeValueAsString(correctuserCommons);
+  
+      when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+  
+      // act
+      MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=1")
+          .contentType(MediaType.APPLICATION_JSON)
+                      .characterEncoding("utf-8")
+                      .content(requestBody)
+                      .with(csrf()))
+              .andExpect(status().isOk()).andReturn();
+  
+      // assert
+      verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
+      verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      String responseString = response.getResponse().getContentAsString();
+      assertEquals(expectedReturn, responseString);
+  }
+  
+  
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_SellCow_commons_exists_healthy() throws Exception {
+  
+      // arrange
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(1,1);
+      List<Integer> twoCow = new ArrayList<>(oneCow);
+      twoCow.set(1,2);
+      UserCommons origUserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .cows(twoCow)
+      .build();
+  
+      Commons testCommons = Commons
+      .builder()
+      .name("test commons")
+      .cowPrice(100)
+      .milkPrice(2)
+      .startingBalance(300)
+      .startingDate(LocalDateTime.now())
+      .build();
+  
+      UserCommons userCommonsToSend = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .cows(twoCow)
+      .build();
+  
+      UserCommons correctuserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300+testCommons.getCowPrice()/100)
+      .numOfCows(1)
+      .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -340,7 +576,11 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_BuyCow_commons_for_user_DOES_NOT_exist() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);
+
       UserCommons origUserCommons = UserCommons
       .builder()
       .id(1L)
@@ -349,6 +589,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       Commons testCommons = Commons
@@ -368,6 +609,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -378,6 +620,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300-testCommons.getCowPrice())
       .numOfCows(2)
       .cowHealth(100)
+      .cows(twoCow)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -408,7 +651,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_SellCow_commons_for_usercommons_DOES_NOT_exist() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);
       UserCommons origUserCommons = UserCommons
       .builder()
       .id(1L)
@@ -417,6 +663,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       Commons testCommons = Commons
@@ -437,6 +684,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -447,6 +695,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(2)
       .cowHealth(100)
+      .cows(twoCow)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -476,7 +725,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "USER" })
   @Test
   public void test_SellCow_commons_DOES_NOT_exist() throws Exception {
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);
       // arrange
   
       UserCommons origUserCommons = UserCommons
@@ -487,6 +739,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       Commons testCommons = Commons
@@ -506,6 +759,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -516,6 +770,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(2)
       .cowHealth(100)
+      .cows(twoCow)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -545,7 +800,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_BuyCow_commons_DOES_NOT_exist() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);
       UserCommons origUserCommons = UserCommons
       .builder()
       .id(1L)
@@ -554,6 +812,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       Commons testCommons = Commons
@@ -573,6 +832,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -583,6 +843,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(2)
       .cowHealth(100)
+      .cows(twoCow)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -617,7 +878,11 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_BuyCow_commons_exists_not_enough_money() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2); 
+
       UserCommons origUserCommons = UserCommons
       .builder()
       .id(1L)
@@ -626,6 +891,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(0)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       Commons testCommons = Commons
@@ -645,6 +911,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(0)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -655,6 +922,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(0)
       .numOfCows(1)
       .cowHealth(100)
+      .cows(oneCow)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -684,7 +952,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public void test_SellCow_commons_exists_no_cow_to_sell() throws Exception {
   
       // arrange
-  
+      List<Integer> oneCow = new ArrayList<>(Collections.nCopies(101, 0));
+      oneCow.set(100,1);
+      List<Integer> twoCow = new ArrayList<>(Collections.nCopies(101, 0));
+      twoCow.set(100,2);
       UserCommons origUserCommons = UserCommons
       .builder()
       .id(1L)
@@ -693,6 +964,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(0)
       .cowHealth(100)
+      .cows(Collections.nCopies(101,0))
       .build();
   
       Commons testCommons = Commons
@@ -712,6 +984,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalWealth(300)
       .numOfCows(0)
       .cowHealth(100)
+      .cows(Collections.nCopies(101,0))
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -721,6 +994,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(0)
+      .cows(Collections.nCopies(101,0))
       .cowHealth(100)
       .build();
   
