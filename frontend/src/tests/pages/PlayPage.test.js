@@ -11,8 +11,8 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
     useParams: () => ({
-        commonsId: 1
-    })
+        commonsId: 1,
+    }),
 }));
 
 describe("PlayPage tests", () => {
@@ -24,22 +24,30 @@ describe("PlayPage tests", () => {
             commonsId: 1,
             id: 1,
             totalWealth: 0,
-            userId: 1
+            userId: 1,
         };
         axiosMock.reset();
         axiosMock.resetHistory();
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-        axiosMock.onGet("/api/usercommons/forcurrentuser", { params: { commonsId: 1 } }).reply(200, userCommons);
+        axiosMock
+            .onGet("/api/currentUser")
+            .reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock
+            .onGet("/api/systemInfo")
+            .reply(200, systemInfoFixtures.showingNeither);
+        axiosMock
+            .onGet("/api/usercommons/forcurrentuser", {
+                params: { commonsId: 1 },
+            })
+            .reply(200, userCommons);
         axiosMock.onGet("/api/commons", { params: { id: 1 } }).reply(200, {
             id: 1,
-            name: "Sample Commons"
+            name: "Sample Commons",
         });
         axiosMock.onGet("/api/commons/all").reply(200, [
             {
                 id: 1,
-                name: "Sample Commons"
-            }
+                name: "Sample Commons",
+            },
         ]);
         axiosMock.onGet("/api/profits/all/commonsid").reply(200, []);
         axiosMock.onPut("/api/usercommons/sell").reply(200, userCommons);
@@ -69,12 +77,33 @@ describe("PlayPage tests", () => {
         const buyCowButton = screen.getByTestId("buy-cow-button");
         fireEvent.click(buyCowButton);
 
-        await waitFor(() => expect(axiosMock.history.put.length).toBe(1));
+        await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
 
         const sellCowButton = screen.getByTestId("sell-cow-button");
         fireEvent.click(sellCowButton);
 
         await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
+    });
+
+    test("click buy and sell buttons no cows", async () => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PlayPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        expect(await screen.findByTestId("buy-cow-button")).toBeInTheDocument();
+        const buyCowButton = screen.getByTestId("buy-cow-button");
+        fireEvent.click(buyCowButton);
+
+        await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
+
+        const sellCowButton = screen.getByTestId("sell-cow-button");
+        fireEvent.click(sellCowButton);
+
+        await waitFor(() => expect(axiosMock.history.put.length).toBe(3));
     });
 
     test("Make sure that both the Announcements and Welcome Farmer components show up", async () => {
