@@ -57,8 +57,6 @@ export default function PlayPage() {
         toast(`Cow bought!`);
     };
 
-    const onSuccessIncrease = () => {};
-
     const objectToAxiosParamsBuy = (newUserCommons) => ({
         url: "/api/usercommons/buy",
         method: "PUT",
@@ -69,17 +67,6 @@ export default function PlayPage() {
     });
 
     // Stryker disable all
-    const objectToAxiosParamsIncrease = (newUserCommons) => ({
-        url: `/api/commons/${newUserCommons.commonsId}/increaseCowPrice`,
-        method: "PUT",
-        data: newUserCommons,
-        params: {
-            commonsId: newUserCommons.commonsId,
-        },
-    });
-    // Stryker enable all
-
-    // Stryker disable all
     const mutationbuy = useBackendMutation(
         objectToAxiosParamsBuy,
         { onSuccess: onSuccessBuy },
@@ -88,24 +75,13 @@ export default function PlayPage() {
     );
     // Stryker enable all
 
-    // Stryker disable all
-    const mutationincrease = useBackendMutation(
-        objectToAxiosParamsIncrease,
-        { onSuccess: onSuccessIncrease },
-        [`/api/commons?id=${commonsId}`]
-    );
-    // Stryker enable all
-
     const onBuy = async (userCommons) => {
-        await mutationbuy.mutateAsync(userCommons);
-        mutationincrease.mutate(userCommons);
+        mutationbuy.mutateAsync(userCommons);
     };
 
     const onSuccessSell = () => {
         toast(`Cow sold!`);
     };
-
-    const onSuccessReduce = () => {};
 
     // Stryker disable all
     const objectToAxiosParamsSell = (newUserCommons) => ({
@@ -119,17 +95,6 @@ export default function PlayPage() {
     // Stryker enable all
 
     // Stryker disable all
-    const objectToAxiosParamsReduce = (newUserCommons) => ({
-        url: `/api/commons/${newUserCommons.commonsId}/reduceCowPrice`,
-        method: "PUT",
-        data: newUserCommons,
-        params: {
-            commonsId: newUserCommons.commonsId,
-        },
-    });
-    // Stryker enable all
-
-    // Stryker disable all
     const mutationsell = useBackendMutation(
         objectToAxiosParamsSell,
         { onSuccess: onSuccessSell },
@@ -137,18 +102,7 @@ export default function PlayPage() {
     );
     // Stryker enable all
 
-    // Stryker disable all
-    const mutationreduce = useBackendMutation(
-        objectToAxiosParamsReduce,
-        { onSuccess: onSuccessReduce },
-        [`/api/commons?id=${commonsId}`]
-    );
-    // Stryker enable all
-
     const onSell = async (userCommons) => {
-        if (userCommons.numOfCows > 0) {
-            await mutationreduce.mutateAsync(userCommons);
-        }
         mutationsell.mutate(userCommons);
     };
 

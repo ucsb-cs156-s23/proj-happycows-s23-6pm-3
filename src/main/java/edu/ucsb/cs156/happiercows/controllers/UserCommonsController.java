@@ -77,7 +77,7 @@ public class UserCommonsController extends ApiController {
     return userCommons;
   }
 
-  @ApiOperation(value = "Buy a cow, totalWealth updated")
+  @ApiOperation(value = "Buy a cow, totalWealth updated, cow price increased")
   @PreAuthorize("hasRole('ROLE_USER')")
   @PutMapping("/buy")
   public ResponseEntity<String> putUserCommonsByIdBuy(
@@ -93,19 +93,22 @@ public class UserCommonsController extends ApiController {
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
 
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
+          commons.increaseCowPrice();
+          commonsRepository.save(commons);
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
         }
+        commonsRepository.save(commons);
         userCommonsRepository.save(userCommons);
-
         String body = mapper.writeValueAsString(userCommons);
+
         return ResponseEntity.ok().body(body);
     }
 
-  @ApiOperation(value = "Sell a cow, totalWealth updated")
+  @ApiOperation(value = "Sell a cow, totalWealth updated, cow price lowered")
   @PreAuthorize("hasRole('ROLE_USER')")
   @PutMapping("/sell")
   public ResponseEntity<String> putUserCommonsByIdSell(
@@ -123,12 +126,13 @@ public class UserCommonsController extends ApiController {
         if(userCommons.getNumOfCows() >= 1 ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
+          commons.decreaseCowPrice();
         }
         else{
           throw new NoCowsException("You have no cows to sell!");
         }
+        commonsRepository.save(commons);
         userCommonsRepository.save(userCommons);
-        //FIXME - update cow price based on selected strategy
         String body = mapper.writeValueAsString(userCommons);
         return ResponseEntity.ok().body(body);
     }
