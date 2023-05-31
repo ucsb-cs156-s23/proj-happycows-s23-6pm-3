@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s23/proj-happycows-s23-6pm-3
 owner: ucsb-cs156-s23
 repo_name: proj-happycows-s23-6pm-3
-pull_requests: [{"author":{"id":"MDQ6VXNlcjU2MDkyODkx","is_bot":false,"login":"Anshuman-UCSB","name":"Anshuman Dash"},"headRefName":"ad-cow-lots","number":27,"title":"Add entity and repository for CowLot entry","url":"https://github.com/ucsb-cs156-s23/proj-happycows-s23-6pm-3/pull/27"},{"author":{"id":"MDQ6VXNlcjc3Njk4NzM3","is_bot":false,"login":"MaximillianStewart","name":""},"headRefName":"Max-MilkPrice","number":19,"title":"added current milk price to user page","url":"https://github.com/ucsb-cs156-s23/proj-happycows-s23-6pm-3/pull/19"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjU2MDkyODkx","is_bot":false,"login":"Anshuman-UCSB","name":"Anshuman Dash"},"headRefName":"ad-cow-lots","number":27,"title":"Add entity and repository for CowLot entry","url":"https://github.com/ucsb-cs156-s23/proj-happycows-s23-6pm-3/pull/27"}]
