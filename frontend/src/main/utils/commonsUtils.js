@@ -17,7 +17,6 @@ export function cellToAxiosParamsDelete(cell) {
 
 export function daysElapsed(start){
     let startTime = new Date(start).getTime();
-    let currentTime = new Date().getTime;
-    var diff = Math.round((currentTime - startTime)/(86400000))
+    var diff = Math.round((Date.now() - startTime)/(86400000));
     return diff;
 }
