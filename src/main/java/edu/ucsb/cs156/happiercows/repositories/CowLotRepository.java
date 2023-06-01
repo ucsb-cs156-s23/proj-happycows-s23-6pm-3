@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CowLotRepository extends CrudRepository<CowLot, Long> {
-    Iterable<CowLot> findAllByCommonsIdAndUserId(Long commons_id, long user_id);
+    Iterable<CowLot> findAllByUserCommonsId(Long user_commons_id);
 }
