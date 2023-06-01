@@ -14,6 +14,9 @@ const ManageCows = ({ userCommons, onBuy, onSell }) => {
                     Market Cow Price: ${userCommons.userCowPrice?.toFixed(2)}
                 </Card.Title>
                 <Card.Title>Number of Cows: {userCommons.numOfCows}</Card.Title>
+                <Card.Title>
+                    Current Milk Price: ${commons?.milkPrice}{" "}
+                </Card.Title>
                 <Row>
                     <Col>
                         <Card.Text>
