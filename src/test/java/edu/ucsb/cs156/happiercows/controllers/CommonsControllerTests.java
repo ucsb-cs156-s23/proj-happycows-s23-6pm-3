@@ -75,6 +75,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(50.0)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -86,6 +87,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(50.0)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -122,6 +124,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(0)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -133,6 +136,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(0)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -168,6 +172,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime)
         .degradationRate(-8.49)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -178,6 +183,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime)
         .degradationRate(-8.49)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -232,6 +238,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(50.0)
         .showLeaderboard(true)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     Commons commons = Commons.builder()
@@ -243,6 +250,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(50.0)
         .showLeaderboard(true)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -267,6 +275,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     commons.setShowLeaderboard(parameters.getShowLeaderboard());
     parameters.setCarryingCapacity(123);
     commons.setCarryingCapacity(parameters.getCarryingCapacity());
+
 
     requestBody = objectMapper.writeValueAsString(parameters);
 
@@ -300,6 +309,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(8.49)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     Commons commons = Commons.builder()
@@ -311,6 +321,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(8.49)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -366,6 +377,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(8.49)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     Commons commons = Commons.builder()
@@ -377,6 +389,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(8.49)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .priceChange(100)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -462,7 +475,8 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     Commons c = Commons.builder()
         .id(2L)
-        .name("Example Commons")
+        .name("test commons")
+        .cowPrice(100)
         .build();
 
     UserCommons uc = UserCommons.builder()
@@ -472,6 +486,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .totalWealth(0)
         .numOfCows(0)
         .cowHealth(100)
+        .userCowPrice(0)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -482,6 +497,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .totalWealth(0)
         .numOfCows(0)
         .cowHealth(100)
+        .userCowPrice(0)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -519,6 +535,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .userCowPrice(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -552,6 +569,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .userCowPrice(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -580,6 +598,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .userCowPrice(100)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -589,6 +608,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .userCowPrice(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -622,6 +642,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .degradationRate(50.0)
         .showLeaderboard(false)
         .carryingCapacity(100)
+        .cowPrice(100)
         .build();
 
     when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
@@ -674,6 +695,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .userCowPrice(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -703,6 +725,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .userCowPrice(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);

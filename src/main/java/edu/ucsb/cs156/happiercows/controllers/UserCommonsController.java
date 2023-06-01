@@ -56,10 +56,13 @@ public class UserCommonsController extends ApiController {
   public UserCommons getUserCommonsById(
       @ApiParam("userId") @RequestParam Long userId,
       @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
-
+    
+    Commons commons = commonsRepository.findById(commonsId).orElseThrow( 
+          ()->new EntityNotFoundException(Commons.class, commonsId));
     UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
+    userCommons.setUserCowPrice(commons.getCowPrice());
     return userCommons;
   }
 
@@ -71,9 +74,12 @@ public class UserCommonsController extends ApiController {
 
     User u = getCurrentUser().getUser();
     Long userId = u.getId();
+    Commons commons = commonsRepository.findById(commonsId).orElseThrow( 
+          ()->new EntityNotFoundException(Commons.class, commonsId));
     UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
+    userCommons.setUserCowPrice(commons.getCowPrice());
     return userCommons;
   }
 

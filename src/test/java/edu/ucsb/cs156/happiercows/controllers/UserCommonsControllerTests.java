@@ -57,6 +57,11 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @Autowired
   private ObjectMapper objectMapper;
 
+  public static Commons dummyCommons(long id) {
+    Commons commons = new Commons(id, "test", 1, 1, 1, LocalDateTime.now(), 1, true, 1, 1, new ArrayList<User>());
+    return commons;
+  }
+
   public static UserCommons dummyUserCommons(long id) {
     UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100, 100);
     return userCommons;
@@ -64,7 +69,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void test_getUserCommonsById_exists_admin() throws Exception {
-  
+
+    Commons dummyCommons = dummyCommons(1);
+    when(commonsRepository.findById(1L)).thenReturn(Optional.of(dummyCommons));
     UserCommons expectedUserCommons = dummyUserCommons(1);
     when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(expectedUserCommons));
 
@@ -82,9 +89,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void test_getUserCommonsById_nonexists_admin() throws Exception {
-  
-    when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.empty());
 
+    Commons dummyCommons = dummyCommons(1);
+    when(commonsRepository.findById(1L)).thenReturn(Optional.of(dummyCommons));
+    when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.empty());
     MvcResult response = mockMvc.perform(get("/api/usercommons/?userId=1&commonsId=1"))
         .andExpect(status().is(404)).andReturn();
 
@@ -101,8 +109,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "USER" })
   @Test
   public void test_getUserCommonsById_exists() throws Exception {
-  
+    
+    Commons dummyCommons = dummyCommons(1);
     UserCommons expectedUserCommons = dummyUserCommons(1);
+    when(commonsRepository.findById(1L)).thenReturn(Optional.of(dummyCommons));
     when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(expectedUserCommons));
 
     MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?commonsId=1"))
@@ -119,7 +129,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "USER" })
   @Test
   public void test_getUserCommonsById_nonexists() throws Exception {
-  
+    
+    Commons dummyCommons = dummyCommons(1);
+    when(commonsRepository.findById(1L)).thenReturn(Optional.of(dummyCommons));
     when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.empty());
 
     MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?commonsId=1"))
