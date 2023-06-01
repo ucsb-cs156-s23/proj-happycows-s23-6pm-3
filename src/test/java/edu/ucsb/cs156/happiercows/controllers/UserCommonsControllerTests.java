@@ -31,10 +31,7 @@ import static org.mockito.Mockito.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -178,15 +175,20 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .numOfCows(2)
       .cowHealth(100)
       .build();
-  
-      String requestBody = mapper.writeValueAsString(userCommonsToSend);
+      Map<String, Object> requestBodyMap = new HashMap<>();
+      requestBodyMap.put("amount",1);
+      requestBodyMap.put("commonsId",1L);
+      String requestBody = mapper.writeValueAsString(requestBodyMap);
+      System.out.println("START");
+      System.out.println(requestBody);
+      System.out.println("END");
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
-  
+    
       // act
-      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1&amount=1")
           .contentType(MediaType.APPLICATION_JSON)
                       .characterEncoding("utf-8")
                       .content(requestBody)
