@@ -4,7 +4,9 @@ import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import edu.ucsb.cs156.happiercows.entities.Commons;
+import edu.ucsb.cs156.happiercows.entities.CowLot;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
@@ -53,6 +55,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
 
   @MockBean
   CommonsRepository commonsRepository;
+
+  @MockBean
+  CowLotRepository cowLotRepository;
 
   @Autowired
   private ObjectMapper objectMapper;

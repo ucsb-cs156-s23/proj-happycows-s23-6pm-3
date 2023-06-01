@@ -45,6 +45,9 @@ public class UserCommonsController extends ApiController {
   private CommonsRepository commonsRepository;
 
   @Autowired
+  private CowLotRepository cowLotRepository;
+
+  @Autowired
   ObjectMapper mapper;
 
   @ApiOperation(value = "Get a specific user commons (admin only)")
@@ -92,7 +95,12 @@ public class UserCommonsController extends ApiController {
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
-          
+          CowLot lot = CowLot.builder()
+            .userCommonsId(userCommons.getId())
+            .numCows(1)
+            .health(100d)
+            .build();
+          cowLotRepository.save(lot);
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
