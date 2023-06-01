@@ -179,9 +179,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       requestBodyMap.put("amount",1);
       requestBodyMap.put("commonsId",1L);
       String requestBody = mapper.writeValueAsString(requestBodyMap);
-      System.out.println("START");
-      System.out.println(requestBody);
-      System.out.println("END");
+    //   System.out.println("START");
+    //   System.out.println(requestBody);
+    //   System.out.println("END");
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
