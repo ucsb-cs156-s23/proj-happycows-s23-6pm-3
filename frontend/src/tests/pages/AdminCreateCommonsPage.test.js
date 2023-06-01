@@ -103,7 +103,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(startDateField, { target: { value: "2022-03-05" } });
         fireEvent.change(degradationRateField, { target: { value: "30.4" } });
         fireEvent.change(carryingCapacityField, { target: { value: "25" } });
-        fireEvent.change(priceChange, { target: { value: "25" } });
+        fireEvent.change(priceChangeField, { target: { value: "25" } });
         fireEvent.change(showLeaderboardField, { target: { value: true } });
         fireEvent.click(button);
 
