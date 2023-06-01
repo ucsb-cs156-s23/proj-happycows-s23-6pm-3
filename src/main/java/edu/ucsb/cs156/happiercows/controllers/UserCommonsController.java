@@ -91,7 +91,7 @@ public class UserCommonsController extends ApiController {
         UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
-
+        
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           commons.increaseCowPrice();
           commonsRepository.save(commons);
@@ -101,6 +101,8 @@ public class UserCommonsController extends ApiController {
         else{
           throw new NotEnoughMoneyException("You need more money!");
         }
+        userCommons.setUserCowPrice(commons.getCowPrice());
+
         commonsRepository.save(commons);
         userCommonsRepository.save(userCommons);
         String body = mapper.writeValueAsString(userCommons);
@@ -131,6 +133,9 @@ public class UserCommonsController extends ApiController {
         else{
           throw new NoCowsException("You have no cows to sell!");
         }
+
+        userCommons.setUserCowPrice(commons.getCowPrice());
+
         commonsRepository.save(commons);
         userCommonsRepository.save(userCommons);
         String body = mapper.writeValueAsString(userCommons);

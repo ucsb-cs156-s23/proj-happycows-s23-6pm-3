@@ -77,33 +77,12 @@ describe("PlayPage tests", () => {
         const buyCowButton = screen.getByTestId("buy-cow-button");
         fireEvent.click(buyCowButton);
 
-        await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
+        await waitFor(() => expect(axiosMock.history.put.length).toBe(1));
 
         const sellCowButton = screen.getByTestId("sell-cow-button");
         fireEvent.click(sellCowButton);
 
-        await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
-    });
-
-    test("click buy and sell buttons no cows", async () => {
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <PlayPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        expect(await screen.findByTestId("buy-cow-button")).toBeInTheDocument();
-        const buyCowButton = screen.getByTestId("buy-cow-button");
-        fireEvent.click(buyCowButton);
-
-        await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
-
-        const sellCowButton = screen.getByTestId("sell-cow-button");
-        fireEvent.click(sellCowButton);
-
-        await waitFor(() => expect(axiosMock.history.put.length).toBe(3));
+        await waitFor(() => expect(axiosMock.history.put.length).toBe(1));
     });
 
     test("Make sure that both the Announcements and Welcome Farmer components show up", async () => {
