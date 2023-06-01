@@ -127,6 +127,7 @@ export default function PlayPage() {
                         <CardGroup>
                             <ManageCows
                                 userCommons={userCommons}
+                                commons={commons}
                                 onBuy={onBuy}
                                 onSell={onSell}
                             />
