@@ -67,19 +67,26 @@ export default function PlayPage() {
     });
 
     // Stryker disable all
-    const mutationbuy = useBackendMutation(
+    const mutationbuynumcows = useBackendMutation(
         objectToAxiosParamsBuy,
         { onSuccess: onSuccessBuy },
         // Stryker disable next-line all : hard to set up test for caching
-        [
-            `/api/usercommons/forcurrentuser?commonsId=${commonsId}`,
-            `/api/commons?id=${commonsId}`,
-        ]
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker enable all
+
+    // Stryker disable all
+    const mutationbuychangeprice = useBackendMutation(
+        objectToAxiosParamsBuy,
+        { onSuccess: onSuccessBuy },
+        // Stryker disable next-line all : hard to set up test for caching
+        [`/api/commons?id=${commonsId}`]
     );
     // Stryker enable all
 
     const onBuy = async (userCommons) => {
-        mutationbuy.mutateAsync(userCommons);
+        mutationbuynumcows.mutateAsync(userCommons);
+        mutationbuychangeprice.mutateAsync(userCommons);
     };
 
     const onSuccessSell = () => {
@@ -98,18 +105,24 @@ export default function PlayPage() {
     // Stryker enable all
 
     // Stryker disable all
-    const mutationsell = useBackendMutation(
+    const mutationsellnumcows = useBackendMutation(
         objectToAxiosParamsSell,
         { onSuccess: onSuccessSell },
-        [
-            `/api/usercommons/forcurrentuser?commonsId=${commonsId}`,
-            `/api/commons?id=${commonsId}`,
-        ]
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker enable all
+
+    // Stryker disable all
+    const mutationsellpricechange = useBackendMutation(
+        objectToAxiosParamsSell,
+        { onSuccess: onSuccessSell },
+        [`/api/commons?id=${commonsId}`]
     );
     // Stryker enable all
 
     const onSell = async (userCommons) => {
-        mutationsell.mutate(userCommons);
+        mutationsellnumcows.mutate(userCommons);
+        mutationsellpricechange.mutate(userCommons);
     };
 
     return (

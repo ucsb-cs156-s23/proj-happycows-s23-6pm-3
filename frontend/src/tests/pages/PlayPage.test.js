@@ -77,12 +77,12 @@ describe("PlayPage tests", () => {
         const buyCowButton = screen.getByTestId("buy-cow-button");
         fireEvent.click(buyCowButton);
 
-        await waitFor(() => expect(axiosMock.history.put.length).toBe(1));
+        await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
 
         const sellCowButton = screen.getByTestId("sell-cow-button");
         fireEvent.click(sellCowButton);
 
-        await waitFor(() => expect(axiosMock.history.put.length).toBe(1));
+        await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
     });
 
     test("Make sure that both the Announcements and Welcome Farmer components show up", async () => {

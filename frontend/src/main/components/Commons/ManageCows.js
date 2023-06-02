@@ -2,9 +2,7 @@ import React from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import cowHead from "./../../../assets/CowHead.png";
 
-// add parameters
 const ManageCows = ({ userCommons, commons, onBuy, onSell }) => {
-    // update cowPrice from fixture
     return (
         <Card>
             <Card.Header as="h5">Manage Cows</Card.Header>
@@ -51,9 +49,9 @@ const ManageCows = ({ userCommons, commons, onBuy, onSell }) => {
                         <br />
                     </Col>
                 </Row>
-                Note: Buying cows buys at current cow price, but selling cows
-                sells at current cow price times the average health of cows as a
-                percentage!
+                Note: Buying cows buys at the current cow price, but selling
+                cows sells at the current cow price times the average health of
+                cows as a percentage!
             </Card.Body>
         </Card>
     );
