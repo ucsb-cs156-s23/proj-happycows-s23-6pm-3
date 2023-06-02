@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, CardGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsOverview from "main/components/Commons/CommonsOverview";
@@ -53,9 +52,7 @@ export default function PlayPage() {
     );
     // Stryker enable all
 
-    const onSuccessBuy = () => {
-        toast(`Cow bought!`);
-    };
+    const onSuccessBuy = () => {};
 
     const objectToAxiosParamsBuy = (newUserCommons) => ({
         url: "/api/usercommons/buy",
@@ -89,9 +86,7 @@ export default function PlayPage() {
         mutationbuychangeprice.mutateAsync(userCommons);
     };
 
-    const onSuccessSell = () => {
-        toast(`Cow sold!`);
-    };
+    const onSuccessSell = () => {};
 
     // Stryker disable all
     const objectToAxiosParamsSell = (newUserCommons) => ({
