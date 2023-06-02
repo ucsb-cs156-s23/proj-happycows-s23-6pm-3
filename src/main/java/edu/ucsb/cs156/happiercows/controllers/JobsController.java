@@ -92,8 +92,6 @@ public class JobsController extends ApiController {
         return jobService.runAsJob(updateCowHealthJob);
     }
 
-    //FIXME
-
     @ApiOperation(value = "Launch Job to Produce Instructor Report")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/launch/instructorreport")

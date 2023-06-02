@@ -85,7 +85,6 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                         required: "Cow price is required",
                         min: {
                             value: 0.01,
-
                             message: "Cow price must be positive",
                         },
                     })}

@@ -34,11 +34,9 @@ public class Commons
   private int carryingCapacity;
   private double priceChange;
   public void increaseCowPrice() {
-    // Implement the logic to increase the cow price
     cowPrice += priceChange;
   }
   public void decreaseCowPrice() {
-    // Implement the logic to increase the cow price
     cowPrice -= priceChange;
   }
 
