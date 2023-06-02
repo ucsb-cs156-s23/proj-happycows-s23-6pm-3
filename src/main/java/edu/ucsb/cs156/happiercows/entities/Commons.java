@@ -32,6 +32,13 @@ public class Commons
   private double degradationRate;
   private boolean showLeaderboard;
   private int carryingCapacity;
+  private double priceChange;
+  public void increaseCowPrice() {
+    cowPrice += priceChange;
+  }
+  public void decreaseCowPrice() {
+    cowPrice -= priceChange;
+  }
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
   @JoinTable(name = "user_commons",
