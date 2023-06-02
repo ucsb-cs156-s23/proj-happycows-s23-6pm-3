@@ -71,7 +71,10 @@ export default function PlayPage() {
         objectToAxiosParamsBuy,
         { onSuccess: onSuccessBuy },
         // Stryker disable next-line all : hard to set up test for caching
-        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+        [
+            `/api/usercommons/forcurrentuser?commonsId=${commonsId}`,
+            `/api/commons?id=${commonsId}`,
+        ]
     );
     // Stryker enable all
 
@@ -98,7 +101,10 @@ export default function PlayPage() {
     const mutationsell = useBackendMutation(
         objectToAxiosParamsSell,
         { onSuccess: onSuccessSell },
-        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+        [
+            `/api/usercommons/forcurrentuser?commonsId=${commonsId}`,
+            `/api/commons?id=${commonsId}`,
+        ]
     );
     // Stryker enable all
 

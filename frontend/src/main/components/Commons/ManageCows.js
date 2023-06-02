@@ -10,7 +10,7 @@ const ManageCows = ({ userCommons, commons, onBuy, onSell }) => {
             <Card.Header as="h5">Manage Cows</Card.Header>
             <Card.Body>
                 <Card.Title>
-                    Market Cow Price: ${userCommons.userCowPrice?.toFixed(2)}
+                    Market Cow Price: ${commons?.cowPrice.toFixed(2)}
                 </Card.Title>
                 <Card.Title>Number of Cows: {userCommons.numOfCows}</Card.Title>
                 <Card.Title>

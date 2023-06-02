@@ -57,12 +57,9 @@ public class UserCommonsController extends ApiController {
       @ApiParam("userId") @RequestParam Long userId,
       @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
     
-    Commons commons = commonsRepository.findById(commonsId).orElseThrow( 
-          ()->new EntityNotFoundException(Commons.class, commonsId));
     UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
-    userCommons.setUserCowPrice(commons.getCowPrice());
     return userCommons;
   }
 
@@ -74,12 +71,9 @@ public class UserCommonsController extends ApiController {
 
     User u = getCurrentUser().getUser();
     Long userId = u.getId();
-    Commons commons = commonsRepository.findById(commonsId).orElseThrow( 
-          ()->new EntityNotFoundException(Commons.class, commonsId));
     UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
-    userCommons.setUserCowPrice(commons.getCowPrice());
     return userCommons;
   }
 
@@ -107,7 +101,6 @@ public class UserCommonsController extends ApiController {
         else{
           throw new NotEnoughMoneyException("You need more money!");
         }
-        userCommons.setUserCowPrice(commons.getCowPrice());
 
         commonsRepository.save(commons);
         userCommonsRepository.save(userCommons);
@@ -139,8 +132,6 @@ public class UserCommonsController extends ApiController {
         else{
           throw new NoCowsException("You have no cows to sell!");
         }
-
-        userCommons.setUserCowPrice(commons.getCowPrice());
 
         commonsRepository.save(commons);
         userCommonsRepository.save(userCommons);
