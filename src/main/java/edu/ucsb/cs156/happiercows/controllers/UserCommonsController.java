@@ -72,7 +72,7 @@ public class UserCommonsController extends ApiController {
     return userCommons;
   }
 
-  @ApiOperation(value = "Buy a cow, totalWealth updated")
+  @ApiOperation(value = "Buy a cow, totalWealth updated, cow price increased")
   @PreAuthorize("hasRole('ROLE_USER')")
   @PutMapping("/buy")
   public ResponseEntity<String> putUserCommonsByIdBuy(
@@ -88,12 +88,14 @@ public class UserCommonsController extends ApiController {
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
 
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
+          commons.increaseCowPrice();
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
         }
+        commonsRepository.save(commons);
         userCommonsRepository.save(userCommons);
 
         String body = mapper.writeValueAsString(userCommons);
