@@ -32,11 +32,9 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -183,6 +181,14 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .numOfCows(2)
       .cowHealth(100)
       .build();
+
+      CowLot correctcowLot = CowLot
+      .builder()
+      .id(0L)
+      .userCommonsId(correctuserCommons.getId())
+      .numCows(1)
+      .health(100d)
+      .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
@@ -197,12 +203,24 @@ public class UserCommonsControllerTests extends ControllerTestCase {
                       .content(requestBody)
                       .with(csrf()))
               .andExpect(status().isOk()).andReturn();
+      
   
       // assert
       verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
       verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      verify(cowLotRepository, times(1)).save(correctcowLot);
       String responseString = response.getResponse().getContentAsString();
       assertEquals(expectedReturn, responseString);
+        // System.out.println("DEBUG PRINTS HERE");
+        // Iterable<CowLot> cowLots = cowLotRepository.findAll();
+        // for (CowLot cowLot : cowLots) {
+        //     System.out.println(cowLot.toString()); // Or any specific fields you want to print
+        // }
+        // System.out.println("DEBUG PRINTS OVER");
+      Iterable<CowLot> result = cowLotRepository.findAllByUserCommonsId(correctuserCommons.getId());
+
+      // Verify the actual return value
+      assertEquals(Collections.singletonList(correctcowLot), result);    
   }
 
   @WithMockUser(roles = { "USER" })
