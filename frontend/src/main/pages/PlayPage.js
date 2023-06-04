@@ -105,7 +105,7 @@ export default function PlayPage() {
         { onSuccess: onSuccessSell },
         [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const mutationsellpricechange = useBackendMutation(
