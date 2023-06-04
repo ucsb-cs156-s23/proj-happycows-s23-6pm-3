@@ -27,7 +27,7 @@ export default function PlayPage() {
             },
         }
     );
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const { data: commons } = useBackend([`/api/commons?id=${commonsId}`], {
