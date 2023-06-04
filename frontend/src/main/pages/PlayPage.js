@@ -79,7 +79,7 @@ export default function PlayPage() {
         // Stryker disable next-line all : hard to set up test for caching
         [`/api/commons?id=${commonsId}`]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const onBuy = async (userCommons) => {
         mutationbuynumcows.mutateAsync(userCommons);
