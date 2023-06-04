@@ -37,7 +37,7 @@ export default function PlayPage() {
             id: commonsId,
         },
     });
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const { data: userCommonsProfits } = useBackend(
