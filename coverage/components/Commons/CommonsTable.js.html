@@ -168,7 +168,10 @@
 <a name='L103'></a><a href='#L103'>103</a>
 <a name='L104'></a><a href='#L104'>104</a>
 <a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,8 +215,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -261,32 +267,30 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
-import OurTable, {ButtonColumn} from "main/components/OurTable";
+import OurTable, { ButtonColumn } from "main/components/OurTable";
 import { useBackendMutation } from "main/utils/useBackend";
-import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
+import {
+    cellToAxiosParamsDelete,
+    onDeleteSuccess,
+} from "main/utils/commonsUtils";
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
 &nbsp;
 export default function CommonsTable({ commons, currentUser }) {
-&nbsp;
     const navigate = useNavigate();
 &nbsp;
     const editCallback = (cell) =&gt; {
-        navigate(`/admin/editcommons/${cell.row.values["commons.id"]}`)
-    }
+        navigate(`/admin/editcommons/${cell.row.values["commons.id"]}`);
+    };
 &nbsp;
     // Stryker disable all : hard to test for query caching
     const deleteMutation = useBackendMutation(
@@ -297,87 +301,86 @@ export default function CommonsTable({ commons, currentUser }) {
     // Stryker enable all
 &nbsp;
     // Stryker disable next-line all : TODO try to make a good test for this
-    const deleteCallback = async (cell) =&gt; { 
+    const deleteCallback = async (cell) =&gt; {
         console.log("deleteCallback cell=", cell);
-        deleteMutation.mutate(cell); 
-    }
+        deleteMutation.mutate(cell);
+    };
 &nbsp;
     const leaderboardCallback = (cell) =&gt; {
-        navigate(`/leaderboard/${cell.row.values["commons.id"]}`)
-    }
+        navigate(`/leaderboard/${cell.row.values["commons.id"]}`);
+    };
 &nbsp;
     const columns = [
         {
-            Header: 'id',
-            accessor: 'commons.id', // accessor is the "key" in the data
-&nbsp;
+            Header: "id",
+            accessor: "commons.id", // accessor is the "key" in the data
         },
         {
-            Header:'Name',
-            accessor: 'commons.name',
+            Header: "Name",
+            accessor: "commons.name",
         },
         {
-            Header:'Cow Price',
-            accessor: row =&gt; row.commons.cowPrice,
-            id: 'commons.cowPrice'
+            Header: "Cow Price",
+            accessor: (row) =&gt; row.commons.cowPrice,
+            id: "commons.cowPrice",
         },
         {
-            Header:'Milk Price',
-            accessor: row =&gt; row.commons.milkPrice,
-            id: 'commons.milkPrice'
+            Header: "Price Change",
+            accessor: "commons.priceChange",
         },
         {
-            Header:'Starting Balance',
-            accessor: row =&gt; row.commons.startingBalance,
-            id: 'commons.startingBalance'
+            Header: "Milk Price",
+            accessor: (row) =&gt; row.commons.milkPrice,
+            id: "commons.milkPrice",
         },
         {
-            Header:'Starting Date',
-            accessor: row =&gt; String(row.commons.startingDate).slice(0,10),
-            id: 'commons.startingDate'
+            Header: "Starting Balance",
+            accessor: (row) =&gt; row.commons.startingBalance,
+            id: "commons.startingBalance",
         },
         {
-            Header:'Degradation Rate',
-            accessor: row =&gt; row.commons.degradationRate,
-            id: 'commons.degradationRate'
+            Header: "Starting Date",
+            accessor: (row) =&gt; String(row.commons.startingDate).slice(0, 10),
+            id: "commons.startingDate",
         },
         {
-            Header:'Show Leaderboard?',
-            id: 'commons.showLeaderboard', // needed for tests
-            accessor: (row, _rowIndex) =&gt; String(row.commons.showLeaderboard) // hack needed for boolean values to show up
+            Header: "Degradation Rate",
+            accessor: (row) =&gt; row.commons.degradationRate,
+            id: "commons.degradationRate",
         },
         {
-            Header: 'Cows',
-            accessor: 'totalCows'
+            Header: "Show Leaderboard?",
+            id: "commons.showLeaderboard", // needed for tests
+            accessor: (row, _rowIndex) =&gt; String(row.commons.showLeaderboard), // hack needed for boolean values to show up
         },
         {
-            Header: 'Carrying Capacity',
-            accessor: row =&gt; row.commons.carryingCapacity,
-            id: 'commons.carryingCapacity'
-        }
+            Header: "Cows",
+            accessor: "totalCows",
+        },
+        {
+            Header: "Carrying Capacity",
+            accessor: (row) =&gt; row.commons.carryingCapacity,
+            id: "commons.carryingCapacity",
+        },
     ];
 &nbsp;
     const testid = "CommonsTable";
 &nbsp;
     const columnsIfAdmin = [
         ...columns,
-        ButtonColumn("Edit",
-"primary", editCallback, testid),
-        ButtonColumn("Delete",
-"danger", deleteCallback, testid),
-        ButtonColumn("Leaderboard",
-"secondary", leaderboardCallback, testid)
+        ButtonColumn("Edit", "primary", editCallback, testid),
+        ButtonColumn("Delete", "danger", deleteCallback, testid),
+        ButtonColumn("Leaderboard", "secondary", leaderboardCallback, testid),
     ];
 &nbsp;
-    const columnsToDisplay = hasRole(currentUser,
-"ROLE_ADMIN") ? columnsIfAdmin : columns;
+    const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN")
+        ? columnsIfAdmin
+        : columns;
 &nbsp;
-    return &lt;OurTable
-        data={commons}
-        columns={columnsToDisplay}
-        testid={testid}
-    /&gt;;
-};
+    return (
+        &lt;OurTable data={commons} columns={columnsToDisplay} testid={testid} /&gt;
+    );
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -385,7 +388,7 @@ export default function CommonsTable({ commons, currentUser }) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Jun 04 2023 14:09:36 GMT-0700 (Pacific Daylight Time)
+                at Sun Jun 04 2023 14:30:21 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>
