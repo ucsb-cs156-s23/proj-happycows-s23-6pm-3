@@ -3,8 +3,7 @@ package edu.ucsb.cs156.happiercows.jobs;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,9 +17,11 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobContext;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.entities.User;
+import edu.ucsb.cs156.happiercows.entities.CowLot;
 
 import java.time.LocalDateTime;
 
@@ -35,6 +36,9 @@ public class UpdateCowHealthJobTests {
 
         @Mock
         UserRepository userRepository;
+
+        @Mock
+        CowLotRepository cowLotRepository;
 
         private User user = User
                         .builder()
@@ -53,7 +57,7 @@ public class UpdateCowHealthJobTests {
 
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -102,6 +106,14 @@ public class UpdateCowHealthJobTests {
                                 .cowHealth(10.01)
                                 .build();
 
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(1)
+                                .health(10)
+                                .build();
+
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
                 when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
@@ -109,10 +121,12 @@ public class UpdateCowHealthJobTests {
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -165,6 +179,13 @@ public class UpdateCowHealthJobTests {
                                 .numOfCows(101)
                                 .cowHealth(99.99)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(101)
+                                .health(100)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -173,10 +194,11 @@ public class UpdateCowHealthJobTests {
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(101)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -229,6 +251,13 @@ public class UpdateCowHealthJobTests {
                                 .numOfCows(100)
                                 .cowHealth(50.01)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(100)
+                                .health(50)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -237,10 +266,12 @@ public class UpdateCowHealthJobTests {
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(100)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -293,6 +324,13 @@ public class UpdateCowHealthJobTests {
                                 .numOfCows(150)
                                 .cowHealth(0)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(150)
+                                .health(0)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -301,10 +339,12 @@ public class UpdateCowHealthJobTests {
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(150)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -357,6 +397,13 @@ public class UpdateCowHealthJobTests {
                                 .numOfCows(1)
                                 .cowHealth(100)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(1)
+                                .health(100)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -365,10 +412,11 @@ public class UpdateCowHealthJobTests {
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -403,7 +451,7 @@ public class UpdateCowHealthJobTests {
 
                 UserCommons origUserCommons2 = UserCommons
                                 .builder()
-                                .id(1L)
+                                .id(2L)
                                 .userId(1L)
                                 .commonsId(1L)
                                 .totalWealth(300)
@@ -413,7 +461,7 @@ public class UpdateCowHealthJobTests {
 
                 UserCommons origUserCommons3 = UserCommons
                                 .builder()
-                                .id(1L)
+                                .id(3L)
                                 .userId(1L)
                                 .commonsId(1L)
                                 .totalWealth(300)
@@ -434,12 +482,34 @@ public class UpdateCowHealthJobTests {
 
                 UserCommons newUserCommons = UserCommons
                                 .builder()
-                                .id(1L)
+                                .id(4L)
                                 .userId(1L)
                                 .commonsId(1L)
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(5)
                                 .cowHealth(50.01)
+                                .build();
+                
+                CowLot origCowLot1 = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons1.getId())
+                                .numCows(5)
+                                .health(50)
+                                .build();
+                CowLot origCowLot2 = CowLot
+                                .builder()
+                                .id(1L)
+                                .userCommonsId(origUserCommons2.getId())
+                                .numCows(5)
+                                .health(50)
+                                .build();
+                CowLot origCowLot3 = CowLot
+                                .builder()
+                                .id(2L)
+                                .userCommonsId(origUserCommons3.getId())
+                                .numCows(5)
+                                .health(50)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -449,10 +519,16 @@ public class UpdateCowHealthJobTests {
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons1.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot1));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons2.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot2));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons3.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot3));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -513,7 +589,7 @@ public class UpdateCowHealthJobTests {
 
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                cowLotRepository, userRepository);
 
                 RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
                         // Code under test
@@ -563,7 +639,7 @@ public class UpdateCowHealthJobTests {
 
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                cowLotRepository, userRepository);
 
                 RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
                         // Code under test
