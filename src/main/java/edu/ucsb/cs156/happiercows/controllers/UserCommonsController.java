@@ -101,12 +101,6 @@ public class UserCommonsController extends ApiController {
             .health(100d)
             .build();
           cowLotRepository.save(lot);
-                  System.out.println("DEBUG PRINTS HERE");
-        Iterable<CowLot> cowLots = cowLotRepository.findAll();
-        for (CowLot cowLot : cowLots) {
-            System.out.println(cowLot.toString()); // Or any specific fields you want to print
-        }
-        System.out.println("DEBUG PRINTS OVER");
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");

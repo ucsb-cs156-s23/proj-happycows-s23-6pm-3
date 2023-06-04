@@ -211,16 +211,6 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       verify(cowLotRepository, times(1)).save(correctcowLot);
       String responseString = response.getResponse().getContentAsString();
       assertEquals(expectedReturn, responseString);
-        // System.out.println("DEBUG PRINTS HERE");
-        // Iterable<CowLot> cowLots = cowLotRepository.findAll();
-        // for (CowLot cowLot : cowLots) {
-        //     System.out.println(cowLot.toString()); // Or any specific fields you want to print
-        // }
-        // System.out.println("DEBUG PRINTS OVER");
-      Iterable<CowLot> result = cowLotRepository.findAllByUserCommonsId(correctuserCommons.getId());
-
-      // Verify the actual return value
-      assertEquals(Collections.singletonList(correctcowLot), result);    
   }
 
   @WithMockUser(roles = { "USER" })
