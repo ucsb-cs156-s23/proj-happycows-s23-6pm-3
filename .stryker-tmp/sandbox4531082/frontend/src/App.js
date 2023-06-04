@@ -16,6 +16,7 @@ import NotFoundPage from "main/pages/NotFoundPage";
 function App() {
 
   const { data: currentUser } = useCurrentUser();
+  //const snackbarRef = useRef(null);
 
   return (
     <BrowserRouter>
