@@ -70,7 +70,7 @@ export default function PlayPage() {
         // Stryker disable next-line all : hard to set up test for caching
         [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const mutationbuychangeprice = useBackendMutation(
