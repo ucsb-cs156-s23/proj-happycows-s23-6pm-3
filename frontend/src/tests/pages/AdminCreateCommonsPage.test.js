@@ -119,6 +119,7 @@ describe("AdminCreateCommonsPage tests", () => {
             <br />startDate: 2022-03-05T00:00:00
             <br />cowPrice: 10
             <br />carryingCapacity: 25
+            <br />degradationRate: 30.4
         </div>);
     });
 });
