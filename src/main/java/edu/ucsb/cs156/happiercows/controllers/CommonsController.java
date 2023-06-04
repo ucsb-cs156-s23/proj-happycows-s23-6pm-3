@@ -39,6 +39,8 @@ import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.ProfitRepository;
+import edu.ucsb.cs156.happiercows.repositories.jobs.JobsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.controllers.ApiController;
 
@@ -52,6 +54,12 @@ public class CommonsController extends ApiController {
 
   @Autowired
   private UserCommonsRepository userCommonsRepository;
+
+  @Autowired
+  private ProfitRepository profitRepository;
+
+  @Autowired
+  private JobsRepository jobsRepository;
 
   @Autowired
   ObjectMapper mapper;
@@ -206,9 +214,11 @@ public class CommonsController extends ApiController {
 
     Commons foundCommons = commonsRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
-
-    commonsRepository.deleteById(id);
-    userCommonsRepository.deleteAllByCommonsId(id);
+    
+    jobsRepository.deleteAll();
+    profitRepository.deleteAllByUserCommonsId(foundCommons.getId());
+    commonsRepository.deleteById(foundCommons.getId());
+    userCommonsRepository.deleteAllByCommonsId(foundCommons.getId());
 
     String responseString = String.format("commons with id %d deleted", id);
 
