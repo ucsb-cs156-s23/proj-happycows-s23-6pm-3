@@ -4,7 +4,9 @@ import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import edu.ucsb.cs156.happiercows.entities.Commons;
+import edu.ucsb.cs156.happiercows.entities.CowLot;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
@@ -30,11 +32,9 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,6 +53,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
 
   @MockBean
   CommonsRepository commonsRepository;
+
+  @MockBean
+  CowLotRepository cowLotRepository;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -178,6 +181,14 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .numOfCows(2)
       .cowHealth(100)
       .build();
+
+      CowLot correctcowLot = CowLot
+      .builder()
+      .id(0L)
+      .userCommonsId(correctuserCommons.getId())
+      .numCows(1)
+      .health(100d)
+      .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
@@ -192,10 +203,12 @@ public class UserCommonsControllerTests extends ControllerTestCase {
                       .content(requestBody)
                       .with(csrf()))
               .andExpect(status().isOk()).andReturn();
+      
   
       // assert
       verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
       verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      verify(cowLotRepository, times(1)).save(correctcowLot);
       String responseString = response.getResponse().getContentAsString();
       assertEquals(expectedReturn, responseString);
   }
