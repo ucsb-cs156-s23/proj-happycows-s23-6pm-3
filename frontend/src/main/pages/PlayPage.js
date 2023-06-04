@@ -113,7 +113,7 @@ export default function PlayPage() {
         { onSuccess: onSuccessSell },
         [`/api/commons?id=${commonsId}`]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const onSell = async (userCommons) => {
         mutationsellnumcows.mutate(userCommons);
