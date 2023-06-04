@@ -49,7 +49,7 @@ export default function CommonsTable({ commons, currentUser }) {
         },
         {
             Header: "Price Change",
-            accessor: "commons.priceChange",
+            accessor: "priceChange",
         },
         {
             Header: "Milk Price",
