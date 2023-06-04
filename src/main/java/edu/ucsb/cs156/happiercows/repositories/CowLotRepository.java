@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CowLotRepository extends CrudRepository<CowLot, Long> {
     Iterable<CowLot> findAllByUserCommonsId(Long userCommonsId);
+    CowLot findTopByUserCommonsIdOrderByHealthDesc(Long userCommonsId);
 }
