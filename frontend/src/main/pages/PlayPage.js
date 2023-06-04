@@ -97,7 +97,7 @@ export default function PlayPage() {
             commonsId: commonsId,
         },
     });
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const mutationsellnumcows = useBackendMutation(
