@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface CowLotRepository extends CrudRepository<CowLot, Long> {
     Iterable<CowLot> findAllByUserCommonsId(Long userCommonsId);
     Optional<CowLot> findByUserCommonsIdAndHealth(Long userCommonsId, Double Health);
+    CowLot findTopByUserCommonsIdOrderByHealthDesc(Long userCommonsId);
 }
