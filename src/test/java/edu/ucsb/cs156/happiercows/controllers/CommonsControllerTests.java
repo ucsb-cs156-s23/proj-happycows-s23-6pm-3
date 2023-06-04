@@ -829,5 +829,4 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     assertEquals(originalCommons, correctCommons);
   }
-
 }
