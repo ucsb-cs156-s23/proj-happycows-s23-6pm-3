@@ -12,10 +12,16 @@ import AdminListCommonsPage from "main/pages/AdminListCommonPage";
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import PlayPage from "main/pages/PlayPage";
 import NotFoundPage from "main/pages/NotFoundPage";
-
+//import "./App.css";
+//import Snackbar from "./components/Snackbar";
+//const SnackbarType = {
+  //  success: "success",
+    //fail: "fail",
+  //};
 function App() {
 
   const { data: currentUser } = useCurrentUser();
+  //const snackbarRef = useRef(null);
 
   return (
     <BrowserRouter>
@@ -51,6 +57,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
+    
   );
 }
 
