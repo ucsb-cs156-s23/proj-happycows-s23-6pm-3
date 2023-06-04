@@ -50,7 +50,7 @@ export default function PlayPage() {
             },
         }
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const onSuccessBuy = () => {};
 
