@@ -25,4 +25,24 @@ describe("dateUtils tests", () => {
     });
   });
 
+  describe("daysElapsed test", () => {
+    test("Difference between 2 dates", () => {
+      const startingDate = "2023-05-05T00:00:00";
+      const lastDate = "2023-05-09T21:40:00";
+      expect(daysElapsed(startingDate,lastDate)).toBe(4);
+    });
+
+    test("Difference between 2 times on same day", () => {
+      const startingDate = "2023-05-05T00:00:00";
+      const lastDate = "2023-05-05T21:40:00";
+      expect(daysElapsed(startingDate,lastDate)).toBe(0);
+    });
+
+    test("Negative days checker", () => {
+      const startingDate = "2023-05-05T00:30:00";
+      const lastDate = "2023-05-04T21:40:00";
+      expect(daysElapsed(startingDate,lastDate)).toBe(0);
+    });
+
+  });
 });
