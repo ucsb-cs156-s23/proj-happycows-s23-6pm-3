@@ -6,4 +6,8 @@ const timestampToDate = (timestamp) => {
     return (date.getFullYear() + "-" + (padWithZero(date.getMonth()+1)) + "-" + padWithZero(date.getDate()));
 }
 
-export {timestampToDate, padWithZero};
+export function gameInProgress(startingDate, lastDate){
+    return((Date(startingDate).getTime() <= Date(endingDate).getTime())? true : false)
+}
+
+export {timestampToDate, padWithZero, gameInProgress};

@@ -59,6 +59,7 @@ describe("AdminCreateCommonsPage tests", () => {
             "milkPrice": 5,
             "startingBalance": 500,
             "startingDate": "2022-03-05T00:00:00",
+            "startingDate": "2023-03-03T00:00:00",
             "degradationRate": 30.4,
             "carryingCapacity": 25,
             "showLeaderboard": false
@@ -79,6 +80,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const cowPriceField = screen.getByLabelText("Cow Price");
         const milkPriceField = screen.getByLabelText("Milk Price");
         const startDateField = screen.getByLabelText("Starting Date");
+        const lastDateField = screen.getByLabelText("Last Date");
         const degradationRateField = screen.getByLabelText("Degradation Rate");
         const carryingCapacityField = screen.getByLabelText("Carrying Capacity");
         const showLeaderboardField = screen.getByLabelText("Show Leaderboard?");
@@ -89,6 +91,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
+        fireEvent.change(lastDateField, { target: { value: '2023-03-03' } })
         fireEvent.change(degradationRateField, { target: { value: '30.4' } })
         fireEvent.change(carryingCapacityField, { target: { value: '25' } })
         fireEvent.change(showLeaderboardField, { target: { value: true } })
@@ -106,6 +109,7 @@ describe("AdminCreateCommonsPage tests", () => {
             cowPrice: 10,
             milkPrice: 5,
             startingDate: '2022-03-05T00:00:00.000Z', // [1]
+            lastDate: '2023-03-03T00:00:00.000Z',
             degradationRate: 30.4,
             carryingCapacity: 25,
             showLeaderboard: false
@@ -117,6 +121,7 @@ describe("AdminCreateCommonsPage tests", () => {
             <br />id: 5
             <br />name: My New Commons
             <br />startDate: 2022-03-05T00:00:00
+            <br />lastDate: 2023-03-03T00:00:00
             <br />cowPrice: 10
             <br />carryingCapacity: 25
         </div>);
