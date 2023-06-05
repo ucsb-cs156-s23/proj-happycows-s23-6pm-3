@@ -8,6 +8,8 @@ import java.util.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.mockito.Mock;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -114,6 +116,14 @@ public class UpdateCowHealthJobTests {
                                 .health(10)
                                 .build();
 
+                CowLot newCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(1)
+                                .health(10.01)
+                                .build();
+
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
                 when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
@@ -137,7 +147,7 @@ public class UpdateCowHealthJobTests {
                                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0
                                  old cow health: 10.0, new cow health: 10.01
                                 Cow health has been updated!""";
-
+                verify(cowLotRepository, times(1)).save(newCowLot);
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
         }
