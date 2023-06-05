@@ -193,7 +193,7 @@ describe("UserTable tests", () => {
         expect(leaderboardButton).toHaveClass("btn-secondary");
     });
 
-    test("test delete callback", () => {
+    test("logs delete callback", () => {
         const currentUser = currentUserFixtures.adminUser;
         render(
             <QueryClientProvider client={queryClient}>
