@@ -87,7 +87,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -151,7 +152,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -215,7 +217,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -279,7 +282,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -343,7 +347,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -427,7 +432,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(10)
                                 .degradationRate(0.01)
                                 .build();
@@ -498,7 +504,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -548,7 +555,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(LocalDateTime.now())
+                                .startingDate(2023-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -660,6 +668,134 @@ public class UpdateCowHealthJobTests {
 
                 assertEquals((100.0 - 12.34), newCowHealth, 0.0001);
 
+        }
+
+        @Test
+        void test_updating_if_game_start_has_not_passed() throws Exception {
+
+                // Arrange
+                Job jobStarted = Job.builder().build();
+                JobContext ctx = new JobContext(null, jobStarted);
+
+                UserCommons origUserCommons = UserCommons
+                                .builder()
+                                .id(1L)
+                                .userId(1L)
+                                .commonsId(1L)
+                                .totalWealth(300)
+                                .numOfCows(101)
+                                .cowHealth(100)
+                                .build();
+
+                Commons testCommons = Commons
+                                .builder()
+                                .name("test commons")
+                                .cowPrice(10)
+                                .milkPrice(2)
+                                .startingBalance(300)
+                                .startingDate(3000-01-21T06:47:22.756)
+                                .lastDate(3000-05-22T06:47:22.756)
+                                .carryingCapacity(100)
+                                .degradationRate(0.01)
+                                .build();
+
+                UserCommons newUserCommons = UserCommons
+                                .builder()
+                                .id(1L)
+                                .userId(1L)
+                                .commonsId(1L)
+                                .totalWealth(300 - testCommons.getCowPrice())
+                                .numOfCows(101)
+                                .cowHealth(99.99)
+                                .build();
+
+                Commons commonsTemp[] = { testCommons };
+                UserCommons userCommonsTemp[] = { origUserCommons };
+                when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+                when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                                .thenReturn(Arrays.asList(userCommonsTemp));
+                when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(101)));
+                when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+                // Act
+                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                userRepository);
+                updateCowHealthJob.accept(ctx);
+
+                // Assert
+
+                String expected = "
+                                Updating cow health...
+                                Commons test commons, degradationRate: 0.01, carryingCapacity: 100
+                                User: Chris Gaucho, numCows: 101, cowHealth: 100.0
+                                Game "+ testCommons.getName() + " is not in progress: cow health will not be updated.";
+
+                assertEquals(expected, jobStarted.getLog());
+                assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
+        }
+
+        @Test
+        void test_updating_if_game_end_has_passed() throws Exception {
+
+                // Arrange
+                Job jobStarted = Job.builder().build();
+                JobContext ctx = new JobContext(null, jobStarted);
+
+                UserCommons origUserCommons = UserCommons
+                                .builder()
+                                .id(1L)
+                                .userId(1L)
+                                .commonsId(1L)
+                                .totalWealth(300)
+                                .numOfCows(101)
+                                .cowHealth(100)
+                                .build();
+
+                Commons testCommons = Commons
+                                .builder()
+                                .name("test commons")
+                                .cowPrice(10)
+                                .milkPrice(2)
+                                .startingBalance(300)
+                                .startingDate(2000-01-21T06:47:22.756)
+                                .lastDate(2000-05-22T06:47:22.756)
+                                .carryingCapacity(100)
+                                .degradationRate(0.01)
+                                .build();
+
+                UserCommons newUserCommons = UserCommons
+                                .builder()
+                                .id(1L)
+                                .userId(1L)
+                                .commonsId(1L)
+                                .totalWealth(300 - testCommons.getCowPrice())
+                                .numOfCows(101)
+                                .cowHealth(99.99)
+                                .build();
+
+                Commons commonsTemp[] = { testCommons };
+                UserCommons userCommonsTemp[] = { origUserCommons };
+                when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+                when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                                .thenReturn(Arrays.asList(userCommonsTemp));
+                when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(101)));
+                when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+                // Act
+                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                userRepository);
+                updateCowHealthJob.accept(ctx);
+
+                // Assert
+
+                String expected = "
+                                Updating cow health...
+                                Commons test commons, degradationRate: 0.01, carryingCapacity: 100
+                                User: Chris Gaucho, numCows: 101, cowHealth: 100.0
+                                Game "+ testCommons.getName() + " is not in progress: cow health will not be updated.";
+
+                assertEquals(expected, jobStarted.getLog());
+                assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
         }
 
 }
