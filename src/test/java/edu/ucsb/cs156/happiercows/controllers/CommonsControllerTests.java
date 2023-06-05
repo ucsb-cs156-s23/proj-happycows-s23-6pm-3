@@ -755,4 +755,63 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(actualCommonsPlus, expectedCommonsPlus);
   }
 
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void testIncreaseCowPrice() throws Exception {
+    Commons originalCommons = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(100)
+        .milkPrice(20)
+        .startingBalance(1000)
+        .degradationRate(50.0)
+        .showLeaderboard(false)
+        .carryingCapacity(100)
+        .priceChange(.1)
+        .build();
+    
+    Commons correctCommons = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(100.1)
+        .milkPrice(20)
+        .startingBalance(1000)
+        .degradationRate(50.0)
+        .showLeaderboard(false)
+        .carryingCapacity(100)
+        .priceChange(.1)
+        .build();
+
+    originalCommons.increaseCowPrice();
+
+    assertEquals(originalCommons, correctCommons);
+  }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void testDecreaseCowPrice() throws Exception {
+    Commons originalCommons = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(100)
+        .milkPrice(20)
+        .startingBalance(1000)
+        .degradationRate(50.0)
+        .showLeaderboard(false)
+        .carryingCapacity(100)
+        .priceChange(.1)
+        .build();
+    
+    Commons correctCommons = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(99.9)
+        .milkPrice(20)
+        .startingBalance(1000)
+        .degradationRate(50.0)
+        .showLeaderboard(false)
+        .carryingCapacity(100)
+        .priceChange(.1)
+        .build();
+
+    originalCommons.decreaseCowPrice();
+
+    assertEquals(originalCommons, correctCommons);
+  }
 }

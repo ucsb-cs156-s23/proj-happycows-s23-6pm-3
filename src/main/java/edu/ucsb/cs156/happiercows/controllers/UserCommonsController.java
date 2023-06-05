@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import edu.ucsb.cs156.happiercows.entities.User;
+import edu.ucsb.cs156.happiercows.entities.CowLot;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
@@ -41,6 +43,9 @@ public class UserCommonsController extends ApiController {
 
   @Autowired
   private CommonsRepository commonsRepository;
+
+  @Autowired
+  private CowLotRepository cowLotRepository;
 
   @Autowired
   ObjectMapper mapper;
@@ -90,6 +95,12 @@ public class UserCommonsController extends ApiController {
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
+          CowLot lot = CowLot.builder()
+            .userCommonsId(userCommons.getId())
+            .numCows(1)
+            .health(100d)
+            .build();
+          cowLotRepository.save(lot);
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");

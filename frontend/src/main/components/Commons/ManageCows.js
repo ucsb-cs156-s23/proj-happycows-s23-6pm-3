@@ -13,6 +13,8 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
             <Card.Title>Market Cow Price: ${commons?.cowPrice}</Card.Title>
             <Card.Title>Number of Cows: {userCommons.numOfCows}</Card.Title>
                 <Col>
+            <Card.Title>Current Milk Price: ${commons?.milkPrice} </Card.Title>
+                <Row>
                     <Col>
                         <Card.Text>
                             <img alt="Cow Icon" className="icon" src={cowHead}></img>
