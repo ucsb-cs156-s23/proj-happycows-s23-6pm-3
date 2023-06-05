@@ -87,8 +87,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -152,8 +152,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -217,8 +217,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -282,8 +282,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -347,8 +347,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -432,8 +432,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(10)
                                 .degradationRate(0.01)
                                 .build();
@@ -504,8 +504,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -555,8 +555,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2023-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("2023-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -693,8 +693,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(3000-01-21T06:47:22.756)
-                                .lastDate(3000-05-22T06:47:22.756)
+                                .startingDate("3000-01-21T06:47:22.756")
+                                .lastDate("3000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -724,11 +724,11 @@ public class UpdateCowHealthJobTests {
 
                 // Assert
 
-                String expected = "
+                String expected = """
                                 Updating cow health...
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 101, cowHealth: 100.0
-                                Game is not in progress: cow health will not be updated.";
+                                Game is not in progress: cow health will not be updated.""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
@@ -757,8 +757,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate(2000-01-21T06:47:22.756)
-                                .lastDate(2000-05-22T06:47:22.756)
+                                .startingDate("2000-01-21T06:47:22.756")
+                                .lastDate("2000-05-22T06:47:22.756")
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -788,11 +788,10 @@ public class UpdateCowHealthJobTests {
 
                 // Assert
 
-                String expected = "
-                                Updating cow health...
-                                Commons test commons, degradationRate: 0.01, carryingCapacity: 100
-                                User: Chris Gaucho, numCows: 101, cowHealth: 100.0
-                                Game "+ testCommons.getName() + " is not in progress: cow health will not be updated.";
+                String expected = "Updating cow health...\n"+
+                                "Commons test commons, degradationRate: 0.01, carryingCapacity: 100\n"+
+                                "User: Chris Gaucho, numCows: 101, cowHealth: 100.0\n"+
+                                "Game is not in progress: cow health will not be updated.";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());

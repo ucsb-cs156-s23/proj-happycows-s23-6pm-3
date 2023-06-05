@@ -5,8 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
-
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -95,8 +94,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate(2019-01-21T05:47:08.644)
-                .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
+                .startingDate("2019-01-21T05:47:08.644")
+                .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -149,8 +148,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate(2019-01-21T05:47:08.644)
-                .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
+                .startingDate("2019-01-21T05:47:08.644")
+                .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -215,8 +214,8 @@ public class MilkTheCowsJobTests {
                             .cowPrice(10)
                             .milkPrice(2)
                             .startingBalance(300)
-                            .startingDate(2019-01-21T05:47:08.644)
-                            .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
+                            .startingDate("2019-01-21T05:47:08.644")
+                            .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
                             .carryingCapacity(100)
                             .degradationRate(0.01)
                             .build();
@@ -267,8 +266,8 @@ public class MilkTheCowsJobTests {
                             .cowPrice(10)
                             .milkPrice(2)
                             .startingBalance(300)
-                            .startingDate(2019-01-21T05:47:08.644)
-                            .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
+                            .startingDate("2019-01-21T05:47:08.644")
+                            .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
                             .carryingCapacity(100)
                             .degradationRate(0.01)
                             .build();
@@ -318,8 +317,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
-                .lastDate(3000-01-25T05:47:08.644)
+                .startingDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
+                .lastDate("3000-01-25T05:47:08.644")
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -371,8 +370,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate(2000-01-21T05:47:08.644)
-                .lastDate(2000-01-25T05:44:08.644)
+                .startingDate("2000-01-21T05:47:08.644")
+                .lastDate("2000-01-25T05:44:08.644")
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
