@@ -46,14 +46,18 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                 User user = userRepository.findById(userCommons.getUserId()).orElseThrow(()->new RuntimeException("Error calling userRepository.findById(" + userCommons.getUserId() + ")"));
                 ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
 
-                double newCowHealth = calculateNewCowHealth(userCommons.getCowHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
-                ctx.log(" old cow health: " + userCommons.getCowHealth() + ", new cow health: " + newCowHealth);
-                userCommons.setCowHealth(newCowHealth);
+                if(userCommons.gameInProgress()){
+                    double newCowHealth = calculateNewCowHealth(userCommons.getCowHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
+                    ctx.log(" old cow health: " + userCommons.getCowHealth() + ", new cow health: " + newCowHealth);
+                    userCommons.setCowHealth(newCowHealth);
+                    ctx.log("Cow health has been updated!");
+                } else{
+                    ctx.log(" game " + userCommons.getUsersCommonsByCommonsId + "is not in progress: cow health will not be updated. old cow health: " + userCommons.getCowHealth());
+                }
+                
                 userCommonsRepository.save(userCommons);
             }
         }
-
-        ctx.log("Cow health has been updated!");
     }
 
     public static double calculateNewCowHealth(

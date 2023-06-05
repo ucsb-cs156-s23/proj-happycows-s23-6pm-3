@@ -34,23 +34,28 @@ public class MilkTheCowsJob implements JobContextConsumer {
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        ctx.log("Starting to milk the cows");
+        
+            ctx.log("Starting to milk the cows");
 
-        Iterable<Commons> allCommons = commonsRepository.findAll();
+            Iterable<Commons> allCommons = commonsRepository.findAll();
 
-        for (Commons commons : allCommons) {
-            String name = commons.getName();
-            double milkPrice = commons.getMilkPrice();
-            ctx.log("Milking cows for Commons: " + name + ", Milk Price: " + formatDollars(milkPrice));
+            for (Commons commons : allCommons) {
+                String name = commons.getName();
+                double milkPrice = commons.getMilkPrice();
+                ctx.log("Milking cows for Commons: " + name + ", Milk Price: " + formatDollars(milkPrice));
 
-            Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
+                Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
 
-            for (UserCommons userCommons : allUserCommons) {
-                milkCows(ctx, commons, userCommons);
+                for (UserCommons userCommons : allUserCommons) {
+                    if(userCommons.gameInProgress()){
+                        milkCows(ctx, commons, userCommons);
+                    } else {
+                        ctx.log("Commons " + name + " is not currently in progress, and cows were not milked.");
+                    }
+                }
             }
-        }
-
-        ctx.log("Cows have been milked!");
+            ctx.log("Cows have been milked!");
+        } 
     }
 
     /** This method performs the function of milking the cows for a single userCommons. 
@@ -94,7 +99,10 @@ public class MilkTheCowsJob implements JobContextConsumer {
      */
     public static double calculateMilkingProfit(Commons commons, UserCommons userCommons) {
         double milkPrice = commons.getMilkPrice();
-        double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;
-        return profit;
+        if(userRepository.gameInProgress()){
+            double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;
+            return profit;
+        }
+        return 0;
     }
 }

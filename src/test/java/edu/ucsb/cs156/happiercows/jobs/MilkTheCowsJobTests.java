@@ -95,7 +95,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate(LocalDateTime.now())
+                .startingDate(2019-01-21T05:47:08.644)
+                .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -148,7 +149,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate(LocalDateTime.now())
+                .startingDate(2019-01-21T05:47:08.644)
+                .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -213,7 +215,8 @@ public class MilkTheCowsJobTests {
                             .cowPrice(10)
                             .milkPrice(2)
                             .startingBalance(300)
-                            .startingDate(LocalDateTime.now())
+                            .startingDate(2019-01-21T05:47:08.644)
+                            .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
                             .carryingCapacity(100)
                             .degradationRate(0.01)
                             .build();
@@ -264,7 +267,8 @@ public class MilkTheCowsJobTests {
                             .cowPrice(10)
                             .milkPrice(2)
                             .startingBalance(300)
-                            .startingDate(LocalDateTime.now())
+                            .startingDate(2019-01-21T05:47:08.644)
+                            .lastDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
                             .carryingCapacity(100)
                             .degradationRate(0.01)
                             .build();
@@ -288,6 +292,113 @@ public class MilkTheCowsJobTests {
 
             Assertions.assertEquals("Error calling userRepository.findById(321)", thrown.getMessage());
 
+    }
+
+
+    @Test
+    void test_cannot_milk_cows_when_before_start_date() throws Exception {
+            
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons origUserCommons = UserCommons
+                .builder()
+                .id(1L)
+                .userId(1L)
+                .commonsId(1L)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        Commons testCommons = Commons
+                .builder()
+                .name("test commons")
+                .cowPrice(10)
+                .milkPrice(2)
+                .startingBalance(300)
+                .startingDate(3000-01-21T05:47:08.644) //arbitrarily far into the future
+                .lastDate(3000-01-25T05:47:08.644)
+                .carryingCapacity(100)
+                .degradationRate(0.01)
+                .build();
+
+        Commons commonsTemp[] = { testCommons };
+        UserCommons userCommonsTemp[] = { origUserCommons };
+        when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                .thenReturn(Arrays.asList(userCommonsTemp));
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // Act
+        MilkTheCowsJob MilkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
+                userRepository, profitRepository);
+        MilkTheCowsJob.accept(ctx);
+
+        // Assert
+
+        String expected = """
+                Starting to milk the cows
+                Milking cows for Commons: test commons, Milk Price: $2.00
+                Commons test commons is not currently in progress, and cows were not milked.
+                Cows have been milked!""";
+
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+    void test_cannot_milk_cows_when_after_start_date() throws Exception {
+            
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons origUserCommons = UserCommons
+                .builder()
+                .id(1L)
+                .userId(1L)
+                .commonsId(1L)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        Commons testCommons = Commons
+                .builder()
+                .name("test commons")
+                .cowPrice(10)
+                .milkPrice(2)
+                .startingBalance(300)
+                .startingDate(2000-01-21T05:47:08.644)
+                .lastDate(2000-01-25T05:44:08.644)
+                .carryingCapacity(100)
+                .degradationRate(0.01)
+                .build();
+
+        Commons commonsTemp[] = { testCommons };
+        UserCommons userCommonsTemp[] = { origUserCommons };
+        when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                .thenReturn(Arrays.asList(userCommonsTemp));
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // Act
+        MilkTheCowsJob MilkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
+                userRepository, profitRepository);
+        MilkTheCowsJob.accept(ctx);
+
+        // Assert
+
+        String expected = """
+                Starting to milk the cows
+                Milking cows for Commons: test commons, Milk Price: $2.00
+                Commons test commons is not currently in progress, and cows were not milked.
+                Cows have been milked!""";
+
+        assertEquals(expected, jobStarted.getLog());
     }
 
 }

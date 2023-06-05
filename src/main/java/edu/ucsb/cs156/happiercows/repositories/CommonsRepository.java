@@ -17,4 +17,5 @@ public interface CommonsRepository extends CrudRepository<Commons, Long> {
     @Query("SELECT COUNT(uc.userId) FROM user_commons uc WHERE uc.commonsId=:commonsId")
     Optional<Integer> getNumUsers(Long commonsId);
     
+    
 }
