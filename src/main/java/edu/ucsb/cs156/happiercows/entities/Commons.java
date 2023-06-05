@@ -29,6 +29,7 @@ public class Commons
   private double milkPrice;
   private double startingBalance;
   private LocalDateTime startingDate;
+  private LocalDateTime lastDate;
   private double degradationRate;
   private boolean showLeaderboard;
   private int carryingCapacity;

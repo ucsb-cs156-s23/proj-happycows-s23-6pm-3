@@ -7,7 +7,7 @@ import lombok.NonNull;
 import lombok.Builder;
 import lombok.AccessLevel;
 import java.util.Date;
-
+import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Data
@@ -39,7 +39,8 @@ public class UserCommons {
   private Date lastDate;
 
   public boolean gameInProgress(){
-    return (startingDate.getTime() <= Date.now() && lastDate.getTime() > Date.now()) ? true: false;
+    boolean output = ((startingDate.getTime() <= System.currentTimeMillis()) && (lastDate.getTime() > System.currentTimeMillis()));
+    return output;
   }
 }
 

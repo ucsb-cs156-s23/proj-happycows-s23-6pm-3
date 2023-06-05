@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.happiercows.jobs;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.Profit;
@@ -53,7 +54,6 @@ public class MilkTheCowsJob implements JobContextConsumer {
                         ctx.log("Commons " + name + " is not currently in progress, and cows were not milked.");
                     }
                 }
-            }
             ctx.log("Cows have been milked!");
         } 
     }
@@ -99,7 +99,7 @@ public class MilkTheCowsJob implements JobContextConsumer {
      */
     public static double calculateMilkingProfit(Commons commons, UserCommons userCommons) {
         double milkPrice = commons.getMilkPrice();
-        if(userRepository.gameInProgress()){
+        if(userCommons.gameInProgress()){
             double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;
             return profit;
         }

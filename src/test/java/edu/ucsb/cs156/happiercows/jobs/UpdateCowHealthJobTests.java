@@ -728,7 +728,7 @@ public class UpdateCowHealthJobTests {
                                 Updating cow health...
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 101, cowHealth: 100.0
-                                Game "+ testCommons.getName() + " is not in progress: cow health will not be updated.";
+                                Game is not in progress: cow health will not be updated.";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
