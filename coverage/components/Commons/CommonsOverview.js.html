@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -93,24 +93,18 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,23 +127,20 @@
 import { Row, Card, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
-import { daysElapsed } from "main/utils/commonsUtils";
-// import { diffDates } from "main/utils/dateUtils";
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >CommonsOverview(</span>{ commons, currentUser}) {
+export default function CommonsOverview({ commons, currentUser }) {
 &nbsp;
-    let navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
+    let navigate = useNavigate();
     // Stryker disable next-line all
-    const leaderboardButtonClick = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; { <span class="cstat-no" title="statement not covered" >navigate("/leaderboard/" + commons.id) </span>};</span>
-    const showLeaderboard = (<span class="cstat-no" title="statement not covered" >hasRole(currentUser, "ROLE_ADMIN") || commons.showLeaderboard </span>);
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    const leaderboardButtonClick = () =&gt; { navigate("/leaderboard/" + commons.id) };
+    const showLeaderboard = (hasRole(currentUser, "ROLE_ADMIN") || commons.showLeaderboard );
+    return (
         &lt;Card data-testid="CommonsOverview"&gt;
             &lt;Card.Header as="h5"&gt;Announcements&lt;/Card.Header&gt;
             &lt;Card.Body&gt;
                 &lt;Row&gt;
                     &lt;Col&gt;
-                        &lt;Card.Title&gt;It Is Day {daysElapsed(commons.startingDate, Date.now())} &lt;/Card.Title&gt;
+                        &lt;Card.Title&gt;Today is day {commons.day}! &lt;/Card.Title&gt;
                         &lt;Card.Text&gt;Total Players: {commons.totalPlayers}&lt;/Card.Text&gt;
                     &lt;/Col&gt;
                     &lt;Col&gt;
@@ -169,7 +160,7 @@ export default function <span class="fstat-no" title="function not covered" >Com
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon Jun 05 2023 15:48:05 GMT-0700 (Pacific Daylight Time)
+                at Mon Jun 05 2023 15:50:17 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>
