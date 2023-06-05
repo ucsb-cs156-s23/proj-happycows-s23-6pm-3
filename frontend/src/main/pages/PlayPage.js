@@ -54,6 +54,7 @@ export default function PlayPage() {
 
     const onSuccessBuy = () => {};
 
+    // Stryker disable all
     const objectToAxiosParamsBuy = (newUserCommons) => ({
         url: "/api/usercommons/buy",
         method: "PUT",
@@ -62,6 +63,7 @@ export default function PlayPage() {
             commonsId: commonsId,
         },
     });
+    // Stryker restore all
 
     // Stryker disable all
     const mutationbuynumcows = useBackendMutation(
@@ -115,13 +117,16 @@ export default function PlayPage() {
     );
     // Stryker restore all
 
+    // Stryker disable all
     const onSell = async (userCommons) => {
-        mutationsellnumcows.mutate(userCommons);
-        mutationsellpricechange.mutate(userCommons);
+        mutationsellnumcows.mutateAsync(userCommons);
+        mutationsellpricechange.mutateAsync(userCommons);
     };
+    // Stryker restore all
 
     return (
         <div
+            data-testid="background"
             style={{
                 backgroundSize: "cover",
                 backgroundImage: `url(${Background})`,

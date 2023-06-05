@@ -7,6 +7,7 @@ import AxiosMockAdapter from "axios-mock-adapter";
 import PlayPage from "main/pages/PlayPage";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import { getByTestId } from "@testing-library/dom";
 
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
@@ -96,5 +97,20 @@ describe("PlayPage tests", () => {
 
         expect(await screen.findByText(/Announcements/)).toBeInTheDocument();
         expect(await screen.findByText(/Welcome Farmer/)).toBeInTheDocument();
+    });
+
+    test("Make sure background image is styled correctly", () => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PlayPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        const background = screen.getByTestId("background");
+        expect(background).toHaveStyle(
+            `background-size: cover; background-image: url(PlayPageBackground.png);`
+        );
     });
 });
