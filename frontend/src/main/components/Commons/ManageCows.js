@@ -3,7 +3,7 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import happyCowHead from "./../../../assets/happycow.png";
 import averageCowHead from "./../../../assets/averagecow.png";
 import sadCowHead from "./../../../assets/sadcow.png";
-// import sickCowHead from "./../../../assets/sickcow.png";
+import sickCowHead from "./../../../assets/sickcow.png";
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
