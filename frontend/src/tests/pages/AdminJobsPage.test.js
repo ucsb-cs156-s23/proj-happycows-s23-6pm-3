@@ -9,15 +9,15 @@ import AdminJobsPage from "main/pages/AdminJobsPage";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import jobsFixtures from "fixtures/jobsFixtures";
-//const mockToast = jest.fn();
-//jest.mock('react-toastify', () => {
-  //  const originalModule = jest.requireActual('react-toastify');
-   // return {
-     //   __esModule: true,
-      //  ...originalModule,
-       // toast: (x) => mockToast(x)
-    //};
-//});
+const mockToast = jest.fn();
+jest.mock('react-toastify', () => {
+    const originalModule = jest.requireActual('react-toastify');
+    return {
+        __esModule: true,
+        ...originalModule,
+        toast: (x) => mockToast(x)
+    };
+});
 describe("AdminJobsPage tests", () => {
     const queryClient = new QueryClient();
     const axiosMock = new AxiosMockAdapter(axios);
