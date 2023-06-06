@@ -33,10 +33,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Optional;
+
 @Api(description = &quot;User Commons&quot;)
 @RequestMapping(&quot;/api/usercommons&quot;)
 @RestController
-<span class="fc" id="L39">public class UserCommonsController extends ApiController {</span>
+<span class="fc" id="L41">public class UserCommonsController extends ApiController {</span>
 
   @Autowired
   private UserCommonsRepository userCommonsRepository;
@@ -57,10 +59,10 @@ import org.springframework.web.bind.annotation.RequestBody;
       @ApiParam(&quot;userId&quot;) @RequestParam Long userId,
       @ApiParam(&quot;commonsId&quot;) @RequestParam Long commonsId) throws JsonProcessingException {
 
-<span class="fc" id="L60">    UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
-<span class="fc" id="L61">        .orElseThrow(</span>
-<span class="fc" id="L62">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
-<span class="fc" id="L63">    return userCommons;</span>
+<span class="fc" id="L62">    UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
+<span class="fc" id="L63">        .orElseThrow(</span>
+<span class="fc" id="L64">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
+<span class="fc" id="L65">    return userCommons;</span>
   }
 
   @ApiOperation(value = &quot;Get a user commons for current user&quot;)
@@ -69,12 +71,12 @@ import org.springframework.web.bind.annotation.RequestBody;
   public UserCommons getUserCommonsById(
       @ApiParam(&quot;commonsId&quot;) @RequestParam Long commonsId) throws JsonProcessingException {
 
-<span class="fc" id="L72">    User u = getCurrentUser().getUser();</span>
-<span class="fc" id="L73">    Long userId = u.getId();</span>
-<span class="fc" id="L74">    UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
-<span class="fc" id="L75">        .orElseThrow(</span>
-<span class="fc" id="L76">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
-<span class="fc" id="L77">    return userCommons;</span>
+<span class="fc" id="L74">    User u = getCurrentUser().getUser();</span>
+<span class="fc" id="L75">    Long userId = u.getId();</span>
+<span class="fc" id="L76">    UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
+<span class="fc" id="L77">        .orElseThrow(</span>
+<span class="fc" id="L78">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
+<span class="fc" id="L79">    return userCommons;</span>
   }
 
   @ApiOperation(value = &quot;Buy a cow, totalWealth updated&quot;)
@@ -83,32 +85,41 @@ import org.springframework.web.bind.annotation.RequestBody;
   public ResponseEntity&lt;String&gt; putUserCommonsByIdBuy(
           @ApiParam(&quot;commonsId&quot;) @RequestParam Long commonsId) throws NotEnoughMoneyException, JsonProcessingException{
 
-<span class="fc" id="L86">        User u = getCurrentUser().getUser();</span>
-<span class="fc" id="L87">        Long userId = u.getId();</span>
+<span class="fc" id="L88">        User u = getCurrentUser().getUser();</span>
+<span class="fc" id="L89">        Long userId = u.getId();</span>
 
-<span class="fc" id="L89">        Commons commons = commonsRepository.findById(commonsId).orElseThrow( </span>
-<span class="fc" id="L90">          ()-&gt;new EntityNotFoundException(Commons.class, commonsId));</span>
-<span class="fc" id="L91">        UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
-<span class="fc" id="L92">        .orElseThrow(</span>
-<span class="fc" id="L93">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
+<span class="fc" id="L91">        Commons commons = commonsRepository.findById(commonsId).orElseThrow( </span>
+<span class="fc" id="L92">          ()-&gt;new EntityNotFoundException(Commons.class, commonsId));</span>
+<span class="fc" id="L93">        UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
+<span class="fc" id="L94">        .orElseThrow(</span>
+<span class="fc" id="L95">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
 
-<span class="fc bfc" id="L95" title="All 2 branches covered.">        if(userCommons.getTotalWealth() &gt;= commons.getCowPrice() ){</span>
-<span class="fc" id="L96">          userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());</span>
-<span class="fc" id="L97">          userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);</span>
-<span class="fc" id="L98">          CowLot lot = CowLot.builder()</span>
-<span class="fc" id="L99">            .userCommonsId(userCommons.getId())</span>
-<span class="fc" id="L100">            .numCows(1)</span>
-<span class="fc" id="L101">            .health(100d)</span>
-<span class="fc" id="L102">            .build();</span>
-<span class="fc" id="L103">          cowLotRepository.save(lot);</span>
-<span class="fc" id="L104">        }</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if(userCommons.getTotalWealth() &gt;= commons.getCowPrice() ){</span>
+<span class="fc" id="L98">          userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());</span>
+<span class="fc" id="L99">          userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);</span>
+<span class="fc" id="L100">          Optional&lt;CowLot&gt; existingCowLotOptional = cowLotRepository.findByUserCommonsIdAndHealth(</span>
+<span class="fc" id="L101">                                                      userCommons.getId(),</span>
+<span class="fc" id="L102">                                                      100d);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">          if(existingCowLotOptional.isPresent()){</span>
+<span class="fc" id="L104">            CowLot existingCowLot = existingCowLotOptional.get();</span>
+<span class="fc" id="L105">            existingCowLot.setNumCows(existingCowLot.getNumCows()+1);</span>
+<span class="fc" id="L106">            cowLotRepository.save(existingCowLot);</span>
+<span class="fc" id="L107">          } else {</span>
+<span class="fc" id="L108">            CowLot lot = CowLot.builder()</span>
+<span class="fc" id="L109">              .userCommonsId(userCommons.getId())</span>
+<span class="fc" id="L110">              .numCows(1)</span>
+<span class="fc" id="L111">              .health(100d)</span>
+<span class="fc" id="L112">              .build();</span>
+<span class="fc" id="L113">            cowLotRepository.save(lot);</span>
+          }
+<span class="fc" id="L115">        }</span>
         else{
-<span class="fc" id="L106">          throw new NotEnoughMoneyException(&quot;You need more money!&quot;);</span>
+<span class="fc" id="L117">          throw new NotEnoughMoneyException(&quot;You need more money!&quot;);</span>
         }
-<span class="fc" id="L108">        userCommonsRepository.save(userCommons);</span>
+<span class="fc" id="L119">        userCommonsRepository.save(userCommons);</span>
 
-<span class="fc" id="L110">        String body = mapper.writeValueAsString(userCommons);</span>
-<span class="fc" id="L111">        return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L121">        String body = mapper.writeValueAsString(userCommons);</span>
+<span class="fc" id="L122">        return ResponseEntity.ok().body(body);</span>
     }
 
   @ApiOperation(value = &quot;Sell a cow, totalWealth updated&quot;)
@@ -116,45 +127,45 @@ import org.springframework.web.bind.annotation.RequestBody;
   @PutMapping(&quot;/sell&quot;)
   public ResponseEntity&lt;String&gt; putUserCommonsByIdSell(
           @ApiParam(&quot;commonsId&quot;) @RequestParam Long commonsId) throws NoCowsException, JsonProcessingException {
-<span class="fc" id="L119">        User u = getCurrentUser().getUser();</span>
-<span class="fc" id="L120">        Long userId = u.getId();</span>
+<span class="fc" id="L130">        User u = getCurrentUser().getUser();</span>
+<span class="fc" id="L131">        Long userId = u.getId();</span>
 
-<span class="fc" id="L122">        Commons commons = commonsRepository.findById(commonsId).orElseThrow( </span>
-<span class="fc" id="L123">          ()-&gt;new EntityNotFoundException(Commons.class, commonsId));</span>
-<span class="fc" id="L124">        UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
-<span class="fc" id="L125">        .orElseThrow(</span>
-<span class="fc" id="L126">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
+<span class="fc" id="L133">        Commons commons = commonsRepository.findById(commonsId).orElseThrow( </span>
+<span class="fc" id="L134">          ()-&gt;new EntityNotFoundException(Commons.class, commonsId));</span>
+<span class="fc" id="L135">        UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
+<span class="fc" id="L136">        .orElseThrow(</span>
+<span class="fc" id="L137">            () -&gt; new EntityNotFoundException(UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId));</span>
 
 
-<span class="fc bfc" id="L129" title="All 2 branches covered.">        if(userCommons.getNumOfCows() &gt;= 1 ){</span>
-<span class="fc" id="L130">          CowLot lot = cowLotRepository.findTopByUserCommonsIdOrderByHealthDesc(userCommons.getId());</span>
-<span class="fc" id="L131">          lot.setNumCows(lot.getNumCows() - 1);</span>
-<span class="fc bfc" id="L132" title="All 2 branches covered.">          if(lot.getNumCows() == 0){</span>
-<span class="fc" id="L133">            cowLotRepository.delete(lot);</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if(userCommons.getNumOfCows() &gt;= 1 ){</span>
+<span class="fc" id="L141">          CowLot lot = cowLotRepository.findTopByUserCommonsIdOrderByHealthDesc(userCommons.getId());</span>
+<span class="fc" id="L142">          lot.setNumCows(lot.getNumCows() - 1);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">          if(lot.getNumCows() == 0){</span>
+<span class="fc" id="L144">            cowLotRepository.delete(lot);</span>
           } else {
-<span class="fc" id="L135">            cowLotRepository.save(lot);</span>
+<span class="fc" id="L146">            cowLotRepository.save(lot);</span>
           }
-<span class="fc" id="L137">          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice()*lot.getHealth()/100);</span>
-<span class="fc" id="L138">          userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);</span>
-<span class="fc" id="L139">        }</span>
+<span class="fc" id="L148">          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice()*lot.getHealth()/100);</span>
+<span class="fc" id="L149">          userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);</span>
+<span class="fc" id="L150">        }</span>
         else{
-<span class="fc" id="L141">          throw new NoCowsException(&quot;You have no cows to sell!&quot;);</span>
+<span class="fc" id="L152">          throw new NoCowsException(&quot;You have no cows to sell!&quot;);</span>
         }
-<span class="fc" id="L143">        userCommonsRepository.save(userCommons);</span>
+<span class="fc" id="L154">        userCommonsRepository.save(userCommons);</span>
 
-<span class="fc" id="L145">        String body = mapper.writeValueAsString(userCommons);</span>
-<span class="fc" id="L146">        return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L156">        String body = mapper.writeValueAsString(userCommons);</span>
+<span class="fc" id="L157">        return ResponseEntity.ok().body(body);</span>
     }
 
     @ApiOperation(value = &quot;Get all user commons for a specific commons&quot;)
     @GetMapping(&quot;/commons/all&quot;)
     public  ResponseEntity&lt;String&gt; getUsersCommonsByCommonsId(
         @ApiParam(&quot;commonsId&quot;) @RequestParam Long commonsId) throws JsonProcessingException {
-<span class="fc" id="L153">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
+<span class="fc" id="L164">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
       
    
-<span class="fc" id="L156">    String body = mapper.writeValueAsString(uc);</span>
-<span class="fc" id="L157">    return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L167">    String body = mapper.writeValueAsString(uc);</span>
+<span class="fc" id="L168">    return ResponseEntity.ok().body(body);</span>
   }
 
 }
