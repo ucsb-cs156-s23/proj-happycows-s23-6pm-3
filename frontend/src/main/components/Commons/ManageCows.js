@@ -1,10 +1,24 @@
 import React from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
-import cowHead from "./../../../assets/happycow.png";
+import happyCowHead from "./../../../assets/happycow.png";
+import averageCowHead from "./../../../assets/averagecow.png";
+import sadCowHead from "./../../../assets/sadcow.png";
+import sickCowHead from "./../../../assets/sickcow.png";
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
     // update cowPrice from fixture
+    var cowHealth = Math.round(userCommons.cowHealth*100)/100;
+    if (cowHealth > 80 & cowHealth < 100) {
+        var cowHead = happyCowHead;
+    } else if (cowHealth > 40) {
+        var cowHead = averageCowHead;
+    } else if (cowHealth > 20) {
+        var cowHead = sadCowHead;
+    } else if (cowHealth < 20 & cowHealth > 0) {
+        var cowHead = sickCowHead;
+    }
+
     return (
         <Card>
         <Card.Header as="h5">Manage Cows</Card.Header>
@@ -17,7 +31,6 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
                     <Col>
                         <Card.Text>
                             <img alt="Cow Icon" className="icon" src={cowHead}></img>
-                            Cow Health: {Math.round(userCommons.cowHealth*100)/100}%
                         </Card.Text>
                     </Col>
                     <Col>
