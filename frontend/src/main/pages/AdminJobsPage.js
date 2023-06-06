@@ -73,9 +73,9 @@ const AdminJobsPage = () => {
         url: `/api/jobs/launch/milkthecowjob`,
         method: "POST"
     });
-    const onSuccess = () => {
-        toast(<div> Milking Cows Initiated and Running!</div>);
-}
+  //  const onSuccess = () => {
+    //    toast(<div> Milking Cows Initiated and Running!</div>);
+//}
     // Stryker disable all
     const MilkTheCowsMutation = useBackendMutation(
         objectToAxiosParamsMilkTheCowsJob,
@@ -86,7 +86,8 @@ const AdminJobsPage = () => {
 
     const submitMilkTheCowsJob = async () => {
         console.log("submitMilkTheCowsJob");
-        {onSuccess}
+        //{onSuccess}
+        toast(<div>Milking Cows Initiated and Running!</div>);
         MilkTheCowsMutation.mutate();
     }
 
