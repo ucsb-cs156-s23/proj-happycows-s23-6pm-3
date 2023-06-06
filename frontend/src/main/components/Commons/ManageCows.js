@@ -11,18 +11,18 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
     var cowHealth = Math.round(userCommons.cowHealth*100)/100;
     var cowHead = averageCowHead;
 
-    if (cowHealth > 80 & cowHealth < 100) {
-        cowHead = happyCowHead;
-    }
-    if (cowHealth > 50) {
-        cowHead = averageCowHead;
+    if (cowHealth > 0) {
+        cowHead = sickCowHead;
     }
     if (cowHealth > 30) {
         cowHead = sadCowHead;
     }
-    // if (cowHealth < 30) {
-    //     cowHead = sickCowHead;
-    // }
+    if (cowHealth > 50) {
+        cowHead = averageCowHead;
+    }
+    if (cowHealth > 80 & cowHealth < 100) {
+        cowHead = happyCowHead;
+    }
 
     return (
         <Card>
