@@ -55,6 +55,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Phill's Commons",
                 "startingDate": "2022-03-07",
+                "lastDate": "2022-06-06",
                 "startingBalance": 1400,
                 "cowPrice": 200,
                 "milkPrice": 5,
@@ -121,6 +122,7 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const lastDateField = screen.getByLabelText(/Last Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
             const showLeaderboardField = screen.getByLabelText(/Show Leaderboard\?/);
@@ -161,6 +163,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "cowPrice": 200,
                 "milkPrice": 5,
                 "startingDate": "2022-03-07T00:00:00.000Z",
+                "lastDate": "2023-06-06T00:00:00.000Z",
                 "degradationRate": 40.3,
                 "carryingCapacity": 200,
                 "showLeaderboard": true,

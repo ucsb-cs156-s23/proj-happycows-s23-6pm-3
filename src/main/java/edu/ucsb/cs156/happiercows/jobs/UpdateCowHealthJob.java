@@ -47,7 +47,7 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                 ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
 
                 if(userCommons.gameInProgress()){
-                    double newCowHealth = calculateNewCowHealth(userCommons.getCowHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
+                    double newCowHealth = calculateNewCowHealth(userCommons.getCowHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate, userCommons.gameInProgress());
                     ctx.log(" old cow health: " + userCommons.getCowHealth() + ", new cow health: " + newCowHealth);
                     userCommons.setCowHealth(newCowHealth);
                     ctx.log("Cow health has been updated!");
@@ -65,14 +65,17 @@ public class UpdateCowHealthJob implements JobContextConsumer {
             int numCows,
             int totalCows,
             int carryingCapacity,
-            double degradationRate) {
-        if (totalCows <= carryingCapacity) {
-            // increase cow health but do not exceed 100
-            return Math.min(100, oldCowHealth + (degradationRate));
-        } else {
-            // decrease cow health, don't go lower than 0
-            return Math.max(0, oldCowHealth - Math.min((totalCows - carryingCapacity) * degradationRate, 100));
+            double degradationRate, boolean gameInProgress) {
+        if(gameInProgress){
+            if (totalCows <= carryingCapacity) {
+                // increase cow health but do not exceed 100
+                return Math.min(100, oldCowHealth + (degradationRate));
+            } else {
+                // decrease cow health, don't go lower than 0
+                return Math.max(0, oldCowHealth - Math.min((totalCows - carryingCapacity) * degradationRate, 100));
+            }
         }
+        else return oldCowHealth;
     }
 
 }
