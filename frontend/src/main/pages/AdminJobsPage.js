@@ -25,7 +25,7 @@ const AdminJobsPage = () => {
         {  },
         ["/api/jobs/all"]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const submitTestJob = async (data) => {
         console.log("submitTestJob, data=", data);
@@ -45,7 +45,7 @@ const AdminJobsPage = () => {
             [],
             { refetchInterval: refreshJobsIntervalMilliseconds }
         );
-    // Stryker enable  all
+    // Stryker restore  all
 
     // UpdateCowHealth job
 
@@ -60,12 +60,11 @@ const AdminJobsPage = () => {
         {  },
         ["/api/jobs/all"]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const submitUpdateCowHealthJob = async () => {
         console.log("submitUpdateCowHealthJob")
-        toast(<div>Updating Cow Health Initiated and Running!
-            </div>);
+        toast(<div>Updating Cow Health Initiated and Running!</div>);
         UpdateCowHealthMutation.mutate();
     }
 
@@ -82,7 +81,7 @@ const AdminJobsPage = () => {
         {  },
         ["/api/jobs/all"]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const submitMilkTheCowsJob = async () => {
         console.log("submitMilkTheCowsJob")
