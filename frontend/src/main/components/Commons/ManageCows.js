@@ -20,7 +20,7 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
     if (cowHealth > 20) {
         cowHead = sadCowHead;
     }
-    if (cowHealth < 20 & cowHealth > 0) {
+    if (cowHealth < 20) {
         cowHead = sickCowHead;
     }
 
