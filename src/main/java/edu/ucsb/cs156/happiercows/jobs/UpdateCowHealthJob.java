@@ -61,21 +61,18 @@ public class UpdateCowHealthJob implements JobContextConsumer {
     }
 
     public static double calculateNewCowHealth(
-            double oldCowHealth,
-            int numCows,
-            int totalCows,
-            int carryingCapacity,
-            double degradationRate, boolean gameInProgress) {
-        if(gameInProgress){
-            if (totalCows <= carryingCapacity) {
-                // increase cow health but do not exceed 100
-                return Math.min(100, oldCowHealth + (degradationRate));
-            } else {
-                // decrease cow health, don't go lower than 0
-                return Math.max(0, oldCowHealth - Math.min((totalCows - carryingCapacity) * degradationRate, 100));
-            }
+        double oldCowHealth,
+        int numCows,
+        int totalCows,
+        int carryingCapacity,
+        double degradationRate, boolean gameInProgress) {
+        if (totalCows <= carryingCapacity) {
+            // increase cow health but do not exceed 100
+            return Math.min(100, oldCowHealth + (degradationRate));
+        } else {
+            // decrease cow health, don't go lower than 0
+            return Math.max(0, oldCowHealth - Math.min((totalCows - carryingCapacity) * degradationRate, 100));
         }
-        else return oldCowHealth;
     }
 
 }

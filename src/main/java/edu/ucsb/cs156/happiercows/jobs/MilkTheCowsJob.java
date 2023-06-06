@@ -99,10 +99,7 @@ public class MilkTheCowsJob implements JobContextConsumer {
      */
     public static double calculateMilkingProfit(Commons commons, UserCommons userCommons) {
         double milkPrice = commons.getMilkPrice();
-        if(userCommons.gameInProgress()){
-            double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;
-            return profit;
-        }
-        return 0;
+        double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;
+        return profit;
     }
 }
