@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserCommons.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">example</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.entities</a> &gt; <span class="el_source">UserCommons.java</span></div><h1>UserCommons.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.entities;
+
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Builder;
+import lombok.AccessLevel;
+import java.util.Date;
+import java.time.LocalDateTime;
+import javax.persistence.*;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@Entity(name = &quot;user_commons&quot;)
+public class UserCommons {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;  
+
+  @Column(name=&quot;commons_id&quot;)
+  private long commonsId;  
+
+  @Column(name=&quot;user_id&quot;)
+  private long userId;  
+
+  private String username;
+
+  private double totalWealth;
+
+  private int numOfCows;
+
+  private double cowHealth;
+
+  private LocalDateTime startingDate;
+
+  private LocalDateTime lastDate;
+
+  public boolean gameInProgress(){
+<span class="fc bfc" id="L42" title="All 4 branches covered.">    boolean output = (startingDate.isBefore(LocalDateTime.now()) &amp;&amp; lastDate.isAfter(LocalDateTime.now()));</span>
+<span class="fc" id="L43">    return output;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
