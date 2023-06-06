@@ -1,25 +1,25 @@
 import React from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import happyCowHead from "./../../../assets/happycow.png";
-// import averageCowHead from "./../../../assets/averagecow.png";
-// import sadCowHead from "./../../../assets/sadcow.png";
-// import sickCowHead from "./../../../assets/sickcow.png";
+import averageCowHead from "./../../../assets/averagecow.png";
+import sadCowHead from "./../../../assets/sadcow.png";
+import sickCowHead from "./../../../assets/sickcow.png";
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
     // update cowPrice from fixture
     var cowHealth = Math.round(userCommons.cowHealth*100)/100;
-    
+    var cowHead = averageCowHead;
+
     if (cowHealth > 80 & cowHealth < 100) {
-        var cowHead = happyCowHead;
+        cowHead = happyCowHead;
+    } else if (cowHealth > 40) {
+        cowHead = averageCowHead;
+    } else if (cowHealth > 20) {
+        cowHead = sadCowHead;
+    } else if (cowHealth < 20 & cowHealth > 0) {
+        cowHead = sickCowHead;
     }
-    // } else if (cowHealth > 40) {
-    //     var cowHead = averageCowHead;
-    // } else if (cowHealth > 20) {
-    //     var cowHead = sadCowHead;
-    // } else if (cowHealth < 20 & cowHealth > 0) {
-    //     var cowHead = sickCowHead;
-    // }
 
     return (
         <Card>
