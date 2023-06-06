@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
-import cowHead from "./../../../happycow.png"; 
+import cowHead from "./../../../assets/happycow.png"; 
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
