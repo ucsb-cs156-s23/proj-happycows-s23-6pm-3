@@ -95,6 +95,29 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
             </Form.Group>
 
             <Form.Group className="mb-3">
+                <Form.Label htmlFor="priceChange">Price Change</Form.Label>
+                <Form.Control
+                    data-testid={`${testid}-priceChange`}
+                    id="priceChange"
+                    type="number"
+                    step="0.01"
+                    defaultValue={0.1}
+                    isInvalid={!!errors.priceChange}
+                    {...register("priceChange", {
+                        valueAsNumber: true,
+                        required: "Cow price change is required",
+                        min: {
+                            value: 0.01,
+                            message: "Cow price change must be positive",
+                        },
+                    })}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {errors.priceChange?.message}
+                </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
                 <Form.Label htmlFor="milkPrice">Milk Price</Form.Label>
                 <Form.Control
                     data-testid={`${testid}-milkPrice`}

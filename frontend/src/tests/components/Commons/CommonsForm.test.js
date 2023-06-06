@@ -63,6 +63,8 @@ describe("CommonsForm tests", () => {
             "CommonsForm-carryingCapacity"
         );
         fireEvent.change(carryingCapacityInput, { target: { value: "" } });
+        const priceChangeInput = screen.getByTestId("CommonsForm-priceChange");
+        fireEvent.change(priceChangeInput, { target: { value: "" } });
 
         //Check error message
         expect(
@@ -89,6 +91,9 @@ describe("CommonsForm tests", () => {
         ).toBeInTheDocument();
         expect(
             screen.getByText(/Carrying capacity is required/i)
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(/Cow price change is required/i)
         ).toBeInTheDocument();
 
         expect(submitAction).not.toBeCalled();
