@@ -11,8 +11,13 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
     useParams: () => ({
-        commonsId: 1
-    })
+        commonsId: 1,
+    }),
+}));
+
+jest.mock("react-plotly.js", () => ({
+    __esModule: true,
+    default: () => <div data-testid="plotly-mock"></div>,
 }));
 
 describe("PlayPage tests", () => {
@@ -24,22 +29,30 @@ describe("PlayPage tests", () => {
             commonsId: 1,
             id: 1,
             totalWealth: 0,
-            userId: 1
+            userId: 1,
         };
         axiosMock.reset();
         axiosMock.resetHistory();
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-        axiosMock.onGet("/api/usercommons/forcurrentuser", { params: { commonsId: 1 } }).reply(200, userCommons);
+        axiosMock
+            .onGet("/api/currentUser")
+            .reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock
+            .onGet("/api/systemInfo")
+            .reply(200, systemInfoFixtures.showingNeither);
+        axiosMock
+            .onGet("/api/usercommons/forcurrentuser", {
+                params: { commonsId: 1 },
+            })
+            .reply(200, userCommons);
         axiosMock.onGet("/api/commons", { params: { id: 1 } }).reply(200, {
             id: 1,
-            name: "Sample Commons"
+            name: "Sample Commons",
         });
         axiosMock.onGet("/api/commons/all").reply(200, [
             {
                 id: 1,
-                name: "Sample Commons"
-            }
+                name: "Sample Commons",
+            },
         ]);
         axiosMock.onGet("/api/profits/all/commonsid").reply(200, []);
         axiosMock.onPut("/api/usercommons/sell").reply(200, userCommons);

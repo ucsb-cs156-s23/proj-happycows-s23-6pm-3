@@ -3,10 +3,7 @@ import { Card } from "react-bootstrap";
 import Health from "./../../../assets/Health.png";
 import Cash from "./../../../assets/Cash.png";
 import Plot from "react-plotly.js";
-
 const FarmStats = ({ userCommons, cowLots }) => {
-    console.log(cowLots[0]);
-    console.log(cowLots[1]);
     return (
         <Card>
             <Card.Header as="h5">Your Farm Stats</Card.Header>

@@ -1,24 +1,30 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import FarmStats from "main/components/Commons/FarmStats"; 
-import userCommonsFixtures from "fixtures/userCommonsFixtures"; 
+import FarmStats from "main/components/Commons/FarmStats";
+import userCommonsFixtures from "fixtures/userCommonsFixtures";
+
+jest.mock("react-plotly.js", () => ({
+    __esModule: true,
+    default: () => <div data-testid="plotly-mock"></div>,
+}));
 
 describe("FarmStats tests", () => {
     test("renders without crashing", () => {
         render(
-            <FarmStats userCommons = {userCommonsFixtures.oneUserCommons[0]} />
+            <FarmStats userCommons={userCommonsFixtures.oneUserCommons[0]} />
         );
     });
 
     test("contains correct content", async () => {
         render(
-            <FarmStats userCommons = {userCommonsFixtures.oneUserCommons[0]} />
+            <FarmStats userCommons={userCommonsFixtures.oneUserCommons[0]} />
         );
 
-        await waitFor (() => {
-            expect(screen.getByText(/Total Wealth: \$1000/)).toBeInTheDocument();
-        }); 
+        await waitFor(() => {
+            expect(
+                screen.getByText(/Total Wealth: \$1000/)
+            ).toBeInTheDocument();
+        });
 
         expect(screen.getByText(/Cow Health: 98%/)).toBeInTheDocument();
-
     });
 });
