@@ -50,7 +50,8 @@ public class UpdateCowHealthJobTests {
 
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
-
+LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
                                 userRepository);
@@ -70,6 +71,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -87,8 +90,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+.lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -135,6 +138,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -152,8 +157,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -200,6 +205,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -217,8 +224,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -265,6 +272,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -282,8 +291,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+.lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -330,6 +339,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -347,8 +358,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+.lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -395,6 +406,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons1 = UserCommons
                                 .builder()
@@ -432,8 +445,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+.lastDate(endDate)
                                 .carryingCapacity(10)
                                 .degradationRate(0.01)
                                 .build();
@@ -486,6 +499,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+                LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+                LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -504,8 +519,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+.lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -537,6 +552,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+                LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+                LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -555,8 +572,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2023-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+.lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -676,6 +693,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+                LocalDateTime startDate = LocalDateTime.parse("3000-03-05T15:50:10");
+                LocalDateTime endDate = LocalDateTime.parse("3000-04-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -693,8 +712,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("3000-01-21T06:47:22.756")
-                                .lastDate("3000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -740,6 +759,8 @@ public class UpdateCowHealthJobTests {
                 // Arrange
                 Job jobStarted = Job.builder().build();
                 JobContext ctx = new JobContext(null, jobStarted);
+                LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+                LocalDateTime endDate = LocalDateTime.parse("2022-03-08T15:50:10");
 
                 UserCommons origUserCommons = UserCommons
                                 .builder()
@@ -757,8 +778,8 @@ public class UpdateCowHealthJobTests {
                                 .cowPrice(10)
                                 .milkPrice(2)
                                 .startingBalance(300)
-                                .startingDate("2000-01-21T06:47:22.756")
-                                .lastDate("2000-05-22T06:47:22.756")
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();

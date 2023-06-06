@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,6 +41,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @WebMvcTest(controllers = UserCommonsController.class)
 @AutoConfigureDataJpa
@@ -61,7 +64,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   private ObjectMapper objectMapper;
 
   public static UserCommons dummyUserCommons(long id) {
-    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100);
+    LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime endDate = LocalDateTime.parse("3000-03-05T15:50:10");
+    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100, startDate, endDate);
     return userCommons;
   }
   @WithMockUser(roles = { "ADMIN" })

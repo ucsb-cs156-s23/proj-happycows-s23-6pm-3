@@ -8,6 +8,8 @@ import static org.mockito.ArgumentMatchers.any;
 import java.time.*;
 import java.util.Arrays;
 import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -77,6 +79,8 @@ public class MilkTheCowsJobTests {
         // Arrange
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
+        LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime endDate = LocalDateTime.parse("3000-03-07T15:50:10");
 
         UserCommons origUserCommons = UserCommons
                 .builder()
@@ -94,8 +98,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate("2019-01-21T05:47:08.644")
-                .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
+                .startingDate(startDate)
+                .lastDate(endDate) //arbitrarily far into the future
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -131,6 +135,8 @@ public class MilkTheCowsJobTests {
         // Arrange
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
+        LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
         UserCommons origUserCommons = UserCommons
                 .builder()
@@ -148,8 +154,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate("2019-01-21T05:47:08.644")
-                .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
+                .startingDate(startDate)
+                .lastDate(endDate) //arbitrarily far into the future
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -196,6 +202,8 @@ public class MilkTheCowsJobTests {
             // Arrange
             Job jobStarted = Job.builder().build();
             JobContext ctx = new JobContext(null, jobStarted);
+            LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+            LocalDateTime endDate = LocalDateTime.parse("3000-03-06T15:50:10");
 
             UserCommons origUserCommons = UserCommons
                             .builder()
@@ -214,8 +222,8 @@ public class MilkTheCowsJobTests {
                             .cowPrice(10)
                             .milkPrice(2)
                             .startingBalance(300)
-                            .startingDate("2019-01-21T05:47:08.644")
-                            .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
+                            .startingDate(startDate)
+                            .lastDate(endDate) //arbitrarily far into the future
                             .carryingCapacity(100)
                             .degradationRate(0.01)
                             .build();
@@ -248,6 +256,8 @@ public class MilkTheCowsJobTests {
             // Arrange
             Job jobStarted = Job.builder().build();
             JobContext ctx = new JobContext(null, jobStarted);
+            LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+            LocalDateTime endDate = LocalDateTime.parse("3000-03-10T15:50:10");
 
             UserCommons origUserCommons = UserCommons
                             .builder()
@@ -266,8 +276,8 @@ public class MilkTheCowsJobTests {
                             .cowPrice(10)
                             .milkPrice(2)
                             .startingBalance(300)
-                            .startingDate("2019-01-21T05:47:08.644")
-                            .lastDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
+                            .startingDate(startDate)
+                            .lastDate(endDate) 
                             .carryingCapacity(100)
                             .degradationRate(0.01)
                             .build();
@@ -300,6 +310,8 @@ public class MilkTheCowsJobTests {
         // Arrange
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
+        LocalDateTime startDate = LocalDateTime.parse("3000-03-05T15:50:10");
+        LocalDateTime endDate = LocalDateTime.parse("3000-03-10T15:50:10");
 
         UserCommons origUserCommons = UserCommons
                 .builder()
@@ -317,8 +329,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate("3000-01-21T05:47:08.644") //arbitrarily far into the future
-                .lastDate("3000-01-25T05:47:08.644")
+                .startingDate(startDate) //arbitrarily far into the future
+                .lastDate(endDate)
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();
@@ -348,11 +360,13 @@ public class MilkTheCowsJobTests {
     }
 
     @Test
-    void test_cannot_milk_cows_when_after_start_date() throws Exception {
+    void test_cannot_milk_cows_when_after_end_date() throws Exception {
             
         // Arrange
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
+        LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime endDate = LocalDateTime.parse("2022-07-05T15:50:10");
 
         UserCommons origUserCommons = UserCommons
                 .builder()
@@ -370,8 +384,8 @@ public class MilkTheCowsJobTests {
                 .cowPrice(10)
                 .milkPrice(2)
                 .startingBalance(300)
-                .startingDate("2000-01-21T05:47:08.644")
-                .lastDate("2000-01-25T05:44:08.644")
+                .startingDate(startDate)
+                .lastDate(endDate)
                 .carryingCapacity(100)
                 .degradationRate(0.01)
                 .build();

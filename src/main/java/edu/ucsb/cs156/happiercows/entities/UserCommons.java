@@ -34,12 +34,12 @@ public class UserCommons {
 
   private double cowHealth;
 
-  private Date startingDate;
+  private LocalDateTime startingDate;
 
-  private Date lastDate;
+  private LocalDateTime lastDate;
 
   public boolean gameInProgress(){
-    boolean output = ((startingDate.getTime() <= System.currentTimeMillis()) && (lastDate.getTime() > System.currentTimeMillis()));
+    boolean output = (startingDate.isBefore(LocalDateTime.now()) && lastDate.isAfter(LocalDateTime.now()));
     return output;
   }
 }
