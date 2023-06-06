@@ -29,8 +29,8 @@ const AdminJobsPage = () => {
 
     const submitTestJob = async (data) => {
         console.log("submitTestJob, data=", data);
-        toast(<div>Test Job Initiated and Running!
-            </div>);
+       // toast(<div>Test Job Initiated and Running!
+         //   </div>);
         testJobMutation.mutate(data);
     }
 
@@ -64,7 +64,7 @@ const AdminJobsPage = () => {
 
     const submitUpdateCowHealthJob = async () => {
         console.log("submitUpdateCowHealthJob")
-        toast(<div>Updating Cow Health Initiated and Running!</div>);
+        //toast(<div>Updating Cow Health Initiated and Running!</div>);
         UpdateCowHealthMutation.mutate();
     }
 
