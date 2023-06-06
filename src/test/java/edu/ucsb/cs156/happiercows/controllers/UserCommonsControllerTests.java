@@ -324,11 +324,28 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .cowHealth(100)
       .build();
   
+      CowLot testcowLot = CowLot
+      .builder()
+      .id(0L)
+      .userCommonsId(1L)
+      .numCows(1)
+      .health(100)
+      .build();
+  
+      CowLot correctcowLot = CowLot
+      .builder()
+      .id(0L)
+      .userCommonsId(1L)
+      .numCows(0)
+      .health(100)
+      .build();
+
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+      when(cowLotRepository.findTopByUserCommonsIdOrderByHealthDesc(eq(1L))).thenReturn(testcowLot);
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=1")
@@ -341,6 +358,91 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       // assert
       verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
       verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      verify(cowLotRepository, times(1)).delete(correctcowLot);
+      String responseString = response.getResponse().getContentAsString();
+      assertEquals(expectedReturn, responseString);
+  }
+  
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_SellCow_commons_exists_multiple() throws Exception {
+  
+      // arrange
+  
+      UserCommons origUserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .build();
+  
+      Commons testCommons = Commons
+      .builder()
+      .name("test commons")
+      .cowPrice(10)
+      .milkPrice(2)
+      .startingBalance(300)
+      .startingDate(LocalDateTime.now())
+      .build();
+  
+      UserCommons userCommonsToSend = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(2)
+      .cowHealth(100)
+      .build();
+  
+      UserCommons correctuserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300+testCommons.getCowPrice())
+      .numOfCows(1)
+      .cowHealth(100)
+      .build();
+  
+      CowLot testcowLot = CowLot
+      .builder()
+      .id(0L)
+      .userCommonsId(1L)
+      .numCows(2)
+      .health(100)
+      .build();
+  
+      CowLot correctcowLot = CowLot
+      .builder()
+      .id(0L)
+      .userCommonsId(1L)
+      .numCows(1)
+      .health(100)
+      .build();
+
+      String requestBody = mapper.writeValueAsString(userCommonsToSend);
+      String expectedReturn = mapper.writeValueAsString(correctuserCommons);
+  
+      when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+      when(cowLotRepository.findTopByUserCommonsIdOrderByHealthDesc(eq(1L))).thenReturn(testcowLot);
+  
+      // act
+      MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=1")
+          .contentType(MediaType.APPLICATION_JSON)
+                      .characterEncoding("utf-8")
+                      .content(requestBody)
+                      .with(csrf()))
+              .andExpect(status().isOk()).andReturn();
+  
+      // assert
+      verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
+      verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      verify(cowLotRepository, times(1)).save(correctcowLot);
       String responseString = response.getResponse().getContentAsString();
       assertEquals(expectedReturn, responseString);
   }

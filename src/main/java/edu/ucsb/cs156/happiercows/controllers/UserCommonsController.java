@@ -127,7 +127,14 @@ public class UserCommonsController extends ApiController {
 
 
         if(userCommons.getNumOfCows() >= 1 ){
-          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
+          CowLot lot = cowLotRepository.findTopByUserCommonsIdOrderByHealthDesc(userCommons.getId());
+          lot.setNumCows(lot.getNumCows() - 1);
+          if(lot.getNumCows() == 0){
+            cowLotRepository.delete(lot);
+          } else {
+            cowLotRepository.save(lot);
+          }
+          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice()*lot.getHealth()/100);
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
         }
         else{
