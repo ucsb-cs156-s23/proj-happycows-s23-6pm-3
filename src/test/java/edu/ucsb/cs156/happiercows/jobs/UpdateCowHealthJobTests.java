@@ -59,8 +59,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 // Assert
                 String expected = """
-                                Updating cow health...
-                                Cow health has been updated!""";
+                                Updating cow health...""";
 
                 assertEquals(expected, jobStarted.getLog());
         }
@@ -82,6 +81,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(10)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -91,7 +92,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .milkPrice(2)
                                 .startingBalance(300)
                                 .startingDate(startDate)
-.lastDate(endDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -104,6 +105,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(1)
                                 .cowHealth(10.01)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -149,6 +152,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(101)
                                 .cowHealth(100)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -171,6 +176,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(101)
                                 .cowHealth(99.99)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -216,6 +223,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(100)
                                 .cowHealth(50)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -238,6 +247,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(100)
                                 .cowHealth(50.01)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -283,6 +294,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(150)
                                 .cowHealth(0)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -305,6 +318,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(150)
                                 .cowHealth(0)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -350,6 +365,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(100)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -372,6 +389,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(1)
                                 .cowHealth(100)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -417,6 +436,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(5)
                                 .cowHealth(50)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 UserCommons origUserCommons2 = UserCommons
@@ -427,6 +448,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(5)
                                 .cowHealth(50)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 UserCommons origUserCommons3 = UserCommons
@@ -437,6 +460,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(5)
                                 .cowHealth(50)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -446,7 +471,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .milkPrice(2)
                                 .startingBalance(300)
                                 .startingDate(startDate)
-.lastDate(endDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(10)
                                 .degradationRate(0.01)
                                 .build();
@@ -459,6 +484,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(5)
                                 .cowHealth(50.01)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -510,6 +537,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(10)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -563,6 +592,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(10)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -573,7 +604,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .milkPrice(2)
                                 .startingBalance(300)
                                 .startingDate(startDate)
-.lastDate(endDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -704,6 +735,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(101)
                                 .cowHealth(100)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -726,6 +759,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(101)
                                 .cowHealth(99.99)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -770,6 +805,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(101)
                                 .cowHealth(100)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -792,6 +829,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(101)
                                 .cowHealth(99.99)
+                                .startingDate(startDate)
+                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };

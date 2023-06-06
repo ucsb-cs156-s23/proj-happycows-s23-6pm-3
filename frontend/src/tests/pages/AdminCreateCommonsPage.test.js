@@ -140,7 +140,9 @@ describe("AdminCreateCommonsPage tests", () => {
                 <br />
                 name: My New Commons
                 <br />
-                startDate: 2022-03-05T00:00:00
+                startingDate: 2022-03-05T00:00:00
+                <br />
+                lastDate: 3000-01-01T00:00:00
                 <br />
                 cowPrice: 10
                 <br />

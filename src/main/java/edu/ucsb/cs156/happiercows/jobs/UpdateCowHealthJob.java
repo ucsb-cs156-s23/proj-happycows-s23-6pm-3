@@ -52,7 +52,7 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                     userCommons.setCowHealth(newCowHealth);
                     ctx.log("Cow health has been updated!");
                 } else{
-                    ctx.log("Game is not in progress: cow health will not be updated.");
+                    ctx.log("Game is not in progress: cow health will not be updated for this commons.");
                 }
                 
                 userCommonsRepository.save(userCommons);
