@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Optional;
+
 @Api(description = "User Commons")
 @RequestMapping("/api/usercommons")
 @RestController
@@ -95,12 +97,21 @@ public class UserCommonsController extends ApiController {
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
-          CowLot lot = CowLot.builder()
-            .userCommonsId(userCommons.getId())
-            .numCows(1)
-            .health(100d)
-            .build();
-          cowLotRepository.save(lot);
+          Optional<CowLot> existingCowLotOptional = cowLotRepository.findByUserCommonsIdAndHealth(
+                                                      userCommons.getId(),
+                                                      100d);
+          if(existingCowLotOptional.isPresent()){
+            CowLot existingCowLot = existingCowLotOptional.get();
+            existingCowLot.setNumCows(existingCowLot.getNumCows()+1);
+            cowLotRepository.save(existingCowLot);
+          } else {
+            CowLot lot = CowLot.builder()
+              .userCommonsId(userCommons.getId())
+              .numCows(1)
+              .health(100d)
+              .build();
+            cowLotRepository.save(lot);
+          }
         }
         else{
           throw new NotEnoughMoneyException("You need more money!");
@@ -127,7 +138,14 @@ public class UserCommonsController extends ApiController {
 
 
         if(userCommons.getNumOfCows() >= 1 ){
-          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
+          CowLot lot = cowLotRepository.findTopByUserCommonsIdOrderByHealthDesc(userCommons.getId());
+          lot.setNumCows(lot.getNumCows() - 1);
+          if(lot.getNumCows() == 0){
+            cowLotRepository.delete(lot);
+          } else {
+            cowLotRepository.save(lot);
+          }
+          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice()*lot.getHealth()/100);
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
         }
         else{

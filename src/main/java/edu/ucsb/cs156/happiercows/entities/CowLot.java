@@ -17,7 +17,7 @@ public class CowLot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    
     private long userCommonsId;
     private int numCows;
     private double health;
