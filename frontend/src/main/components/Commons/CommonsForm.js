@@ -12,7 +12,9 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
 
     const testid = "CommonsForm";
 
-    const today = new Date().toISOString().substr(0, 10);
+    const curr = new Date();
+    const today = curr.toISOString().substr(0, 10);
+    const onemonthfromtoday = new Date(curr.getFullYear(), curr.getMonth()+1, curr.getDate()).toISOString().substr(0, 10);
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
@@ -167,7 +169,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                     data-testid={`${testid}-lastDate`}
                     id="lastDate"
                     type="date"
-                    defaultValue={today}
+                    defaultValue={onemonthfromtoday}
                     isInvalid={!!errors.lastDate}
                     {...register("lastDate", {
                         valueAsDate: true,
