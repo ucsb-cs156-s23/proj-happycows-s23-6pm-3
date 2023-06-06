@@ -13,11 +13,14 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
 
     if (cowHealth > 80 & cowHealth < 100) {
         cowHead = happyCowHead;
-    } else if (cowHealth > 40) {
+    }
+    if (cowHealth > 40) {
         cowHead = averageCowHead;
-    } else if (cowHealth > 20) {
+    }
+    if (cowHealth > 20) {
         cowHead = sadCowHead;
-    } else if (cowHealth < 20 & cowHealth > 0) {
+    }
+    if (cowHealth < 20 & cowHealth > 0) {
         cowHead = sickCowHead;
     }
 
