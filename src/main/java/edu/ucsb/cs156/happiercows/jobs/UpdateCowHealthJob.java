@@ -53,7 +53,12 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                     double newCowHealth = calculateNewCowHealth(cowLot.getHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
                     ctx.log(" old cow health: " + cowLot.getHealth() + ", new cow health: " + newCowHealth);
                     cowLot.setHealth(newCowHealth);
-                    cowLotRepository.save(cowLot);
+                    if(newCowHealth > 0){
+                        cowLotRepository.save(cowLot);
+                    } else {
+                        cowLotRepository.delete(cowLot);
+                        userCommons.setNumOfCows(userCommons.getNumOfCows()-cowLot.getNumCows());
+                    }
                     totalHealths += newCowHealth * cowLot.getNumCows();
                 }
                 userCommons.setCowHealth(totalHealths / userCommons.getNumOfCows());
