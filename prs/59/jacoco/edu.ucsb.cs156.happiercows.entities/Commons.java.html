@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Commons.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">example</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.entities</a> &gt; <span class="el_source">Commons.java</span></div><h1>Commons.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.entities;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.AccessLevel;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity(name = &quot;commons&quot;)
+public class Commons
+{
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
+
+  private String name;
+  private double cowPrice;
+  private double milkPrice;
+  private double startingBalance;
+  private LocalDateTime startingDate;
+  private LocalDateTime lastDate;
+  private double degradationRate;
+  private boolean showLeaderboard;
+  private int carryingCapacity;
+  private double priceChange;
+  public void increaseCowPrice() {
+<span class="fc" id="L38">    cowPrice += priceChange;</span>
+<span class="fc" id="L39">  }</span>
+  public void decreaseCowPrice() {
+<span class="fc" id="L41">    cowPrice -= priceChange;</span>
+<span class="fc" id="L42">  }</span>
+
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+  @JoinTable(name = &quot;user_commons&quot;,
+    joinColumns = @JoinColumn(name = &quot;commons_id&quot;, referencedColumnName = &quot;id&quot;),
+    inverseJoinColumns = @JoinColumn(name = &quot;user_id&quot;, referencedColumnName = &quot;id&quot;))
+  @JsonIgnore // https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
+  private List&lt;User&gt; users;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
