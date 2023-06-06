@@ -99,11 +99,8 @@ public class MilkTheCowsJob implements JobContextConsumer {
      */
     public static double calculateMilkingProfit(Commons commons, UserCommons userCommons) {
 <span class="fc" id="L101">        double milkPrice = commons.getMilkPrice();</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if(userCommons.gameInProgress()){</span>
-<span class="fc" id="L103">            double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;</span>
-<span class="fc" id="L104">            return profit;</span>
-        }
-<span class="nc" id="L106">        return 0;</span>
+<span class="fc" id="L102">        double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;</span>
+<span class="fc" id="L103">        return profit;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
