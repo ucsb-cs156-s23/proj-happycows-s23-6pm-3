@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
-import cowHead from "./../../../assets/happycow.png"; 
+import cowHead from "./../../../assets/happycow.png";
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
@@ -17,6 +17,7 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
                     <Col>
                         <Card.Text>
                             <img alt="Cow Icon" className="icon" src={cowHead}></img>
+                            Cow Health: {Math.round(userCommons.cowHealth*100)/100}%
                         </Card.Text>
                     </Col>
                     <Col>
