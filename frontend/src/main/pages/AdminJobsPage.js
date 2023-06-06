@@ -74,7 +74,8 @@ const AdminJobsPage = () => {
         method: "POST"
     });
     const onSuccess = () => {
-        toast(<div> Milking Cows Initiated and Running!</div>);}
+        toast(<div> Milking Cows Initiated and Running!</div>);
+}
     // Stryker disable all
     const MilkTheCowsMutation = useBackendMutation(
         objectToAxiosParamsMilkTheCowsJob,
@@ -84,7 +85,7 @@ const AdminJobsPage = () => {
     // Stryker enable all
 
     const submitMilkTheCowsJob = async () => {
-        console.log("submitMilkTheCowsJob")
+        console.log("submitMilkTheCowsJob");
         {onSuccess}
         MilkTheCowsMutation.mutate();
     }
