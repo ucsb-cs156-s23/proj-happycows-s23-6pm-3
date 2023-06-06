@@ -81,7 +81,7 @@ const AdminJobsPage = () => {
         {  },
         ["/api/jobs/all"]
     );
-    // Stryker restore all
+    // Stryker enable all
 
     const submitMilkTheCowsJob = async () => {
         console.log("submitMilkTheCowsJob")
