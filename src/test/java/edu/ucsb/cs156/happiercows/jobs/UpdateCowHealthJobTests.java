@@ -22,6 +22,8 @@ import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.CowLot;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import java.time.LocalDateTime;
 
@@ -357,7 +359,7 @@ public class UpdateCowHealthJobTests {
                                 Cow health has been updated!""";
 
                 assertEquals(expected, jobStarted.getLog());
-                assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
+                verify(cowLotRepository, times(1)).delete(origCowLot);
         }
 
         @Test

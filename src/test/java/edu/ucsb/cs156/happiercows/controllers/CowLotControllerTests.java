@@ -65,38 +65,47 @@ public class CowLotControllerTests extends ControllerTestCase {
     return cowLot;
   }
 
-//   @WithMockUser(roles = { "USER" })
-//   @Test
-//   public void test_get_CowLot() throws Exception {
-//     List<CowLot> expectedCowLot = new ArrayList<CowLot>();
-//     CowLot testexpectedCowLot = dummyCowLot(1);
-//     expectedCowLot.add(testexpectedCowLot);
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_get_CowLot() throws Exception {
+    List<CowLot> expectedCowLot = new ArrayList<CowLot>();
+    CowLot testexpectedCowLot = dummyCowLot(1);
+    expectedCowLot.add(testexpectedCowLot);
 
-//     UserCommons testUserCommons = UserCommons
-//         .builder()
-//         .id(1L)
-//         .userId(1L)
-//         .commonsId(1L)
-//         .totalWealth(300)
-//         .numOfCows(1)
-//         .cowHealth(100)
-//         .build();
+    User u = currentUserService.getCurrentUser().getUser();
 
-//     Commons testCommons = Commons
-//         .builder()
-//         .name("test commons")
-//         .cowPrice(10)
-//         .milkPrice(2)
-//         .startingBalance(300)
-//         .startingDate(LocalDateTime.now())
-//         .build();
+    ArrayList<User> expectedUsers = new ArrayList<>();
+    expectedUsers.addAll(Arrays.asList(u));
 
-//     MvcResult response = mockMvc.perform(get("/api/commons/new"))
-//     .andExpect(status().isOk()).andReturn();
+    when(userRepository.findAll()).thenReturn(expectedUsers);
 
-//     MvcResult response = mockMvc.perform(get("/api/cowlots/forcurrentuser?commonsId=1"))
-//           .andExpect(status().isOk()).andReturn();
+    UserCommons testUserCommons = UserCommons
+        .builder()
+        .id(1L)
+        .userId(1L)
+        .commonsId(1L)
+        .totalWealth(300)
+        .numOfCows(1)
+        .cowHealth(100)
+        .build();
 
-//     verify(cowLotRepository, times(1)).findAllByUserCommonsId(eq(1L));
-//   }
+    Commons testCommons = Commons
+        .builder()
+        .id(1L)
+        .name("test commons")
+        .cowPrice(10)
+        .milkPrice(2)
+        .startingBalance(300)
+        .startingDate(LocalDateTime.now())
+        .build();
+
+    // MvcResult response = mockMvc.perform(get("/api/commons/new"))
+    // .andExpect(status().isOk()).andReturn();
+    // when(userCommonsRepository.findByCommonsIdAndUserId(1L, 1L)).thenReturn(Optional.of(testUserCommons));
+
+    MvcResult response = mockMvc.perform(get("/api/cowlots/forcurrentuser?commonsId=1"))
+          .andExpect(status().isOk()).andReturn();
+
+    verify(cowLotRepository, times(1)).findAllByUserCommonsId(eq(1L));
+  }
 }
