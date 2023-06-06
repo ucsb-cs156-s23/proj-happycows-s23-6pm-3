@@ -87,6 +87,7 @@ describe("AdminJobsPage tests", () => {
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
         expect(axiosMock.history.post[0].url).toBe("/api/jobs/launch/testjob?fail=false&sleepMs=0");
+        await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Test Job Initiated and Running!</div>)});
     });
 
     test("user can submit update cow health job", async () => {
@@ -130,12 +131,12 @@ describe("AdminJobsPage tests", () => {
         const MilkTheCowsJobButton = screen.getByText("Milk The Cows");
         expect(MilkTheCowsJobButton).toBeInTheDocument();
         MilkTheCowsJobButton.click();
-        //await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Milking Cows Initiated and Running!</div>)});
+
         const submitButton = screen.getByTestId("MilkTheCowsForm-Submit-Button");
 
         expect(submitButton).toBeInTheDocument();
         submitButton.click();
-        //await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Milking Cows Initiated and Running!</div>)});
+
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
         expect(axiosMock.history.post[0].url).toBe("/api/jobs/launch/milkthecowjob");
