@@ -22,14 +22,14 @@ const AdminJobsPage = () => {
     // Stryker disable all
     const testJobMutation = useBackendMutation(
         objectToAxiosParamsTestJob,
-        {  },
+        {},
         ["/api/jobs/all"]
     );
     // Stryker enable all
 
     const submitTestJob = async (data) => {
         console.log("submitTestJob, data=", data);
-       //toast(<div>Test Job Initiated and Running!</div>);
+        toast(<div>Test Job Initiated and Running!</div>);
         testJobMutation.mutate(data);
     }
 
@@ -44,7 +44,7 @@ const AdminJobsPage = () => {
             [],
             { refetchInterval: refreshJobsIntervalMilliseconds }
         );
-    // Stryker enable  all
+    // Stryker restore all
 
     // UpdateCowHealth job
 
@@ -56,14 +56,14 @@ const AdminJobsPage = () => {
     // Stryker disable all
     const UpdateCowHealthMutation = useBackendMutation(
         objectToAxiosParamsUpdateCowHealthJob,
-        {  },
+        {},
         ["/api/jobs/all"]
     );
     // Stryker enable all
 
     const submitUpdateCowHealthJob = async () => {
         console.log("submitUpdateCowHealthJob")
-        //toast(<div>Updating Cow Health Initiated and Running!</div>);
+        toast(<div>Updating Cow Health Initiated and Running!</div>);
         UpdateCowHealthMutation.mutate();
     }
 
@@ -73,20 +73,18 @@ const AdminJobsPage = () => {
         url: `/api/jobs/launch/milkthecowjob`,
         method: "POST"
     });
-  //  const onSuccess = () => {
-    //    toast(<div> Milking Cows Initiated and Running!</div>);
-//}
+    const onSuccess = () => {
+        toast(<div> Milking Cows Initiated and Running!</div>);
+    }
     // Stryker disable all
     const MilkTheCowsMutation = useBackendMutation(
         objectToAxiosParamsMilkTheCowsJob,
-        {  },
+        {},
         ["/api/jobs/all"]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const submitMilkTheCowsJob = async () => {
-        console.log("submitMilkTheCowsJob");
-        //{onSuccess}
         toast(<div>Milking Cows Initiated and Running!</div>);
         MilkTheCowsMutation.mutate();
     }
@@ -94,15 +92,15 @@ const AdminJobsPage = () => {
     const jobLaunchers = [
         {
             name: "Test Job",
-            form:  <TestJobForm submitAction={submitTestJob} />
+            form: <TestJobForm submitAction={submitTestJob} />
         },
         {
             name: "Update Cow Health",
-            form: <UpdateCowHealthForm submitAction={submitUpdateCowHealthJob}/>
+            form: <UpdateCowHealthForm submitAction={submitUpdateCowHealthJob} />
         },
         {
             name: "Milk The Cows",
-            form: <MilkCowsJobForm submitAction={submitMilkTheCowsJob}/>
+            form: <MilkCowsJobForm submitAction={submitMilkTheCowsJob} />
         },
         {
             name: "Instructor Report",
