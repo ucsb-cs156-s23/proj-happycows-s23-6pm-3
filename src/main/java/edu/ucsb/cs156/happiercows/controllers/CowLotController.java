@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
@@ -49,7 +51,7 @@ public class CowLotController extends ApiController {
     @Autowired
     ObjectMapper mapper;
 
-    @ApiOperation(value = "Get all cow lots for current user")
+    @ApiOperation(value = "Get all cow lots for current user:[[cowHealths...],[numCows...]]")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/forcurrentuser")
     public ResponseEntity<String> getCowLotsById(
@@ -64,7 +66,20 @@ public class CowLotController extends ApiController {
         Long userCommonsId = userCommons.getId();
 
         Iterable<CowLot> cl = cowLotRepository.findAllByUserCommonsId(userCommonsId);
-        String body = mapper.writeValueAsString(cl);
+        
+        List<List<Object>> array = new ArrayList<>();
+        List<Object> healthList = new ArrayList<>();
+        List<Object> numCowsList = new ArrayList<>();
+
+        for (CowLot cowLot : cl) {
+            healthList.add(cowLot.getHealth());
+            numCowsList.add(cowLot.getNumCows());
+        }
+
+        array.add(healthList);
+        array.add(numCowsList);
+
+        String body = mapper.writeValueAsString(array);
         return ResponseEntity.ok().body(body);
   }
 }
