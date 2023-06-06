@@ -112,6 +112,8 @@ describe("AdminJobsPage tests", () => {
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
         expect(axiosMock.history.post[0].url).toBe("/api/jobs/launch/updatecowhealth");
+        await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Updating Cow Health Initiated and Running!</div>)});
+
     });
 
     test("user can submit milk the cows job", async () => {
