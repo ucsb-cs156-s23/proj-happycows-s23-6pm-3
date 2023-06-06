@@ -44,7 +44,7 @@ const AdminJobsPage = () => {
             [],
             { refetchInterval: refreshJobsIntervalMilliseconds }
         );
-    // Stryker restore  all
+    // Stryker enable  all
 
     // UpdateCowHealth job
 
@@ -74,8 +74,7 @@ const AdminJobsPage = () => {
         method: "POST"
     });
     const onSuccess = () => {
-        toast(<div> Milking Cows Initiated and Running!</div>);
-    }
+        toast(<div> Milking Cows Initiated and Running!</div>);}
     // Stryker disable all
     const MilkTheCowsMutation = useBackendMutation(
         objectToAxiosParamsMilkTheCowsJob,
