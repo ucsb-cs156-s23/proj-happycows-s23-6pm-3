@@ -24,5 +24,4 @@ describe("dateUtils tests", () => {
       expect(timestampToDate(1653346250816)).toBe("2022-05-23");
     });
   });
-
 });
