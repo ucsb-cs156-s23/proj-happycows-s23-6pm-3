@@ -9,7 +9,15 @@ import AdminJobsPage from "main/pages/AdminJobsPage";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import jobsFixtures from "fixtures/jobsFixtures";
-
+//const mockToast = jest.fn();
+//jest.mock('react-toastify', () => {
+  //  const originalModule = jest.requireActual('react-toastify');
+   // return {
+     //   __esModule: true,
+      //  ...originalModule,
+       // toast: (x) => mockToast(x)
+    //};
+//});
 describe("AdminJobsPage tests", () => {
     const queryClient = new QueryClient();
     const axiosMock = new AxiosMockAdapter(axios);
@@ -120,15 +128,16 @@ describe("AdminJobsPage tests", () => {
         const MilkTheCowsJobButton = screen.getByText("Milk The Cows");
         expect(MilkTheCowsJobButton).toBeInTheDocument();
         MilkTheCowsJobButton.click();
-
+        //await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Milking Cows Initiated and Running!</div>)});
         const submitButton = screen.getByTestId("MilkTheCowsForm-Submit-Button");
 
         expect(submitButton).toBeInTheDocument();
         submitButton.click();
-
+        //await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Milking Cows Initiated and Running!</div>)});
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
         expect(axiosMock.history.post[0].url).toBe("/api/jobs/launch/milkthecowjob");
+        await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Milking Cows Initiated and Running!</div>)});
     });
 
 
