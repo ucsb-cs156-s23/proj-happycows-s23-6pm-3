@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Builder;
 import lombok.AccessLevel;
-
-
+import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Data
@@ -33,5 +33,13 @@ public class UserCommons {
   private int numOfCows;
 
   private double cowHealth;
-}
 
+  private LocalDateTime startingDate;
+
+  private LocalDateTime lastDate;
+
+  public boolean gameInProgress(){
+    boolean output = (startingDate.isBefore(LocalDateTime.now()) && lastDate.isAfter(LocalDateTime.now()));
+    return output;
+  }
+}

@@ -18,7 +18,8 @@ const AdminCreateCommonsPage = () => {
         toast(<div>Commons successfully created!
             <br />{`id: ${commons.id}`}
             <br />{`name: ${commons.name}`}
-            <br />{`startDate: ${commons.startingDate}`}
+            <br />{`startingDate: ${commons.startingDate}`}
+            <br />{`lastDate: ${commons.lastDate}`}
             <br />{`cowPrice: ${commons.cowPrice}`}
             <br />{`carryingCapacity: ${commons.carryingCapacity}`}
         </div>);
