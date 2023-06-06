@@ -25,12 +25,11 @@ const AdminJobsPage = () => {
         {  },
         ["/api/jobs/all"]
     );
-    // Stryker restore all
+    // Stryker enable all
 
     const submitTestJob = async (data) => {
         console.log("submitTestJob, data=", data);
-       // toast(<div>Test Job Initiated and Running!
-         //   </div>);
+       //toast(<div>Test Job Initiated and Running!</div>);
         testJobMutation.mutate(data);
     }
 
@@ -60,7 +59,7 @@ const AdminJobsPage = () => {
         {  },
         ["/api/jobs/all"]
     );
-    // Stryker restore all
+    // Stryker enable all
 
     const submitUpdateCowHealthJob = async () => {
         console.log("submitUpdateCowHealthJob")
@@ -74,7 +73,9 @@ const AdminJobsPage = () => {
         url: `/api/jobs/launch/milkthecowjob`,
         method: "POST"
     });
-
+    const onSuccess = () => {
+        toast(<div> Milking Cows Initiated and Running!</div>);
+    }
     // Stryker disable all
     const MilkTheCowsMutation = useBackendMutation(
         objectToAxiosParamsMilkTheCowsJob,
@@ -85,7 +86,7 @@ const AdminJobsPage = () => {
 
     const submitMilkTheCowsJob = async () => {
         console.log("submitMilkTheCowsJob")
-        toast(<div>Milking Cows Initiated and Running!</div>);
+        {onSuccess}
         MilkTheCowsMutation.mutate();
     }
 
