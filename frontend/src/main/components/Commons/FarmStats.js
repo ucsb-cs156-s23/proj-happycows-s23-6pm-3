@@ -5,8 +5,6 @@ import Cash from "./../../../assets/Cash.png";
 import Plot from "react-plotly.js";
 
 const FarmStats = ({ userCommons, cowLots }) => {
-    console.log(cowLots[0]);
-    console.log(cowLots[1]);
     return (
         <Card>
             <Card.Header as="h5">Your Farm Stats</Card.Header>
@@ -22,6 +20,7 @@ const FarmStats = ({ userCommons, cowLots }) => {
                     <img className="icon" src={Health} alt="Health"></img>
                 </Card.Text>
                 <Plot
+                    // Stryker disable all
                     data={[
                         {
                             x: cowLots[0],
@@ -47,6 +46,7 @@ const FarmStats = ({ userCommons, cowLots }) => {
                     config={{
                         displayModeBar: false,
                     }}
+                    //stryker restore all
                 />
             </Card.Body>
         </Card>

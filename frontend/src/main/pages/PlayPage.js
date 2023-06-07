@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, CardGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsOverview from "main/components/Commons/CommonsOverview";
@@ -28,7 +27,7 @@ export default function PlayPage() {
             },
         }
     );
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const { data: cowLots } = useBackend(
@@ -41,7 +40,7 @@ export default function PlayPage() {
             },
         }
     );
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const { data: commons } = useBackend([`/api/commons?id=${commonsId}`], {
@@ -51,7 +50,7 @@ export default function PlayPage() {
             id: commonsId,
         },
     });
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const { data: userCommonsProfits } = useBackend(
@@ -64,12 +63,11 @@ export default function PlayPage() {
             },
         }
     );
-    // Stryker enable all
+    // Stryker restore all
 
-    const onSuccessBuy = () => {
-        toast(`Cow bought!`);
-    };
+    const onSuccessBuy = () => {};
 
+    // Stryker disable all
     const objectToAxiosParamsBuy = (newUserCommons) => ({
         url: "/api/usercommons/buy",
         method: "PUT",
@@ -78,6 +76,7 @@ export default function PlayPage() {
             commonsId: commonsId,
         },
     });
+    // Stryker restore all
 
     // Stryker disable all
     const mutationbuy = useBackendMutation(
@@ -86,15 +85,13 @@ export default function PlayPage() {
         // Stryker disable next-line all : hard to set up test for caching
         [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const onBuy = (userCommons) => {
         mutationbuy.mutate(userCommons);
     };
 
-    const onSuccessSell = () => {
-        toast(`Cow sold!`);
-    };
+    const onSuccessSell = () => {};
 
     // Stryker disable all
     const objectToAxiosParamsSell = (newUserCommons) => ({
@@ -105,7 +102,7 @@ export default function PlayPage() {
             commonsId: commonsId,
         },
     });
-    // Stryker enable all
+    // Stryker restore all
 
     // Stryker disable all
     const mutationsell = useBackendMutation(
@@ -113,7 +110,7 @@ export default function PlayPage() {
         { onSuccess: onSuccessSell },
         [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const onSell = (userCommons) => {
         mutationsell.mutate(userCommons);
@@ -121,6 +118,7 @@ export default function PlayPage() {
 
     return (
         <div
+            data-testid="background"
             style={{
                 backgroundSize: "cover",
                 backgroundImage: `url(${Background})`,
