@@ -93,7 +93,7 @@ public class CowLotControllerTests extends ControllerTestCase {
     String requestBody = mapper.writeValueAsString(expectedUserCommons);
 
     // act
-    MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+    MvcResult buyResponse = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
     .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
                 .content(requestBody)
@@ -104,7 +104,21 @@ public class CowLotControllerTests extends ControllerTestCase {
     verify(cowLotRepository, times(1)).save(testexpectedCowLot);
     
     // act
-    MvcResult response2 = mockMvc.perform(get("/api/cowlots/forcurrentuser?commonsId=1").with(csrf()))
+    MvcResult cowLotResponse = mockMvc.perform(get("/api/cowlots/forcurrentuser?commonsId=1").with(csrf()))
         .andExpect(status().isOk()).andReturn();
+
+    String responseString = cowLotResponse.getResponse().getContentAsString();
+    assertEquals( "[[100.0],[1]]", responseString);
+
+    // act
+    MvcResult cowLotResponse2 = mockMvc.perform(get("/api/cowlots/forcurrentuser?commonsId=90").with(csrf()))
+      .andExpect(status().is(404)).andReturn();
+
+    String responseString2 = cowLotResponse2.getResponse().getContentAsString();
+    Map<String, Object> jsonResponse = responseToJson(cowLotResponse2);
+    String expectedString = "{\"type\":\"EntityNotFoundException\",\"message\":\"UserCommons with commonsId 90 and userId 1 not found\"}";
+    Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
+
+    assertEquals( jsonResponse, expectedJson);
   }
 }
