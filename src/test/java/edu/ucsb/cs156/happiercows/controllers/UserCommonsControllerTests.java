@@ -66,7 +66,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   public static UserCommons dummyUserCommons(long id) {
     LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
     LocalDateTime endDate = LocalDateTime.parse("3000-03-05T15:50:10");
-    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100, startDate, endDate);
+    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100);
     return userCommons;
   }
   @WithMockUser(roles = { "ADMIN" })

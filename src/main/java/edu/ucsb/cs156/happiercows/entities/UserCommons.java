@@ -33,14 +33,5 @@ public class UserCommons {
   private int numOfCows;
 
   private double cowHealth;
-
-  private LocalDateTime startingDate;
-
-  private LocalDateTime lastDate;
-
-  public boolean gameInProgress(){
-    boolean output = (startingDate.isBefore(LocalDateTime.now()) && lastDate.isAfter(LocalDateTime.now()));
-    return output;
-  }
 }
 

@@ -23,7 +23,6 @@ public class Commons
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-
   private String name;
   private double cowPrice;
   private double milkPrice;
@@ -39,6 +38,10 @@ public class Commons
   }
   public void decreaseCowPrice() {
     cowPrice -= priceChange;
+  }
+  public boolean gameInProgress(){
+    boolean output = (startingDate.isBefore(LocalDateTime.now()) && lastDate.isAfter(LocalDateTime.now()));
+    return output;
   }
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
