@@ -12,7 +12,9 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
 
     const testid = "CommonsForm";
 
-    const today = new Date().toISOString().substr(0, 10);
+    const curr = new Date();
+    const today = curr.toISOString().substr(0, 10);
+    const onemonthfromtoday = new Date(curr.getFullYear(), curr.getMonth()+1, curr.getDate()).toISOString().substr(0, 10);
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
@@ -95,6 +97,29 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
             </Form.Group>
 
             <Form.Group className="mb-3">
+                <Form.Label htmlFor="priceChange">Price Change</Form.Label>
+                <Form.Control
+                    data-testid={`${testid}-priceChange`}
+                    id="priceChange"
+                    type="number"
+                    step="0.01"
+                    defaultValue={0.1}
+                    isInvalid={!!errors.priceChange}
+                    {...register("priceChange", {
+                        valueAsNumber: true,
+                        required: "Cow price change is required",
+                        min: {
+                            value: 0.01,
+                            message: "Cow price change must be positive",
+                        },
+                    })}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {errors.priceChange?.message}
+                </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
                 <Form.Label htmlFor="milkPrice">Milk Price</Form.Label>
                 <Form.Control
                     data-testid={`${testid}-milkPrice`}
@@ -135,6 +160,27 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
                 />
                 <Form.Control.Feedback type="invalid">
                     {errors.startingDate?.message}
+                </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+                <Form.Label htmlFor="lastDate">Last Date</Form.Label>
+                <Form.Control
+                    data-testid={`${testid}-lastDate`}
+                    id="lastDate"
+                    type="date"
+                    defaultValue={onemonthfromtoday}
+                    isInvalid={!!errors.lastDate}
+                    {...register("lastDate", {
+                        valueAsDate: true,
+                        validate: {
+                            isPresent: (v) =>
+                                !isNaN(v) || "Last date is required",
+                        },
+                    })}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {errors.lastDate?.message}
                 </Form.Control.Feedback>
             </Form.Group>
 

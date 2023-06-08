@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.*;
 import java.util.stream.*;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -110,9 +111,11 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    updated.setLastDate(params.getLastDate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
     updated.setDegradationRate(params.getDegradationRate());
     updated.setCarryingCapacity(params.getCarryingCapacity());
+    updated.setPriceChange(params.getPriceChange());
 
     if (params.getDegradationRate() < 0) {
       throw new IllegalArgumentException("Degradation Rate cannot be negative");
@@ -147,9 +150,11 @@ public class CommonsController extends ApiController {
         .milkPrice(params.getMilkPrice())
         .startingBalance(params.getStartingBalance())
         .startingDate(params.getStartingDate())
+        .lastDate(params.getLastDate())
         .degradationRate(params.getDegradationRate())
         .showLeaderboard(params.getShowLeaderboard())
         .carryingCapacity(params.getCarryingCapacity())
+        .priceChange(params.getPriceChange())
         .build();
 
     // throw exception for degradation rate

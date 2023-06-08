@@ -24,6 +24,7 @@ describe("CommonsForm tests", () => {
             /Cow Price/,
             /Milk Price/,
             /Starting Date/,
+            /Last Date/,
             /Degradation Rate/,
             /Carrying Capacity/,
             /Show Leaderboard\?/,
@@ -55,6 +56,10 @@ describe("CommonsForm tests", () => {
             "CommonsForm-startingDate"
         );
         fireEvent.change(startingDateInput, { target: { value: "" } });
+        const lastDateInput = screen.getByTestId(
+            "CommonsForm-lastDate"
+        );
+        fireEvent.change(lastDateInput, { target: { value: "" } });
         const degradationRateInput = screen.getByTestId(
             "CommonsForm-degradationRate"
         );
@@ -63,6 +68,8 @@ describe("CommonsForm tests", () => {
             "CommonsForm-carryingCapacity"
         );
         fireEvent.change(carryingCapacityInput, { target: { value: "" } });
+        const priceChangeInput = screen.getByTestId("CommonsForm-priceChange");
+        fireEvent.change(priceChangeInput, { target: { value: "" } });
 
         //Check error message
         expect(
@@ -85,10 +92,16 @@ describe("CommonsForm tests", () => {
             screen.getByText(/starting date is required/i)
         ).toBeInTheDocument();
         expect(
+            screen.getByText(/last date is required/i)
+        ).toBeInTheDocument();
+        expect(
             screen.getByText(/degradation rate is required/i)
         ).toBeInTheDocument();
         expect(
             screen.getByText(/Carrying capacity is required/i)
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(/Cow price change is required/i)
         ).toBeInTheDocument();
 
         expect(submitAction).not.toBeCalled();

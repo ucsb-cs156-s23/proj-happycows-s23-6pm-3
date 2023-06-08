@@ -9,7 +9,15 @@ import AdminJobsPage from "main/pages/AdminJobsPage";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import jobsFixtures from "fixtures/jobsFixtures";
-
+const mockToast = jest.fn();
+jest.mock('react-toastify', () => {
+    const originalModule = jest.requireActual('react-toastify');
+    return {
+        __esModule: true,
+        ...originalModule,
+        toast: (x) => mockToast(x)
+    };
+});
 describe("AdminJobsPage tests", () => {
     const queryClient = new QueryClient();
     const axiosMock = new AxiosMockAdapter(axios);
@@ -79,6 +87,7 @@ describe("AdminJobsPage tests", () => {
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
         expect(axiosMock.history.post[0].url).toBe("/api/jobs/launch/testjob?fail=false&sleepMs=0");
+        await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Test Job Initiated and Running!</div>)});
     });
 
     test("user can submit update cow health job", async () => {
@@ -104,6 +113,8 @@ describe("AdminJobsPage tests", () => {
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
         expect(axiosMock.history.post[0].url).toBe("/api/jobs/launch/updatecowhealth");
+        await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Updating Cow Health Initiated and Running!</div>)});
+
     });
 
     test("user can submit milk the cows job", async () => {
@@ -129,6 +140,7 @@ describe("AdminJobsPage tests", () => {
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
         expect(axiosMock.history.post[0].url).toBe("/api/jobs/launch/milkthecowjob");
+        await waitFor(() => { expect(mockToast).toBeCalledWith(<div>Milking Cows Initiated and Running!</div>)});
     });
 
 

@@ -29,8 +29,8 @@ public class CreateCommonsParams {
   @NumberFormat
   private double startingBalance;
   @NumberFormat private double degradationRate;
-  @DateTimeFormat
-  private LocalDateTime startingDate;
+  @DateTimeFormat private LocalDateTime startingDate;
+  @DateTimeFormat private LocalDateTime lastDate;
   @Builder.Default
   private Boolean showLeaderboard = false; 
   @NumberFormat

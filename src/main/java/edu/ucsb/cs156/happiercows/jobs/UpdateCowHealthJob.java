@@ -33,48 +33,51 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        ctx.log("Updating cow health...");
-
+        ctx.log("Starting Update Cow Health job:");
         Iterable<Commons> allCommons = commonsRepository.findAll();
-
+        
         for (Commons commons : allCommons) {
-            ctx.log("Commons " + commons.getName() + ", degradationRate: " + commons.getDegradationRate() + ", carryingCapacity: " + commons.getCarryingCapacity());
+            String name = commons.getName();
+            if(commons.gameInProgress()){
+                ctx.log("Commons " + commons.getName() + ", degradationRate: " + commons.getDegradationRate() + ", carryingCapacity: " + commons.getCarryingCapacity());
+                int carryingCapacity = commons.getCarryingCapacity();
+                double degradationRate = commons.getDegradationRate();
+                Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
 
-            int carryingCapacity = commons.getCarryingCapacity();
-            double degradationRate = commons.getDegradationRate();
-            Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
+                Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(()->new RuntimeException("Error calling getNumCows(" + commons.getId() + ")"));
 
-            Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(()->new RuntimeException("Error calling getNumCows(" + commons.getId() + ")"));
-            for (UserCommons userCommons : allUserCommons) {
-                double totalHealths = 0d;
-                User user = userRepository.findById(userCommons.getUserId()).orElseThrow(()->new RuntimeException("Error calling userRepository.findById(" + userCommons.getUserId() + ")"));
-                ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
-                for(CowLot cowLot: cowLotRepository.findAllByUserCommonsId(userCommons.getId())){
-                    double newCowHealth = calculateNewCowHealth(cowLot.getHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
-                    ctx.log(" old cow health: " + cowLot.getHealth() + ", new cow health: " + newCowHealth);
-                    cowLot.setHealth(newCowHealth);
-                    if(newCowHealth > 0){
-                        cowLotRepository.save(cowLot);
-                    } else {
-                        cowLotRepository.delete(cowLot);
-                        userCommons.setNumOfCows(userCommons.getNumOfCows()-cowLot.getNumCows());
+                for (UserCommons userCommons : allUserCommons) {
+                    double totalHealths = 0d;
+                    User user = userRepository.findById(userCommons.getUserId()).orElseThrow(()->new RuntimeException("Error calling userRepository.findById(" + userCommons.getUserId() + ")"));
+                    ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
+                    for(CowLot cowLot: cowLotRepository.findAllByUserCommonsId(userCommons.getId())){
+                        double newCowHealth = calculateNewCowHealth(cowLot.getHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
+                        ctx.log("old cow health: " + cowLot.getHealth() + ", new cow health: " + newCowHealth);
+                        cowLot.setHealth(newCowHealth);
+                        if(newCowHealth > 0){
+                            cowLotRepository.save(cowLot);
+                        } else {
+                            cowLotRepository.delete(cowLot);
+                            userCommons.setNumOfCows(userCommons.getNumOfCows()-cowLot.getNumCows());
+                        }
+                        totalHealths += newCowHealth * cowLot.getNumCows();
                     }
-                    totalHealths += newCowHealth * cowLot.getNumCows();
+                    userCommons.setCowHealth(totalHealths / userCommons.getNumOfCows());
+                    userCommonsRepository.save(userCommons);
                 }
-                userCommons.setCowHealth(totalHealths / userCommons.getNumOfCows());
-                userCommonsRepository.save(userCommons);
+            } else{
+                ctx.log("Game " + name + " is not currently in progress, cow health will not be updated for this commons.");
             }
         }
-
-        ctx.log("Cow health has been updated!");
+        ctx.log("Update Cow Health job complete!");
     }
 
     public static double calculateNewCowHealth(
-            double oldCowHealth,
-            int numCows,
-            int totalCows,
-            int carryingCapacity,
-            double degradationRate) {
+        double oldCowHealth,
+        int numCows,
+        int totalCows,
+        int carryingCapacity,
+        double degradationRate) {
         if (totalCows <= carryingCapacity) {
             // increase cow health but do not exceed 100
             return Math.min(100, oldCowHealth + (degradationRate));

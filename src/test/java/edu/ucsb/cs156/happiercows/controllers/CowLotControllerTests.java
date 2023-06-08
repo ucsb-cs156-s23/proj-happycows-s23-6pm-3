@@ -66,7 +66,9 @@ public class CowLotControllerTests extends ControllerTestCase {
   }
 
   public static Commons dummyCommons(long id) {
-    Commons commons = new Commons(id, "test", 1, 1, 1, LocalDateTime.now(), 1, true, 1, 1, new ArrayList<User>());
+    LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
+    Commons commons = new Commons(id, "test", 1, 1, 1, startDate, endDate, 1, true, 1, 1, new ArrayList<User>());
     return commons;
   }
 

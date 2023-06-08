@@ -44,6 +44,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Seths Common",
                 "startingDate": "2022-03-05",
+                "lastDate": "2022-03-25",
                 "startingBalance": 1200,
                 "cowPrice": 15,
                 "milkPrice": 10,
@@ -55,6 +56,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Phill's Commons",
                 "startingDate": "2022-03-07",
+                "lastDate": "2022-06-06",
                 "startingBalance": 1400,
                 "cowPrice": 200,
                 "milkPrice": 5,
@@ -91,12 +93,14 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const lastDateField = screen.getByLabelText(/Last Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
             const showLeaderboardField = screen.getByLabelText(/Show Leaderboard\?/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(lastDateField).toHaveValue("2022-03-25");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -121,12 +125,14 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const lastDateField = screen.getByLabelText(/Last Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
             const showLeaderboardField = screen.getByLabelText(/Show Leaderboard\?/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(lastDateField).toHaveValue("2022-03-25");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -140,6 +146,7 @@ describe("AdminEditCommonsPage tests", () => {
 
             fireEvent.change(nameField, { target: { value: "Phill's Commons" } })
             fireEvent.change(startingDateField, { target: { value: "2022-03-07" } })
+            fireEvent.change(lastDateField, { target: { value: "2022-06-06" } })
             fireEvent.change(startingBalanceField, { target: { value: 1400 } })
             fireEvent.change(cowPriceField, { target: { value: 200 } })
             fireEvent.change(milkPriceField, { target: { value: 5 } })
@@ -161,6 +168,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "cowPrice": 200,
                 "milkPrice": 5,
                 "startingDate": "2022-03-07T00:00:00.000Z",
+                "lastDate": "2022-06-06T00:00:00.000Z",
                 "degradationRate": 40.3,
                 "carryingCapacity": 200,
                 "showLeaderboard": true,

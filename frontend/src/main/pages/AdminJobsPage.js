@@ -7,7 +7,7 @@ import TestJobForm from "main/components/Jobs/TestJobForm";
 import UpdateCowHealthForm from "main/components/Jobs/UpdateCowHealthForm";
 import MilkCowsJobForm from "main/components/Jobs/MilkCowsJobForm";
 import InstructorReportForm from "main/components/Jobs/InstructorReportForm";
-
+import { toast } from "react-toastify"
 import { useBackendMutation } from "main/utils/useBackend";
 
 const AdminJobsPage = () => {
@@ -22,13 +22,13 @@ const AdminJobsPage = () => {
     // Stryker disable all
     const testJobMutation = useBackendMutation(
         objectToAxiosParamsTestJob,
-        {  },
+        {},
         ["/api/jobs/all"]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const submitTestJob = async (data) => {
-        console.log("submitTestJob, data=", data);
+        toast(<div>Test Job Initiated and Running!</div>);
         testJobMutation.mutate(data);
     }
 
@@ -43,7 +43,7 @@ const AdminJobsPage = () => {
             [],
             { refetchInterval: refreshJobsIntervalMilliseconds }
         );
-    // Stryker enable  all
+    // Stryker restore all
 
     // UpdateCowHealth job
 
@@ -55,13 +55,13 @@ const AdminJobsPage = () => {
     // Stryker disable all
     const UpdateCowHealthMutation = useBackendMutation(
         objectToAxiosParamsUpdateCowHealthJob,
-        {  },
+        {},
         ["/api/jobs/all"]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const submitUpdateCowHealthJob = async () => {
-        console.log("submitUpdateCowHealthJob")
+        toast(<div>Updating Cow Health Initiated and Running!</div>);
         UpdateCowHealthMutation.mutate();
     }
 
@@ -71,32 +71,32 @@ const AdminJobsPage = () => {
         url: `/api/jobs/launch/milkthecowjob`,
         method: "POST"
     });
-
+   
     // Stryker disable all
     const MilkTheCowsMutation = useBackendMutation(
         objectToAxiosParamsMilkTheCowsJob,
-        {  },
+        {},
         ["/api/jobs/all"]
     );
-    // Stryker enable all
+    // Stryker restore all
 
     const submitMilkTheCowsJob = async () => {
-        console.log("submitMilkTheCowsJob")
+        toast(<div>Milking Cows Initiated and Running!</div>);
         MilkTheCowsMutation.mutate();
     }
 
     const jobLaunchers = [
         {
             name: "Test Job",
-            form:  <TestJobForm submitAction={submitTestJob} />
+            form: <TestJobForm submitAction={submitTestJob} />
         },
         {
             name: "Update Cow Health",
-            form: <UpdateCowHealthForm submitAction={submitUpdateCowHealthJob}/>
+            form: <UpdateCowHealthForm submitAction={submitUpdateCowHealthJob} />
         },
         {
             name: "Milk The Cows",
-            form: <MilkCowsJobForm submitAction={submitMilkTheCowsJob}/>
+            form: <MilkCowsJobForm submitAction={submitMilkTheCowsJob} />
         },
         {
             name: "Instructor Report",

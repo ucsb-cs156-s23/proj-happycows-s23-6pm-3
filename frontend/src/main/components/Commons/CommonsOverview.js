@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Card, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { daysElapsed } from "main/utils/commonsUtils";
 import { hasRole } from "main/utils/currentUser";
 
 export default function CommonsOverview({ commons, currentUser }) {
@@ -15,8 +16,7 @@ export default function CommonsOverview({ commons, currentUser }) {
             <Card.Body>
                 <Row>
                     <Col>
-                        <Card.Title>Today is day {commons.day}! </Card.Title>
-                        <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
+                        <Card.Title>Today is Day: {daysElapsed(commons.startingDate, Date.now())} </Card.Title>
                     </Col>
                     <Col>
                         {showLeaderboard &&
