@@ -4,24 +4,30 @@ import happyCowHead from "./../../../assets/happycow.png";
 import averageCowHead from "./../../../assets/averagecow.png";
 import sadCowHead from "./../../../assets/sadcow.png";
 import sickCowHead from "./../../../assets/sickcow.png";
+//import cowHead from "./../../../assets/happycow.png";
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
     // update cowPrice from fixture
     var cowHealth = Math.round(userCommons.cowHealth*100)/100;
     var cowHead = averageCowHead;
+    var cowIcon = "happyCowIcon";
 
-    if (cowHealth > 0) {
+    if (cowHealth >= 0) {
         cowHead = sickCowHead;
+        cowIcon = "sickCowIcon";
     }
-    if (cowHealth > 30) {
+    if (cowHealth >= 30) {
         cowHead = sadCowHead;
+        cowIcon = "sadCowIcon";
     }
-    if (cowHealth > 50) {
+    if (cowHealth >= 50) {
         cowHead = averageCowHead;
+        cowIcon = "averageCowIcon";
     }
-    if (cowHealth > 80 & cowHealth < 100) {
+    if (cowHealth >= 80) {
         cowHead = happyCowHead;
+        cowIcon = "happyCowIcon";
     }
 
     return (
@@ -35,7 +41,8 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
                 <Row>
                     <Col>
                         <Card.Text>
-                            <img alt="Cow Icon" className="icon" src={cowHead}></img>
+                            <img alt={cowIcon} className="icon" src={cowHead}></img>
+                            <img alt={cowIcon} className="icon" src={cowHead}></img>
                         </Card.Text>
                     </Col>
                     <Col>

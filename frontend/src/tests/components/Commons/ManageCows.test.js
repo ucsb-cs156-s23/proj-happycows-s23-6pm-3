@@ -4,6 +4,15 @@ import userCommonsFixtures from "fixtures/userCommonsFixtures";
 
 describe("ManageCows tests", () => {
     test("renders without crashing", () => {
+        const expectedHeaders = [ "Amount", "Date", "CowHealth", "NumCows"];
+        
+            expectedHeaders.forEach((headerText) => {
+            const header = screen.getByText(headerText);
+            expect(header).toBeInTheDocument();
+            });
+    });
+    
+    test("renders without crashing", () => {
         render(
             <ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]} onBuy={(userCommons) => { console.log("onBuy called:",userCommons); }} onSell={ (userCommons) => { console.log("onSell called:",userCommons); }} />
         );
