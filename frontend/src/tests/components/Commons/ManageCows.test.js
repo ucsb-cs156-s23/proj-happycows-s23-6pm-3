@@ -2,24 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import ManageCows from "main/components/Commons/ManageCows"; 
 import userCommonsFixtures from "fixtures/userCommonsFixtures"; 
 
-// {userCommons.cowHealth = 90}
-
-describe("ManageCows tests", () => {
-    // test('when cowHealth is below 30%, it displays a sick cow ', async () => {
-    //     render(<ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]}  />)
-    //     const {getByAltText} = document.querySelector("img") as HTMLImageElement;
-    //     expect(displayedImage.src).toContain("sickCowIcon");
-    // });
-
-    // test('when cowHealth is between 50-80%, it displays a average cow ', async () => {
-    //     const {getByAltText} = render(<ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]}  />)
-    //     getByAltText("averageCowIcon");
-    // });
-      
-    // test('when cowHealth is above 80%, it displays a happy cow ', async () => {
-    //     const {getByAltText} = render(<ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]}  />)
-    //     getByAltText("happyCowIcon");
-    // });
+describe("ManageCows tests", () => {    
     
     test("renders without crashing", () => {
         render(
@@ -46,7 +29,7 @@ describe("ManageCows tests", () => {
         
     });
 
-    test('when cowHealth is between 30-50%, it displays a sad cow ', async () => {        
+    test('when cowHealth is above 90%, it displays a happy cow ', async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]} />
         );
@@ -56,6 +39,42 @@ describe("ManageCows tests", () => {
         }); 
 
         expect(screen.getByAltText("happyCowIcon")).toBeInTheDocument();
+    });
+    
+    test('when cowHealth is between 80-90%, it displays a average cow ', async () => {        
+        render(
+            <ManageCows userCommons = {userCommonsFixtures.fiveUserCommons[3]} />
+        );
+
+        await waitFor (() => {
+            expect(screen.getByText(/Cow Health: 84%/)).toBeInTheDocument();
+        }); 
+
+        expect(screen.getByAltText("averageCowIcon")).toBeInTheDocument();
+    });
+
+    test('when cowHealth is between 50-80%, it displays a sad cow ', async () => {        
+        render(
+            <ManageCows userCommons = {userCommonsFixtures.tenUserCommons[9]} />
+        );
+
+        await waitFor (() => {
+            expect(screen.getByText(/Cow Health: 72%/)).toBeInTheDocument();
+        }); 
+
+        expect(screen.getByAltText("sadCowIcon")).toBeInTheDocument();
+    });
+
+    test('when cowHealth is below 50%, it displays a sick cow ', async () => {        
+        render(
+            <ManageCows userCommons = {userCommonsFixtures.threeUserCommons[2]} />
+        );
+
+        await waitFor (() => {
+            expect(screen.getByText(/Cow Health: 2%/)).toBeInTheDocument();
+        }); 
+
+        expect(screen.getByAltText("sickCowIcon")).toBeInTheDocument();
     });
 
 });
