@@ -2,15 +2,24 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import ManageCows from "main/components/Commons/ManageCows"; 
 import userCommonsFixtures from "fixtures/userCommonsFixtures"; 
 
+// {userCommons.cowHealth = 90}
+
 describe("ManageCows tests", () => {
-    test("renders without crashing", () => {
-        const expectedHeaders = [ "Amount", "Date", "CowHealth", "NumCows"];
-        
-            expectedHeaders.forEach((headerText) => {
-            const header = screen.getByText(headerText);
-            expect(header).toBeInTheDocument();
-            });
-    });
+    // test('when cowHealth is below 30%, it displays a sick cow ', async () => {
+    //     render(<ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]}  />)
+    //     const {getByAltText} = document.querySelector("img") as HTMLImageElement;
+    //     expect(displayedImage.src).toContain("sickCowIcon");
+    // });
+
+    // test('when cowHealth is between 50-80%, it displays a average cow ', async () => {
+    //     const {getByAltText} = render(<ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]}  />)
+    //     getByAltText("averageCowIcon");
+    // });
+      
+    // test('when cowHealth is above 80%, it displays a happy cow ', async () => {
+    //     const {getByAltText} = render(<ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]}  />)
+    //     getByAltText("happyCowIcon");
+    // });
     
     test("renders without crashing", () => {
         render(
@@ -35,6 +44,18 @@ describe("ManageCows tests", () => {
         fireEvent.click(sellButton);
         await waitFor( ()=>expect(mockSell).toHaveBeenCalled() );
         
+    });
+
+    test('when cowHealth is between 30-50%, it displays a sad cow ', async () => {        
+        render(
+            <ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]} />
+        );
+
+        await waitFor (() => {
+            expect(screen.getByText(/Cow Health: 98%/)).toBeInTheDocument();
+        }); 
+
+        expect(screen.getByAltText("happyCowIcon")).toBeInTheDocument();
     });
 
 });

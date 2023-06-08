@@ -4,7 +4,6 @@ import happyCowHead from "./../../../assets/happycow.png";
 import averageCowHead from "./../../../assets/averagecow.png";
 import sadCowHead from "./../../../assets/sadcow.png";
 import sickCowHead from "./../../../assets/sickcow.png";
-//import cowHead from "./../../../assets/happycow.png";
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
@@ -42,7 +41,7 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
                     <Col>
                         <Card.Text>
                             <img alt={cowIcon} className="icon" src={cowHead}></img>
-                            <img alt={cowIcon} className="icon" src={cowHead}></img>
+                            Cow Health: {cowHealth}%
                         </Card.Text>
                     </Col>
                     <Col>
