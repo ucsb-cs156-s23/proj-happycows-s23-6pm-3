@@ -3,7 +3,7 @@ import ManageCows from "main/components/Commons/ManageCows";
 import userCommonsFixtures from "fixtures/userCommonsFixtures"; 
 
 describe("ManageCows tests", () => {    
-    
+
     test("renders without crashing", () => {
         render(
             <ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]} onBuy={(userCommons) => { console.log("onBuy called:",userCommons); }} onSell={ (userCommons) => { console.log("onSell called:",userCommons); }} />
@@ -29,7 +29,7 @@ describe("ManageCows tests", () => {
         
     });
 
-    test('when cowHealth is above 90%, it displays a happy cow ', async () => {        
+    test("when cowHealth is above 90%, it displays a happy cow", async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]} />
         );
@@ -41,7 +41,7 @@ describe("ManageCows tests", () => {
         expect(screen.getByAltText("happyCowIcon")).toBeInTheDocument();
     });
     
-    test('when cowHealth is between 80-90%, it displays a average cow ', async () => {        
+    test("when cowHealth is between 80-90%, it displays a average cow", async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.fiveUserCommons[3]} />
         );
@@ -53,7 +53,7 @@ describe("ManageCows tests", () => {
         expect(screen.getByAltText("averageCowIcon")).toBeInTheDocument();
     });
 
-    test('when cowHealth is between 50-80%, it displays a sad cow ', async () => {        
+    test("when cowHealth is between 50-80%, it displays a sad cow", async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.tenUserCommons[9]} />
         );
@@ -65,7 +65,7 @@ describe("ManageCows tests", () => {
         expect(screen.getByAltText("sadCowIcon")).toBeInTheDocument();
     });
 
-    test('when cowHealth is below 50%, it displays a sick cow ', async () => {        
+    test("when cowHealth is below 50%, it displays a sick cow", async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.threeUserCommons[2]} />
         );
