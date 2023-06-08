@@ -59,7 +59,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 // Assert
                 String expected = """
-                                Updating cow health...""";
+                                Starting Update Cow Health job:
+                                Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
         }
@@ -81,8 +82,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(10)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -105,8 +104,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(1)
                                 .cowHealth(10.01)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -125,11 +122,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Assert
 
                 String expected = """
-                                Updating cow health...
+                                Starting Update Cow Health job:
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0
-                                 old cow health: 10.0, new cow health: 10.01
-                                Cow health has been updated!""";
+                                old cow health: 10.0, new cow health: 10.01
+                                Cow health has been updated!
+                                Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
@@ -152,8 +150,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(101)
                                 .cowHealth(100)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -176,8 +172,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(101)
                                 .cowHealth(99.99)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -196,11 +190,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Assert
 
                 String expected = """
-                                Updating cow health...
+                                Starting Update Cow Health job:
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 101, cowHealth: 100.0
-                                 old cow health: 100.0, new cow health: 99.99
-                                Cow health has been updated!""";
+                                old cow health: 100.0, new cow health: 99.99
+                                Cow health has been updated!
+                                Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
@@ -223,8 +218,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(100)
                                 .cowHealth(50)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -247,8 +240,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(100)
                                 .cowHealth(50.01)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -267,11 +258,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Assert
 
                 String expected = """
-                                Updating cow health...
+                                Starting Update Cow Health job:
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 100, cowHealth: 50.0
-                                 old cow health: 50.0, new cow health: 50.01
-                                Cow health has been updated!""";
+                                old cow health: 50.0, new cow health: 50.01
+                                Cow health has been updated!
+                                Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
@@ -294,8 +286,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(150)
                                 .cowHealth(0)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -305,7 +295,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .milkPrice(2)
                                 .startingBalance(300)
                                 .startingDate(startDate)
-.lastDate(endDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -318,8 +308,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(150)
                                 .cowHealth(0)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -338,11 +326,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Assert
 
                 String expected = """
-                                Updating cow health...
+                                Starting Update Cow Health job:
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 150, cowHealth: 0.0
-                                 old cow health: 0.0, new cow health: 0.0
-                                Cow health has been updated!""";
+                                old cow health: 0.0, new cow health: 0.0
+                                Cow health has been updated!
+                                Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
@@ -365,8 +354,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(100)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -376,7 +363,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .milkPrice(2)
                                 .startingBalance(300)
                                 .startingDate(startDate)
-.lastDate(endDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -389,8 +376,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(1)
                                 .cowHealth(100)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -409,11 +394,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Assert
 
                 String expected = """
-                                Updating cow health...
-                                Commons test commons, degradationRate: 0.01, carryingCapacity: 100
-                                User: Chris Gaucho, numCows: 1, cowHealth: 100.0
-                                 old cow health: 100.0, new cow health: 100.0
-                                Cow health has been updated!""";
+                        Starting Update Cow Health job:
+                        Commons test commons, degradationRate: 0.01, carryingCapacity: 100
+                        User: Chris Gaucho, numCows: 1, cowHealth: 100.0
+                        old cow health: 100.0, new cow health: 100.0
+                        Cow health has been updated!
+                        Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
@@ -436,8 +422,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(5)
                                 .cowHealth(50)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 UserCommons origUserCommons2 = UserCommons
@@ -448,8 +432,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(5)
                                 .cowHealth(50)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 UserCommons origUserCommons3 = UserCommons
@@ -460,8 +442,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(5)
                                 .cowHealth(50)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -484,8 +464,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(5)
                                 .cowHealth(50.01)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -504,17 +482,18 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Assert
 
                 String expected = """
-                                Updating cow health...
+                                Starting Update Cow Health job:
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 10
                                 User: Chris Gaucho, numCows: 5, cowHealth: 50.0
-                                 old cow health: 50.0, new cow health: 50.01
+                                old cow health: 50.0, new cow health: 50.01
                                 Cow health has been updated!
                                 User: Chris Gaucho, numCows: 5, cowHealth: 50.0
-                                 old cow health: 50.0, new cow health: 50.01
+                                old cow health: 50.0, new cow health: 50.01
                                 Cow health has been updated!
                                 User: Chris Gaucho, numCows: 5, cowHealth: 50.0
-                                 old cow health: 50.0, new cow health: 50.01
-                                Cow health has been updated!""";
+                                old cow health: 50.0, new cow health: 50.01
+                                Cow health has been updated!
+                                Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons1.getCowHealth(), newUserCommons.getCowHealth());
@@ -539,8 +518,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(10)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -551,7 +528,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .milkPrice(2)
                                 .startingBalance(300)
                                 .startingDate(startDate)
-.lastDate(endDate)
+                                .lastDate(endDate)
                                 .carryingCapacity(100)
                                 .degradationRate(0.01)
                                 .build();
@@ -594,8 +571,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(1)
                                 .cowHealth(10)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -646,7 +621,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // act
 
                 double newCowHealth = UpdateCowHealthJob.calculateNewCowHealth(oldCowHealth, numCows, totalCows,
-                                carryingCapacity, degradationRate, true);
+                                carryingCapacity, degradationRate);
 
                 // assert
 
@@ -668,7 +643,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // act
 
                 double newCowHealth = UpdateCowHealthJob.calculateNewCowHealth(oldCowHealth, numCows, totalCows,
-                                carryingCapacity, degradationRate, true);
+                                carryingCapacity, degradationRate);
 
                 // assert
 
@@ -690,7 +665,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // act
 
                 double newCowHealth = UpdateCowHealthJob.calculateNewCowHealth(oldCowHealth, numCows, totalCows,
-                                carryingCapacity, degradationRate, true);
+                                carryingCapacity, degradationRate);
 
                 // assert
 
@@ -712,7 +687,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // act
 
                 double newCowHealth = UpdateCowHealthJob.calculateNewCowHealth(oldCowHealth, numCows, totalCows,
-                                carryingCapacity, degradationRate, true);
+                                carryingCapacity, degradationRate);
 
                 // assert
 
@@ -737,8 +712,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(101)
                                 .cowHealth(100)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -761,8 +734,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(101)
                                 .cowHealth(100)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -781,10 +752,9 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Assert
 
                 String expected = """
-                                Updating cow health...
-                                Commons test commons, degradationRate: 0.36, carryingCapacity: 100
-                                User: Chris Gaucho, numCows: 101, cowHealth: 100.0
-                                Game is not in progress: cow health will not be updated for this commons.""";
+                               Starting Update Cow Health job:
+                               Game test commons is not currently in progress, cow health will not be updated for this commons.
+                               Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
@@ -807,8 +777,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300)
                                 .numOfCows(101)
                                 .cowHealth(100)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons testCommons = Commons
@@ -831,8 +799,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(101)
                                 .cowHealth(100)
-                                .startingDate(startDate)
-                                .lastDate(endDate)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -850,10 +816,10 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 // Assert
 
-                String expected = "Updating cow health...\n"+
-                                "Commons test commons, degradationRate: 0.36, carryingCapacity: 100\n"+
-                                "User: Chris Gaucho, numCows: 101, cowHealth: 100.0\n"+
-                                "Game is not in progress: cow health will not be updated for this commons.";
+                String expected = """
+                                Starting Update Cow Health job:
+                                Game test commons is not currently in progress, cow health will not be updated for this commons.
+                                Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());

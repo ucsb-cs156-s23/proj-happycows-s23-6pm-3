@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.*;
 import java.util.stream.*;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -192,8 +193,6 @@ public class CommonsController extends ApiController {
         .totalWealth(joinedCommons.getStartingBalance())
         .numOfCows(0)
         .cowHealth(100)
-        .startingDate(joinedCommons.getStartingDate())
-        .lastDate(joinedCommons.getLastDate())
         .build();
 
     userCommonsRepository.save(uc);

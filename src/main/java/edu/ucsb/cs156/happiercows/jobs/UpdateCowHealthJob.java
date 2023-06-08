@@ -46,7 +46,7 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                     User user = userRepository.findById(userCommons.getUserId()).orElseThrow(()->new RuntimeException("Error calling userRepository.findById(" + userCommons.getUserId() + ")"));
                     ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
                         double newCowHealth = calculateNewCowHealth(userCommons.getCowHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
-                        ctx.log(" old cow health: " + userCommons.getCowHealth() + ", new cow health: " + newCowHealth);
+                        ctx.log("old cow health: " + userCommons.getCowHealth() + ", new cow health: " + newCowHealth);
                         userCommons.setCowHealth(newCowHealth);
                         ctx.log("Cow health has been updated!");
                     userCommonsRepository.save(userCommons);

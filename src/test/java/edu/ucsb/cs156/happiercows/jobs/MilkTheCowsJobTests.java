@@ -67,7 +67,8 @@ public class MilkTheCowsJobTests {
         // Assert
 
         String expected = """
-                Starting to milk the cows""";
+                Starting Milk Cows job:
+                Milk Cows job complete!""";
 
         assertEquals(expected, jobStarted.getLog());
     }
@@ -89,8 +90,6 @@ public class MilkTheCowsJobTests {
                 .totalWealth(300)
                 .numOfCows(1)
                 .cowHealth(10)
-                .startingDate(startDate) //arbitrarily far into the future
-                .lastDate(endDate)
                 .build();
 
         Commons testCommons = Commons
@@ -121,11 +120,11 @@ public class MilkTheCowsJobTests {
         // Assert
 
         String expected = """
-                Starting to milk the cows
+                Starting Milk Cows job:
                 Milking cows for Commons: test commons, Milk Price: $2.00
                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0, totalWealth: $300.00
                 Profit for user: Chris Gaucho is: $0.20, newWealth: $300.20
-                Cows have been milked!""";
+                Milk Cows job complete!""";
 
         assertEquals(expected, jobStarted.getLog());
     }
@@ -147,8 +146,6 @@ public class MilkTheCowsJobTests {
                 .totalWealth(300)
                 .numOfCows(1)
                 .cowHealth(10)
-                .startingDate(startDate) //arbitrarily far into the future
-                .lastDate(endDate)
                 .build();
 
         Commons testCommons = Commons
@@ -171,8 +168,6 @@ public class MilkTheCowsJobTests {
                 .totalWealth(300.20)
                 .numOfCows(1)
                 .cowHealth(10)
-                .startingDate(startDate)
-                .lastDate(endDate) //arbitrarily far into the future
                 .build();
 
         Commons commonsTemp[] = { testCommons };
@@ -218,8 +213,6 @@ public class MilkTheCowsJobTests {
                             .totalWealth(300)
                             .numOfCows(1)
                             .cowHealth(10)
-                            .startingDate(startDate) //arbitrarily far into the future
-                                .lastDate(endDate)
                             .build();
 
             Commons testCommons = Commons
@@ -274,8 +267,6 @@ public class MilkTheCowsJobTests {
                             .totalWealth(300)
                             .numOfCows(1)
                             .cowHealth(10)
-                            .startingDate(startDate) //arbitrarily far into the future
-                            .lastDate(endDate)
                             .build();
 
             Commons testCommons = Commons
@@ -330,8 +321,6 @@ public class MilkTheCowsJobTests {
                 .totalWealth(300)
                 .numOfCows(1)
                 .cowHealth(10)
-                .startingDate(startDate) //arbitrarily far into the future
-                .lastDate(endDate)
                 .build();
 
         Commons testCommons = Commons
@@ -362,10 +351,9 @@ public class MilkTheCowsJobTests {
         // Assert
 
         String expected = """
-                Starting to milk the cows
-                Milking cows for Commons: test commons, Milk Price: $2.00
-                Commons test commons is not currently in progress, and cows were not milked.
-                Cows have been milked!""";
+                Starting Milk Cows job:
+                Commons test commons is not currently in progress, cows will not be milked in this commons.
+                Milk Cows job complete!""";
 
         assertEquals(expected, jobStarted.getLog());
     }
@@ -387,8 +375,6 @@ public class MilkTheCowsJobTests {
                 .totalWealth(300)
                 .numOfCows(1)
                 .cowHealth(10)
-                .startingDate(startDate) 
-                .lastDate(endDate)
                 .build();
 
         Commons testCommons = Commons
@@ -419,10 +405,9 @@ public class MilkTheCowsJobTests {
         // Assert
 
         String expected = """
-                Starting to milk the cows
-                Milking cows for Commons: test commons, Milk Price: $2.00
-                Commons test commons is not currently in progress, and cows were not milked.
-                Cows have been milked!""";
+                Starting Milk Cows job:
+                Commons test commons is not currently in progress, cows will not be milked in this commons.
+                Milk Cows job complete!""";
 
         assertEquals(expected, jobStarted.getLog());
     }

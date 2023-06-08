@@ -19,7 +19,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public class MilkTheCowsJob implements JobContextConsumer {
-
     @Getter
     private CommonsRepository commonsRepository;
     @Getter
@@ -52,15 +51,15 @@ public class MilkTheCowsJob implements JobContextConsumer {
             }
             ctx.log("Milk Cows job complete!");
         } 
-    }
+
+    
 
     /** This method performs the function of milking the cows for a single userCommons. 
      *  It is a public method only so it can be exposed to the unit tests
      * @param ctx the JobContext
      * @param commons the Commons
      * @param userCommons the UserCommons
-     *
-     * */
+     **/
 
     public void milkCows(JobContext ctx, Commons commons, UserCommons userCommons) {
         User user = userRepository.findById(userCommons.getUserId()).orElseThrow(() -> new RuntimeException(
