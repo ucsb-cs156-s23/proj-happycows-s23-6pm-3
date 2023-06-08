@@ -360,6 +360,8 @@ public class UpdateCowHealthJobTests {
 
                 assertEquals(expected, jobStarted.getLog());
                 verify(cowLotRepository, times(1)).delete(origCowLot);
+                // verify(origUserCommons, times(1)).setNumOfCows(0);
+                assertEquals(0,origUserCommons.getNumOfCows());
         }
 
         @Test
@@ -513,6 +515,13 @@ public class UpdateCowHealthJobTests {
                                 .numCows(5)
                                 .health(50)
                                 .build();
+                CowLot testCowLot3 = CowLot
+                                .builder()
+                                .id(2L)
+                                .userCommonsId(origUserCommons3.getId())
+                                .numCows(5)
+                                .health(50.01d)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons1, origUserCommons2, origUserCommons3 };
@@ -545,6 +554,8 @@ public class UpdateCowHealthJobTests {
                                 User: Chris Gaucho, numCows: 5, cowHealth: 50.0
                                  old cow health: 50.0, new cow health: 50.01
                                 Cow health has been updated!""";
+
+                verify(cowLotRepository, times(1)).save(testCowLot3);
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons1.getCowHealth(), newUserCommons.getCowHealth());
