@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.happiercows.jobs;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.Profit;
@@ -18,7 +19,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public class MilkTheCowsJob implements JobContextConsumer {
-
     @Getter
     private CommonsRepository commonsRepository;
     @Getter
@@ -34,32 +34,32 @@ public class MilkTheCowsJob implements JobContextConsumer {
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        ctx.log("Starting to milk the cows");
-
-        Iterable<Commons> allCommons = commonsRepository.findAll();
-
-        for (Commons commons : allCommons) {
-            String name = commons.getName();
-            double milkPrice = commons.getMilkPrice();
-            ctx.log("Milking cows for Commons: " + name + ", Milk Price: " + formatDollars(milkPrice));
-
-            Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
-
-            for (UserCommons userCommons : allUserCommons) {
-                milkCows(ctx, commons, userCommons);
+            ctx.log("Starting Milk Cows job:");
+            Iterable<Commons> allCommons = commonsRepository.findAll();
+            for (Commons commons : allCommons) {
+                String name = commons.getName();
+                if(commons.gameInProgress()){
+                    double milkPrice = commons.getMilkPrice();
+                    ctx.log("Milking cows for Commons: " + name + ", Milk Price: " + formatDollars(milkPrice));
+                    Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
+                    for (UserCommons userCommons : allUserCommons) {
+                        milkCows(ctx, commons, userCommons);
+                    }
+                } else {
+                    ctx.log("Commons " + name + " is not currently in progress, cows will not be milked in this commons.");
+                }
             }
-        }
+            ctx.log("Milk Cows job complete!");
+        } 
 
-        ctx.log("Cows have been milked!");
-    }
+    
 
     /** This method performs the function of milking the cows for a single userCommons. 
      *  It is a public method only so it can be exposed to the unit tests
      * @param ctx the JobContext
      * @param commons the Commons
      * @param userCommons the UserCommons
-     *
-     * */
+     **/
 
     public void milkCows(JobContext ctx, Commons commons, UserCommons userCommons) {
         User user = userRepository.findById(userCommons.getUserId()).orElseThrow(() -> new RuntimeException(

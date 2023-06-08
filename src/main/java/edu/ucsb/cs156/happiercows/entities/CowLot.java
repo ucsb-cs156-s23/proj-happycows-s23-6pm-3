@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.happiercows.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

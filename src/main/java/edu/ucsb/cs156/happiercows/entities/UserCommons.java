@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Builder;
 import lombok.AccessLevel;
-
-
+import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Data
