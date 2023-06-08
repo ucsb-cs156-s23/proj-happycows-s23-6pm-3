@@ -9,24 +9,18 @@ import sickCowHead from "./../../../assets/sickcow.png";
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
     // update cowPrice from fixture
     var cowHealth = Math.round(userCommons.cowHealth*100)/100;
-    var cowHead = averageCowHead;
-    var cowIcon = "happyCowIcon";
+    var cowHead = sickCowHead;
+    var cowIcon = "sickCowIcon";
 
-    if (cowHealth >= 0) {
-        cowHead = sickCowHead;
-        cowIcon = "sickCowIcon";
-    }
-    if (cowHealth >= 50) {
-        cowHead = sadCowHead;
-        cowIcon = "sadCowIcon";
-    }
-    if (cowHealth >= 80) {
-        cowHead = averageCowHead;
-        cowIcon = "averageCowIcon";
-    }
-    if (cowHealth >= 90) {
+    if (cowHealth >= 93) {
         cowHead = happyCowHead;
         cowIcon = "happyCowIcon";
+    } else if (cowHealth >= 84) {
+        cowHead = averageCowHead;
+        cowIcon = "averageCowIcon";
+    } else if (cowHealth >= 72) {
+        cowHead = sadCowHead;
+        cowIcon = "sadCowIcon";
     }
 
     return (

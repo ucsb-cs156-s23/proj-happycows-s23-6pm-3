@@ -29,19 +29,19 @@ describe("ManageCows tests", () => {
         
     });
 
-    test("when cowHealth is above 90%, it displays a happy cow", async () => {        
+    test("when cowHealth is 93% or above, it displays a happy cow", async () => {        
         render(
-            <ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]} />
+            <ManageCows userCommons = {userCommonsFixtures.threeUserCommons[0]} />
         );
 
         await waitFor (() => {
-            expect(screen.getByText(/Cow Health: 98%/)).toBeInTheDocument();
+            expect(screen.getByText(/Cow Health: 93%/)).toBeInTheDocument();
         }); 
 
         expect(screen.getByAltText("happyCowIcon")).toBeInTheDocument();
     });
     
-    test("when cowHealth is between 80-90%, it displays a average cow", async () => {        
+    test("when cowHealth is 84%-92%, it displays a average cow", async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.fiveUserCommons[3]} />
         );
@@ -53,7 +53,7 @@ describe("ManageCows tests", () => {
         expect(screen.getByAltText("averageCowIcon")).toBeInTheDocument();
     });
 
-    test("when cowHealth is between 50-80%, it displays a sad cow", async () => {        
+    test("when cowHealth is 72%-83%, it displays a sad cow", async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.tenUserCommons[9]} />
         );
@@ -65,7 +65,7 @@ describe("ManageCows tests", () => {
         expect(screen.getByAltText("sadCowIcon")).toBeInTheDocument();
     });
 
-    test("when cowHealth is below 50%, it displays a sick cow", async () => {        
+    test("when cowHealth is below 72%, it displays a sick cow", async () => {        
         render(
             <ManageCows userCommons = {userCommonsFixtures.threeUserCommons[2]} />
         );
