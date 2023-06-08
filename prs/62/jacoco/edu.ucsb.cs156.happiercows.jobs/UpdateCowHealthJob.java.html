@@ -33,54 +33,57 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-<span class="fc" id="L36">        ctx.log(&quot;Updating cow health...&quot;);</span>
+<span class="fc" id="L36">        ctx.log(&quot;Starting Update Cow Health job:&quot;);</span>
+<span class="fc" id="L37">        Iterable&lt;Commons&gt; allCommons = commonsRepository.findAll();</span>
+        
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        for (Commons commons : allCommons) {</span>
+<span class="fc" id="L40">            String name = commons.getName();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            if(commons.gameInProgress()){</span>
+<span class="fc" id="L42">                ctx.log(&quot;Commons &quot; + commons.getName() + &quot;, degradationRate: &quot; + commons.getDegradationRate() + &quot;, carryingCapacity: &quot; + commons.getCarryingCapacity());</span>
+<span class="fc" id="L43">                int carryingCapacity = commons.getCarryingCapacity();</span>
+<span class="fc" id="L44">                double degradationRate = commons.getDegradationRate();</span>
+<span class="fc" id="L45">                Iterable&lt;UserCommons&gt; allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());</span>
 
-<span class="fc" id="L38">        Iterable&lt;Commons&gt; allCommons = commonsRepository.findAll();</span>
+<span class="fc" id="L47">                Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(()-&gt;new RuntimeException(&quot;Error calling getNumCows(&quot; + commons.getId() + &quot;)&quot;));</span>
 
-<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (Commons commons : allCommons) {</span>
-<span class="fc" id="L41">            ctx.log(&quot;Commons &quot; + commons.getName() + &quot;, degradationRate: &quot; + commons.getDegradationRate() + &quot;, carryingCapacity: &quot; + commons.getCarryingCapacity());</span>
-
-<span class="fc" id="L43">            int carryingCapacity = commons.getCarryingCapacity();</span>
-<span class="fc" id="L44">            double degradationRate = commons.getDegradationRate();</span>
-<span class="fc" id="L45">            Iterable&lt;UserCommons&gt; allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());</span>
-
-<span class="fc" id="L47">            Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(()-&gt;new RuntimeException(&quot;Error calling getNumCows(&quot; + commons.getId() + &quot;)&quot;));</span>
-<span class="fc bfc" id="L48" title="All 2 branches covered.">            for (UserCommons userCommons : allUserCommons) {</span>
-<span class="fc" id="L49">                double totalHealths = 0d;</span>
-<span class="fc" id="L50">                User user = userRepository.findById(userCommons.getUserId()).orElseThrow(()-&gt;new RuntimeException(&quot;Error calling userRepository.findById(&quot; + userCommons.getUserId() + &quot;)&quot;));</span>
-<span class="fc" id="L51">                ctx.log(&quot;User: &quot; + user.getFullName() + &quot;, numCows: &quot; + userCommons.getNumOfCows() + &quot;, cowHealth: &quot; + userCommons.getCowHealth());</span>
-<span class="fc bfc" id="L52" title="All 2 branches covered.">                for(CowLot cowLot: cowLotRepository.findAllByUserCommonsId(userCommons.getId())){</span>
-<span class="fc" id="L53">                    double newCowHealth = calculateNewCowHealth(cowLot.getHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);</span>
-<span class="fc" id="L54">                    ctx.log(&quot; old cow health: &quot; + cowLot.getHealth() + &quot;, new cow health: &quot; + newCowHealth);</span>
-<span class="fc" id="L55">                    cowLot.setHealth(newCowHealth);</span>
-<span class="fc bfc" id="L56" title="All 2 branches covered.">                    if(newCowHealth &gt; 0){</span>
-<span class="fc" id="L57">                        cowLotRepository.save(cowLot);</span>
-                    } else {
-<span class="fc" id="L59">                        cowLotRepository.delete(cowLot);</span>
-<span class="fc" id="L60">                        userCommons.setNumOfCows(userCommons.getNumOfCows()-cowLot.getNumCows());</span>
-                    }
-<span class="fc" id="L62">                    totalHealths += newCowHealth * cowLot.getNumCows();</span>
-<span class="fc" id="L63">                }</span>
-<span class="fc" id="L64">                userCommons.setCowHealth(totalHealths / userCommons.getNumOfCows());</span>
-<span class="fc" id="L65">                userCommonsRepository.save(userCommons);</span>
-<span class="fc" id="L66">            }</span>
-<span class="fc" id="L67">        }</span>
-
-<span class="fc" id="L69">        ctx.log(&quot;Cow health has been updated!&quot;);</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">                for (UserCommons userCommons : allUserCommons) {</span>
+<span class="fc" id="L50">                    double totalHealths = 0d;</span>
+<span class="fc" id="L51">                    User user = userRepository.findById(userCommons.getUserId()).orElseThrow(()-&gt;new RuntimeException(&quot;Error calling userRepository.findById(&quot; + userCommons.getUserId() + &quot;)&quot;));</span>
+<span class="fc" id="L52">                    ctx.log(&quot;User: &quot; + user.getFullName() + &quot;, numCows: &quot; + userCommons.getNumOfCows() + &quot;, cowHealth: &quot; + userCommons.getCowHealth());</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                    for(CowLot cowLot: cowLotRepository.findAllByUserCommonsId(userCommons.getId())){</span>
+<span class="fc" id="L54">                        double newCowHealth = calculateNewCowHealth(cowLot.getHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);</span>
+<span class="fc" id="L55">                        ctx.log(&quot;old cow health: &quot; + cowLot.getHealth() + &quot;, new cow health: &quot; + newCowHealth);</span>
+<span class="fc" id="L56">                        cowLot.setHealth(newCowHealth);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                        if(newCowHealth &gt; 0){</span>
+<span class="fc" id="L58">                            cowLotRepository.save(cowLot);</span>
+                        } else {
+<span class="fc" id="L60">                            cowLotRepository.delete(cowLot);</span>
+<span class="fc" id="L61">                            userCommons.setNumOfCows(userCommons.getNumOfCows()-cowLot.getNumCows());</span>
+                        }
+<span class="fc" id="L63">                        totalHealths += newCowHealth * cowLot.getNumCows();</span>
+<span class="fc" id="L64">                    }</span>
+<span class="fc" id="L65">                    userCommons.setCowHealth(totalHealths / userCommons.getNumOfCows());</span>
+<span class="fc" id="L66">                    userCommonsRepository.save(userCommons);</span>
+<span class="fc" id="L67">                }</span>
+<span class="fc" id="L68">            } else{</span>
+<span class="fc" id="L69">                ctx.log(&quot;Game &quot; + name + &quot; is not currently in progress, cow health will not be updated for this commons.&quot;);</span>
+            }
+<span class="fc" id="L71">        }</span>
+<span class="fc" id="L72">        ctx.log(&quot;Update Cow Health job complete!&quot;);</span>
+<span class="fc" id="L73">    }</span>
 
     public static double calculateNewCowHealth(
-            double oldCowHealth,
-            int numCows,
-            int totalCows,
-            int carryingCapacity,
-            double degradationRate) {
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (totalCows &lt;= carryingCapacity) {</span>
+        double oldCowHealth,
+        int numCows,
+        int totalCows,
+        int carryingCapacity,
+        double degradationRate) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (totalCows &lt;= carryingCapacity) {</span>
             // increase cow health but do not exceed 100
-<span class="fc" id="L80">            return Math.min(100, oldCowHealth + (degradationRate));</span>
+<span class="fc" id="L83">            return Math.min(100, oldCowHealth + (degradationRate));</span>
         } else {
             // decrease cow health, don't go lower than 0
-<span class="fc" id="L83">            return Math.max(0, oldCowHealth - Math.min((totalCows - carryingCapacity) * degradationRate, 100));</span>
+<span class="fc" id="L86">            return Math.max(0, oldCowHealth - Math.min((totalCows - carryingCapacity) * degradationRate, 100));</span>
         }
     }
 
