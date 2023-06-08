@@ -80,3 +80,14 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
+### Licensing
+
+The cow images in the following files:
+* frontend/src/assets/happycow.png
+* frontend/src/assets/averagecow.png
+* frontend/src/assets/sadcow.png
+* frontend/src/assets/sickcow.png
+
+Were created by Amy based on artwork from @lemmling.
+
+The license for website openclipart.org states that anyone "may use all clipart from Openclipart even for unlimited commercial use." Amy authorizes the authors of the HappyCows to use these images freely in this app or any successors to this app. 
