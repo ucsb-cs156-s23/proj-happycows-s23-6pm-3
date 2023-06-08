@@ -41,7 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 
-@WebMvcTest(controllers = UserCommonsController.class)
+@WebMvcTest(controllers = {CowLotController.class, UserCommonsController.class})
 @AutoConfigureDataJpa
 public class CowLotControllerTests extends ControllerTestCase {
 
@@ -61,51 +61,50 @@ public class CowLotControllerTests extends ControllerTestCase {
   private ObjectMapper objectMapper;
 
   public static CowLot dummyCowLot(long id) {
-    CowLot cowLot = new CowLot(1, 3, 4, 97.5);
+    CowLot cowLot = new CowLot(0, 1, 1, 100.0);
     return cowLot;
+  }
+
+  public static Commons dummyCommons(long id) {
+    Commons commons = new Commons(id, "test", 1, 1, 1, LocalDateTime.now(), 1, true, 1, 1, new ArrayList<User>());
+    return commons;
+  }
+
+  public static UserCommons dummyUserCommons(long id) {
+    UserCommons userCommons = new UserCommons(id,1,1,"test",1,1, 100);
+    return userCommons;
   }
 
   @WithMockUser(roles = { "USER" })
   @Test
   public void test_get_CowLot() throws Exception {
-    List<CowLot> expectedCowLot = new ArrayList<CowLot>();
+    //arrange cowLots
+    List<CowLot> expectedCowLots = new ArrayList<CowLot>();
     CowLot testexpectedCowLot = dummyCowLot(1);
-    expectedCowLot.add(testexpectedCowLot);
+    expectedCowLots.add(testexpectedCowLot);
+    when(cowLotRepository.findAllByUserCommonsId(1L)).thenReturn(expectedCowLots);
 
-    User u = currentUserService.getCurrentUser().getUser();
+    //arrange other
+    Commons expectedCommons = dummyCommons(1);
+    UserCommons expectedUserCommons = dummyUserCommons(1);
+    when(commonsRepository.findById(1L)).thenReturn(Optional.of(expectedCommons));
+    when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(expectedUserCommons));
 
-    ArrayList<User> expectedUsers = new ArrayList<>();
-    expectedUsers.addAll(Arrays.asList(u));
+    String requestBody = mapper.writeValueAsString(expectedUserCommons);
 
-    when(userRepository.findAll()).thenReturn(expectedUsers);
+    // act
+    MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+    .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(requestBody)
+                .with(csrf()))
+        .andExpect(status().isOk()).andReturn();
 
-    UserCommons testUserCommons = UserCommons
-        .builder()
-        .id(1L)
-        .userId(1L)
-        .commonsId(1L)
-        .totalWealth(300)
-        .numOfCows(1)
-        .cowHealth(100)
-        .build();
-
-    Commons testCommons = Commons
-        .builder()
-        .id(1L)
-        .name("test commons")
-        .cowPrice(10)
-        .milkPrice(2)
-        .startingBalance(300)
-        .startingDate(LocalDateTime.now())
-        .build();
-
-    // MvcResult response = mockMvc.perform(get("/api/commons/new"))
-    // .andExpect(status().isOk()).andReturn();
-    // when(userCommonsRepository.findByCommonsIdAndUserId(1L, 1L)).thenReturn(Optional.of(testUserCommons));
-
-    MvcResult response = mockMvc.perform(get("/api/cowlots/forcurrentuser?commonsId=1"))
-          .andExpect(status().isOk()).andReturn();
-
-    verify(cowLotRepository, times(1)).findAllByUserCommonsId(eq(1L));
+    //assert
+    verify(cowLotRepository, times(1)).save(testexpectedCowLot);
+    
+    // act
+    MvcResult response2 = mockMvc.perform(get("/api/cowlots/forcurrentuser?commonsId=1").with(csrf()))
+        .andExpect(status().isOk()).andReturn();
   }
 }

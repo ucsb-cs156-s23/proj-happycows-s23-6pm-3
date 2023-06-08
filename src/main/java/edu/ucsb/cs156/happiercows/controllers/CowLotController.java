@@ -59,8 +59,6 @@ public class CowLotController extends ApiController {
         
         User u = getCurrentUser().getUser();
         Long userId = u.getId();
-        System.out.println(commonsId);
-        System.out.println(userId);
         UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
             .orElseThrow(
                 () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
