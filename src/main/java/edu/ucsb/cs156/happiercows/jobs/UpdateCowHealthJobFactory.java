@@ -7,6 +7,7 @@ import edu.ucsb.cs156.happiercows.entities.jobs.Job;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import edu.ucsb.cs156.happiercows.services.jobs.JobContextConsumer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,11 +22,14 @@ public class UpdateCowHealthJobFactory  {
     private UserCommonsRepository userCommonsRepository;
 
     @Autowired
+    private CowLotRepository cowLotRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     public JobContextConsumer create() {
         log.info("commonsRepository = " + commonsRepository);
         log.info("userCommonsRepository = " + userCommonsRepository);
-        return new UpdateCowHealthJob(commonsRepository, userCommonsRepository, userRepository);
+        return new UpdateCowHealthJob(commonsRepository, userCommonsRepository, cowLotRepository, userRepository);
     }
 }

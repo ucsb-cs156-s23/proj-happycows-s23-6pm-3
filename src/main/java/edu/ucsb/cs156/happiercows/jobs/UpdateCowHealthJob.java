@@ -9,10 +9,12 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobContextConsumer;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
+import edu.ucsb.cs156.happiercows.entities.CowLot;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,8 @@ public class UpdateCowHealthJob implements JobContextConsumer {
     private CommonsRepository commonsRepository;
     @Getter
     private UserCommonsRepository userCommonsRepository;
+    @Getter
+    private CowLotRepository cowLotRepository;
     @Getter
     private UserRepository userRepository;
 
@@ -43,12 +47,22 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                 Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(()->new RuntimeException("Error calling getNumCows(" + commons.getId() + ")"));
 
                 for (UserCommons userCommons : allUserCommons) {
+                    double totalHealths = 0d;
                     User user = userRepository.findById(userCommons.getUserId()).orElseThrow(()->new RuntimeException("Error calling userRepository.findById(" + userCommons.getUserId() + ")"));
                     ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
-                        double newCowHealth = calculateNewCowHealth(userCommons.getCowHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
-                        ctx.log("old cow health: " + userCommons.getCowHealth() + ", new cow health: " + newCowHealth);
-                        userCommons.setCowHealth(newCowHealth);
-                        ctx.log("Cow health has been updated!");
+                    for(CowLot cowLot: cowLotRepository.findAllByUserCommonsId(userCommons.getId())){
+                        double newCowHealth = calculateNewCowHealth(cowLot.getHealth(), userCommons.getNumOfCows(), totalCows, carryingCapacity, degradationRate);
+                        ctx.log("old cow health: " + cowLot.getHealth() + ", new cow health: " + newCowHealth);
+                        cowLot.setHealth(newCowHealth);
+                        if(newCowHealth > 0){
+                            cowLotRepository.save(cowLot);
+                        } else {
+                            cowLotRepository.delete(cowLot);
+                            userCommons.setNumOfCows(userCommons.getNumOfCows()-cowLot.getNumCows());
+                        }
+                        totalHealths += newCowHealth * cowLot.getNumCows();
+                    }
+                    userCommons.setCowHealth(totalHealths / userCommons.getNumOfCows());
                     userCommonsRepository.save(userCommons);
                 }
             } else{

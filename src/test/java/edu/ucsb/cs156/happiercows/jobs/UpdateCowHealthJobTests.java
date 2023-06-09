@@ -3,8 +3,7 @@ package edu.ucsb.cs156.happiercows.jobs;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,9 +17,13 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobContext;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
+import edu.ucsb.cs156.happiercows.repositories.CowLotRepository;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.entities.User;
+import edu.ucsb.cs156.happiercows.entities.CowLot;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import java.time.LocalDateTime;
 
@@ -35,6 +38,9 @@ public class UpdateCowHealthJobTests {
 
         @Mock
         UserRepository userRepository;
+
+        @Mock
+        CowLotRepository cowLotRepository;
 
         private User user = User
                         .builder()
@@ -54,7 +60,7 @@ LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
 LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -106,6 +112,14 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .cowHealth(10.01)
                                 .build();
 
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(1)
+                                .health(10)
+                                .build();
+
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
                 when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
@@ -113,10 +127,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -126,7 +142,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0
                                 old cow health: 10.0, new cow health: 10.01
-                                Cow health has been updated!
                                 Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
@@ -173,6 +188,13 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .numOfCows(101)
                                 .cowHealth(99.99)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(101)
+                                .health(100)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -181,10 +203,11 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(101)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -194,7 +217,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 101, cowHealth: 100.0
                                 old cow health: 100.0, new cow health: 99.99
-                                Cow health has been updated!
                                 Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
@@ -241,6 +263,13 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .numOfCows(100)
                                 .cowHealth(50.01)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(100)
+                                .health(50)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -249,10 +278,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(100)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -262,7 +293,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 100, cowHealth: 50.0
                                 old cow health: 50.0, new cow health: 50.01
-                                Cow health has been updated!
                                 Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
@@ -309,6 +339,13 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .numOfCows(150)
                                 .cowHealth(0)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(150)
+                                .health(0)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -317,10 +354,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(150)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -330,11 +369,12 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                                 User: Chris Gaucho, numCows: 150, cowHealth: 0.0
                                 old cow health: 0.0, new cow health: 0.0
-                                Cow health has been updated!
                                 Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
-                assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
+                verify(cowLotRepository, times(1)).delete(origCowLot);
+                // verify(origUserCommons, times(1)).setNumOfCows(0);
+                assertEquals(0,origUserCommons.getNumOfCows());
         }
 
         @Test
@@ -377,6 +417,13 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .numOfCows(1)
                                 .cowHealth(100)
                                 .build();
+                CowLot origCowLot = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons.getId())
+                                .numCows(1)
+                                .health(100)
+                                .build();
 
                 Commons commonsTemp[] = { testCommons };
                 UserCommons userCommonsTemp[] = { origUserCommons };
@@ -385,10 +432,11 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot));
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -398,7 +446,6 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                         Commons test commons, degradationRate: 0.01, carryingCapacity: 100
                         User: Chris Gaucho, numCows: 1, cowHealth: 100.0
                         old cow health: 100.0, new cow health: 100.0
-                        Cow health has been updated!
                         Update Cow Health job complete!""";
 
                 assertEquals(expected, jobStarted.getLog());
@@ -426,7 +473,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons2 = UserCommons
                                 .builder()
-                                .id(1L)
+                                .id(2L)
                                 .userId(1L)
                                 .commonsId(1L)
                                 .totalWealth(300)
@@ -436,7 +483,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons origUserCommons3 = UserCommons
                                 .builder()
-                                .id(1L)
+                                .id(3L)
                                 .userId(1L)
                                 .commonsId(1L)
                                 .totalWealth(300)
@@ -458,12 +505,41 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 UserCommons newUserCommons = UserCommons
                                 .builder()
-                                .id(1L)
+                                .id(4L)
                                 .userId(1L)
                                 .commonsId(1L)
                                 .totalWealth(300 - testCommons.getCowPrice())
                                 .numOfCows(5)
                                 .cowHealth(50.01)
+                                .build();
+                
+                CowLot origCowLot1 = CowLot
+                                .builder()
+                                .id(0L)
+                                .userCommonsId(origUserCommons1.getId())
+                                .numCows(5)
+                                .health(50)
+                                .build();
+                CowLot origCowLot2 = CowLot
+                                .builder()
+                                .id(1L)
+                                .userCommonsId(origUserCommons2.getId())
+                                .numCows(5)
+                                .health(50)
+                                .build();
+                CowLot origCowLot3 = CowLot
+                                .builder()
+                                .id(2L)
+                                .userCommonsId(origUserCommons3.getId())
+                                .numCows(5)
+                                .health(50)
+                                .build();
+                CowLot testCowLot3 = CowLot
+                                .builder()
+                                .id(2L)
+                                .userCommonsId(origUserCommons3.getId())
+                                .numCows(5)
+                                .health(50.01d)
                                 .build();
 
                 Commons commonsTemp[] = { testCommons };
@@ -473,10 +549,16 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 .thenReturn(Arrays.asList(userCommonsTemp));
                 when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons1.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot1));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons2.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot2));
+                when(cowLotRepository.findAllByUserCommonsId(origUserCommons3.getId()))
+                        .thenReturn(Collections.singletonList(origCowLot3));
 
                 // Act
-                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -486,14 +568,13 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
                                 Commons test commons, degradationRate: 0.01, carryingCapacity: 10
                                 User: Chris Gaucho, numCows: 5, cowHealth: 50.0
                                 old cow health: 50.0, new cow health: 50.01
-                                Cow health has been updated!
                                 User: Chris Gaucho, numCows: 5, cowHealth: 50.0
                                 old cow health: 50.0, new cow health: 50.01
-                                Cow health has been updated!
                                 User: Chris Gaucho, numCows: 5, cowHealth: 50.0
                                 old cow health: 50.0, new cow health: 50.01
-                                Cow health has been updated!
                                 Update Cow Health job complete!""";
+
+                verify(cowLotRepository, times(1)).save(testCowLot3);
 
                 assertEquals(expected, jobStarted.getLog());
                 assertEquals(origUserCommons1.getCowHealth(), newUserCommons.getCowHealth());
@@ -543,7 +624,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                cowLotRepository, userRepository);
 
                 RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
                         // Code under test
@@ -596,7 +677,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                cowLotRepository, userRepository);
 
                 RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
                         // Code under test
@@ -746,7 +827,8 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                        cowLotRepository, userRepository);
+
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
@@ -811,7 +893,7 @@ LocalDateTime endDate = LocalDateTime.parse("3000-03-08T15:50:10");
 
                 // Act
                 UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
-                                userRepository);
+                                cowLotRepository, userRepository);
                 updateCowHealthJob.accept(ctx);
 
                 // Assert
